@@ -14,9 +14,7 @@ contract Bikera is ERC20, Ownable, ERC20Burnable {
     ERC20("Bikera", "MERA") 
     
     Ownable(initialOwner) {
-        if (cap_ == 0) {
-            revert InvalidCap();
-        }
+        _mint(msg.sender, 2500000000000)
         _cap = cap_;
     }
     
