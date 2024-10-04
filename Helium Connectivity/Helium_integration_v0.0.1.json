@@ -15,22 +15,13 @@
     }
     str += tmpo;
   for (var j = 0; j < bytes.length; j++) {
-    var tmpj;
-    var num = bytes[j];
-    if (num < 0) {
-      tmpj = (255 + num + 1).toString(16);
-    } else {
-      tmpj = num.toString(16);
-    }
-    if (tmpj.length == 1) {
-      tmpj = "0" + tmpj;
-    }
-    str += tmpj;
+     bufferHEX[j] =  bytes[j].toString(16);
   }
-  }
+}
   return { String:str,
   Port: port,
   BufferInteger: bytes,
-  BufferHEX: bytes,
+  BufferHEX: bufferHEX,
+  
 }
 }
