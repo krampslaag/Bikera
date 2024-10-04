@@ -17,7 +17,7 @@
   for (var j = 0; j < bytes.length; j++) {
     var arr = [];
      arr[j] =  bytes[j].toString(16);
-     bufferHEX[j] = parseInt(arr[j], 16);
+     bufferHEX[j] = parseInt(arr[j], 10);
   }
 }
   return { String:str,
