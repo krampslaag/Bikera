@@ -29,12 +29,16 @@ String PrivateKeyLockOwner = "";
 const int slot = 0;
 byte publicKey[64];
 int publicKeyLength;
+int SavePrivateKeySlot;
+int CurrentFreeSlot;
 
 static constexpr uint32_t EXECUTION_PERIOD = 50;    // [msec.]static WM1110_Geolocation& wm1110_geolocation = WM1110_Geolocation::getInstance();
 
 FlashStorage(BikeraNetworkAppKeyAppEuiSaved, bool);
 FlashStorage(BikeraNetworkAppKey, String);
 FlashStorage(BikeraNetworkAppEui, String);
+FlashStorage(CurrentFreeSlot, int);
+FlashStorage(SavedPrivateKeySlot, int);
 
   
 struct BikeraSaveData {
@@ -147,9 +151,12 @@ if (!ECCX08.locked()) {
     if (PrivateKeyGenChoice == 1) {
       Serial.println("Enter your private key, make sure it is correct because this device is write only once protected!")
       PrivateKeyLockOwner = Serial.readStingUntil('\n'); 
-      
-      ECCX08.generatePublicKey(slot, publicKey);
-      
+      PrivateKeyLockOwner.tolowercase();
+      SavedPrivateKeySlot = slot;
+      slot = slot+1;
+      CurrentFreeSlot = slot;
+      PrivateKeyLockOwner = "";
+      ECCX08.generatePublicKey(SavedPrivateKeySlot, publicKey);
       sizeof(publicKey) = publicKeyLength
       Serial.println("this is your corresponding public key");
       for (int i = 0; i < publicKeyLength; i++) {
