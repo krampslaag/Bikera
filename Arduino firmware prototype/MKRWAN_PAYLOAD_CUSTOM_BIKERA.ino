@@ -24,11 +24,17 @@ BikeraConnectionSaveData data;
 String nwkSKey;
 String appSKey;
 
+int PrivateKeyGenChoice = 0;
+String PrivateKeyLockOwner = "";
+const int slot = 0;
+byte publicKey[64];
+int publicKeyLength;
+
 static constexpr uint32_t EXECUTION_PERIOD = 50;    // [msec.]static WM1110_Geolocation& wm1110_geolocation = WM1110_Geolocation::getInstance();
 
 FlashStorage(BikeraNetworkAppKeyAppEuiSaved, bool);
-FlashStorage(BikeraNetworkAppKey, string);
-FlashStorage(BikeraNetworkAppEui, string);
+FlashStorage(BikeraNetworkAppKey, String);
+FlashStorage(BikeraNetworkAppEui, String);
 
   
 struct BikeraSaveData {
@@ -76,7 +82,7 @@ void setup() {
   Serial.println("Welcome to Bikera");
   
   // Initialize LoRa module
-  if (!Bikeramodem.begin(EU868)) {  //if you're in another region change this to AS923, 915E6, ...
+  if (!modem.begin(EU868)) {  //if you're in another region change this to AS923, 915E6, ...
     Serial.println("Starting LoRamodem failed!");
     while(1);
   }
@@ -91,7 +97,7 @@ void setup() {
 
   BikeraNetworkAppKeyAppEuiSaved.read() = OTAAConnectionEstablished
   if (OTAAConnectionEstablished != 1) {
-    Serial.println("Enter The Bikera Network APP EUI");
+    Serial.println("Enter The Bikera Network APP EUI and confirm by pressing Enter");
     while (!Serial.available());
     appEui = Serial.readStringUntil('\n');
 
@@ -114,13 +120,19 @@ void setup() {
     }
   }
   if (OTAAConnectionEstablished == 1) {
-    BikeraNetworkAppKey.read() = Appkey
+    BikeraNetworkAppKey.read() = appkey
     BikeraNetworkAppEui.read() = appEui
-      }
-  BikeraNetworkAppKeyAppEuiSaved = OTAAConnectionEstablished
-
-  
     
+    appKey.trim();
+    appEui.trim();
+
+    connected = modem.joinOTAA(appEui, appKey); //this is confirmation of the network for connection activation
+    if (!connected) {
+      Serial.println("Something went wrong; are you indoor? Move near a window and retry");
+      while (1) {}
+      }
+    }
+  
   // Initialize ATEC608 or ATEC508 chip
 if (!ECCX08.begin()) {
     Serial.println("Failed to communicate with ECC508/ECC608!");
@@ -128,9 +140,24 @@ if (!ECCX08.begin()) {
   }
   //See if chip is locked with a private key
 if (!ECCX08.locked()) {
-    Serial.println("The ECC508/ECC608 is not locked!");
-    while (1);
-  }
+    Serial.println("The ECC508/ECC608 is not locked! and you need to enter a private key for this BikeraLockDevice");
+    Serial.println("Enter the number to choose (1) Input private key or (2) Generate private key");
+     while (!Serial.available());
+    PrivateKeyGenChoice = Serial.readStringUntil('\n');
+    if (PrivateKeyGenChoice == 1) {
+      Serial.println("Enter your private key, make sure it is correct because this device is write only once protected!")
+      PrivateKeyLockOwner = Serial.readStingUntil('\n'); 
+      
+      ECCX08.generatePublicKey(slot, publicKey);
+      
+      sizeof(publicKey) = publicKeyLength
+      Serial.println("this is your corresponding public key");
+      for (int i = 0; i < publicKeyLength; i++) {
+        Serial.print(input[i] >> 4, HEX);
+        Serial.print(input[i] & 0x0f, HEX);
+        }
+        Serial.println();
+        }
 
 }
 
