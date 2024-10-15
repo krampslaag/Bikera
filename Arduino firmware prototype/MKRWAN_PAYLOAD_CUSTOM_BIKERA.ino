@@ -26,16 +26,20 @@ String appSKey;
 
 static constexpr uint32_t EXECUTION_PERIOD = 50;    // [msec.]static WM1110_Geolocation& wm1110_geolocation = WM1110_Geolocation::getInstance();
 
-FlashStorage(flashStore, BikeraConnectionSaveData);
+FlashStorage(BikeraNetworkAppKeyAppEuiSaved, bool);
+FlashStorage(BikeraNetworkAppKey, string);
+FlashStorage(BikeraNetworkAppEui, string);
 
-struct BikeraConnectionSaveData {
+  
+struct BikeraSaveData {
   String appEui;
   String appKey;
   String devAddr;
   bool OTAAConnectionEstablished;
 }
 
-struct BikeraPacketLoRa { // Define the structure of a LoRaWAN packet
+struct BikeraLora { // Define the structure of a LoRaWAN packet
+  int connected;
   uint8_t preamble[0];
   uint8_t phdr;
   uint8_t phdr_crc;
@@ -48,7 +52,7 @@ struct BikeraPacketLoRa { // Define the structure of a LoRaWAN packet
 };
 
 // Function to create a LoRaWAN packet
-void createLoRaWANPacket(LoRaWAN_Packet &packet, uint8_t *payload, uint8_t payloadSize) {
+void createLoRaWANPacket(BikeraLora &packet, uint8_t *payload, uint8_t payloadSize) {
   // Fill the preamble
     packet.preamble[] = [33, 48, 68]; // Example preamble value
   }
@@ -84,13 +88,14 @@ void setup() {
   }
   Serial.print("Your device EUI is: ");
   Serial.println(modem.deviceEUI());
-  int connected;
+
+  BikeraNetworkAppKeyAppEuiSaved.read() = OTAAConnectionEstablished
   if (OTAAConnectionEstablished != 1) {
-    Serial.println("Enter your APP EUI");
+    Serial.println("Enter The Bikera Network APP EUI");
     while (!Serial.available());
     appEui = Serial.readStringUntil('\n');
 
-    Serial.println("Enter your APP KEY");
+    Serial.println("Enter The local Bikera sidechain APP KEY");
     while (!Serial.available());
     appKey = Serial.readStringUntil('\n');
 
@@ -98,14 +103,23 @@ void setup() {
     appEui.trim();
 
     connected = modem.joinOTAA(appEui, appKey); //this is confirmation of the network for connection activation
-    
-    BikeraNetworkDataSaved = 1
-    }
-if (!connected) {
-    Serial.println("Something went wrong; are you indoor? Move near a window and retry");
-    while (1) {}
-  }
 
+    BikeraNetworkAppKey.write(appKey);
+    BikeraNetworkAppEui.write(appEui);
+    BikeraNetworkAppKeyAppEuiSaved.write(1);
+  
+    if (!connected) {
+      Serial.println("Something went wrong; are you indoor? Move near a window and retry");
+      while (1) {}
+    }
+  }
+  if (OTAAConnectionEstablished == 1) {
+    BikeraNetworkAppKey.read() = Appkey
+    BikeraNetworkAppEui.read() = appEui
+      }
+  BikeraNetworkAppKeyAppEuiSaved = OTAAConnectionEstablished
+
+  
     
   // Initialize ATEC608 or ATEC508 chip
 if (!ECCX08.begin()) {
