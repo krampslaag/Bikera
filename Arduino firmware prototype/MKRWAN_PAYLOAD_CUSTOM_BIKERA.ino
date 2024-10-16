@@ -26,11 +26,10 @@ String appSKey;
 
 int PrivateKeyGenChoice = 0;
 String PrivateKeyLockOwner = "";
-const int slot = 0;
+int PrivateKeyGenChoiceVerify = 0;
+int slot = 0;
 byte publicKey[64];
 int publicKeyLength;
-int SavePrivateKeySlot;
-int CurrentFreeSlot;
 
 static constexpr uint32_t EXECUTION_PERIOD = 50;    // [msec.]static WM1110_Geolocation& wm1110_geolocation = WM1110_Geolocation::getInstance();
 
@@ -146,17 +145,15 @@ if (!ECCX08.begin()) {
 if (!ECCX08.locked()) {
     Serial.println("The ECC508/ECC608 is not locked! and you need to enter a private key for this BikeraLockDevice");
     Serial.println("Enter the number to choose (1) Input private key or (2) Generate private key");
-     while (!Serial.available());
+    while (!Serial.available());
     PrivateKeyGenChoice = Serial.readStringUntil('\n');
     if (PrivateKeyGenChoice == 1) {
       Serial.println("Enter your private key, make sure it is correct because this device is write only once protected!")
       PrivateKeyLockOwner = Serial.readStingUntil('\n'); 
       PrivateKeyLockOwner.tolowercase();
-      SavedPrivateKeySlot = slot;
-      slot = slot+1;
-      CurrentFreeSlot = slot;
+      PrivateKeyLockOwner.writeSlot();
       PrivateKeyLockOwner = "";
-      ECCX08.generatePublicKey(SavedPrivateKeySlot, publicKey);
+      ECCX08.generatePublicKey(Slot, publicKey);
       sizeof(publicKey) = publicKeyLength
       Serial.println("this is your corresponding public key");
       for (int i = 0; i < publicKeyLength; i++) {
@@ -165,9 +162,17 @@ if (!ECCX08.locked()) {
         }
         Serial.println();
         }
-
+      Serial.println("does this public key match the private key pair? (1)'YES' OR (2)'NO'.")
+      while (!Serial.available());
+      PrivateKeyGenChoiceVerify = Serial.readStringUntil('\n'); 
+    if (PrivateKeyGenChoice == 2){
+      
+    }
 }
-
+if ( PrivateKeyGenChoiceVerify == 1 || PrivateKeyGenChipOk == 1 ){
+  
+}
+      
 void loop() {
   if (Serial.available() > 0) {
     // Read the payload from serial input
