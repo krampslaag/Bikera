@@ -142,21 +142,24 @@ if (!ECCX08.begin()) {
     while(1);
   }
   //See if chip is locked with a private key
-if (!ECCX08.locked()) {
+if (!ECCX08.locked()) { //at startup the 
     Serial.println("The ECC508/ECC608 is not locked! and you need to enter a private key for this BikeraLockDevice");
     Serial.println("Enter the number to choose (1) Input private key or (2) Generate private key");
     while (!Serial.available());
-    PrivateKeyGenChoice = Serial.readStringUntil('\n');
+    PrivateKeyGenChoice = Serial.readStringUntil('\n').toInt();
     if (PrivateKeyGenChoice == 1) {
       Serial.println("Enter your private key, make sure it is correct because this device is write only once protected!")
       PrivateKeyLockOwner = Serial.readStingUntil('\n'); 
       PrivateKeyLockOwner.tolowercase();
-      PrivateKeyLockOwner.writeSlot();
-      PrivateKeyLockOwner = "";
+      PrivateKeyLockOwner.writeSlot(); //private key should be loaded in the slot 0 or 7 or 13, check documentation for correct slot implementation 
+      PrivateKeyLockOwner = ""; // write the data holder of the private key empty so that no trace of the private key in flash memory of not secure part is deleted
       ECCX08.generatePublicKey(Slot, publicKey);
       sizeof(publicKey) = publicKeyLength
       Serial.println("this is your corresponding public key");
-      for (int i = 0; i < publicKeyLength; i++) {
+      for (int i = 0; i < publicKeyLength; i++) {  /* data is written and stored on the eccX08 chip as an array of bytes. Normally it uses 128bit AES encryption,
+                                                  see if sidechain can run on 128bit algorithm, else double the private key to create 256 bit equivalent? the chip
+                                                  has AES 256, this is similar to SHA, 
+                                                  */
         Serial.print(input[i] >> 4, HEX);
         Serial.print(input[i] & 0x0f, HEX);
         }
@@ -164,7 +167,7 @@ if (!ECCX08.locked()) {
         }
       Serial.println("does this public key match the private key pair? (1)'YES' OR (2)'NO'.")
       while (!Serial.available());
-      PrivateKeyGenChoiceVerify = Serial.readStringUntil('\n'); 
+      PrivateKeyGenChoiceVerify = Serial.readStringUntil('\n').toInt(); 
     if (PrivateKeyGenChoice == 2){
       
     }
