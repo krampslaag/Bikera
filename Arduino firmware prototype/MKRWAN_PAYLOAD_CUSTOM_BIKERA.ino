@@ -27,6 +27,9 @@ String appSKey;
 int PrivateKeyGenChoice = 0;
 String PrivateKeyLockOwner = "";
 int PrivateKeyGenChoiceVerify = 0;
+
+int StorePrivateKey = 0;
+byte PrivateKeyLockOwnerBuffer[32];
 int slot = 0;
 byte publicKey[64];
 int publicKeyLength;
@@ -148,34 +151,56 @@ if (!ECCX08.locked()) { //at startup the
     while (!Serial.available());
     PrivateKeyGenChoice = Serial.readStringUntil('\n').toInt();
     if (PrivateKeyGenChoice == 1) {
-      Serial.println("Enter your private key, make sure it is correct because this device is write only once protected!")
-      PrivateKeyLockOwner = Serial.readStingUntil('\n'); 
-      PrivateKeyLockOwner.tolowercase();
-      PrivateKeyLockOwner.writeSlot(); //private key should be loaded in the slot 0 or 7 or 13, check documentation for correct slot implementation 
-      PrivateKeyLockOwner = ""; // write the data holder of the private key empty so that no trace of the private key in flash memory of not secure part is deleted
-      ECCX08.generatePublicKey(Slot, publicKey);
-      sizeof(publicKey) = publicKeyLength
-      Serial.println("this is your corresponding public key");
-      for (int i = 0; i < publicKeyLength; i++) {  /* data is written and stored on the eccX08 chip as an array of bytes. Normally it uses 128bit AES encryption,
-                                                  see if sidechain can run on 128bit algorithm, else double the private key to create 256 bit equivalent? the chip
-                                                  has AES 256, this is similar to SHA, 
+        Serial.println("Enter your private key, make sure it is correct because this device is write only once protected!")
+        Serial.readBytesuntil('\n', PrivateKeyLockOwnerBuffer, 32); 
+        Serial.println("this is the private key you entered");
+        for (int i = 0; i < 32; i++) {
+            Serial.print(PrivateKeyLockOwnerBuffer[i] >> 4, HEX);
+            Serial.print(PrivateKeyLockOwnerBuffer[i] & 0x0f, HEX);
+            }
+        Serial.println("Do you wish to store this permanently in the lock? (1)YES or (2)NO.");
+        StorePrivateKey = Serial.readStringUntil('\n').toInt();
+        if (StorePrivateKey != 1) {
+            Serial.println("Unplug the battery or power supply to restart the configuration");
+            while (1) {}
+            }
+        if (StorePrivateKey == 1) {
+            for (int i = 0; i < 32; i++) {
+                PrivateKeyLockOwnerBuffer[i].writeSlot(); //private key should should be able to be loaded in slot 1 or 2, 
+                }
+            sizeof(publicKey) = publicKeyLength;
+            Serial.println("this is your corresponding public key");
+            for (int i = 0; i < publicKeyLength; i++) {  /* data is written and stored on the eccX08 chip as an array of bytes. 
+                                                  SHA256 ECDSA on elliptic curve p-256 is available, this isn't used in any blockchain today but this will probably be the 
+                                                  one we will use on th local sidechains.
+                                                  needed for compatibility of accesible hardware 
+                                                  
+                                                  ECDH private key locked in device, should be used only for verifying this device/chip and communications over LoRa
                                                   */
-        Serial.print(input[i] >> 4, HEX);
-        Serial.print(input[i] & 0x0f, HEX);
-        }
-        Serial.println();
-        }
-      Serial.println("does this public key match the private key pair? (1)'YES' OR (2)'NO'.")
-      while (!Serial.available());
-      PrivateKeyGenChoiceVerify = Serial.readStringUntil('\n').toInt(); 
+                Serial.print(input[i] >> 4, HEX);
+                Serial.print(input[i] & 0x0f, HEX);
+                }
+            Serial.println();
+            }
+        PrivateKeyLockOwnerBuffer = {}; // write the data holder of the private key empty so that no trace of the private key in flash memory of not secure part is deleted
+        ECCX08.generatePublicKey(Slot, publicKey);
+        
+        Serial.println("does this public key match the private key pair? (1)'YES' OR (2)'NO'.")
+        while (!Serial.available());
+        PrivateKeyGenChoiceVerify = Serial.readStringUntil('\n').toInt(); 
+    }  
     if (PrivateKeyGenChoice == 2){
+        
       
-    }
+        }
 }
+
 if ( PrivateKeyGenChoiceVerify == 1 || PrivateKeyGenChipOk == 1 ){
   
 }
-      
+}
+
+
 void loop() {
   if (Serial.available() > 0) {
     // Read the payload from serial input
