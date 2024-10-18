@@ -164,7 +164,7 @@ if (!ECCX08.locked()) { //at startup the
         StorePrivateKey = Serial.readStringUntil('\n').toInt();
         if (StorePrivateKey != 1) {
             Serial.println("Unplug the battery or power supply to restart the configuration");
-            while (1) {}
+            while (1);
             }
         if (StorePrivateKey == 1) {
             ECCX08.writeSlot(slot, const PrivateKeyLockOwnerBuffer[], 32); //private key should should be able to be loaded in slot 1 or 2, 
@@ -193,8 +193,8 @@ if (!ECCX08.locked()) { //at startup the
                 SavedPrivateKeySlot = 1;
                 }
              if ( PrivateKeyGenChoiceVerify == 2 ){
-               Serial.println("Try another curve then secp256k1, Last chance to pull the power and restart")
-               Serial.println("Go YOLO and press ENTER to continue")
+               Serial.println("Try another curve then secp256k1, Last chance to pull the power and restart");
+               Serial.println("Go YOLO and press ENTER to continue");
                Serial.readStringUntil('\n');
                SavedPrivateKeySlot = 1;
                }
@@ -208,13 +208,22 @@ if (!ECCX08.locked()) { //at startup the
           for (int i = 0; i < publicKeyLength; i++) {
                 Serial.print(input[i] >> 4, HEX);
                 Serial.print(input[i] & 0x0f, HEX);
-                }  
+                } 
+          SavedPrivateKeySlot = 1;
           }
-      
-    }
-
-if (  SavedPrivateKeySlot == 1 || PrivateKeyGenChipOk == 1 ){
-  
+      if (!ECCX08.writeConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG)) {
+          Serial.println("Writing ECCX08 configuration failed!");
+          while (1);
+          }
+      ConfigurationChipOk = 1;
+      if (  SavedPrivateKeySlot == 1 && ConfigurationChipOk == 1 ){
+          if (!ECCX08.lock()) {
+               Serial.println("Locking ECCX08 configuration failed!");
+               while (1);
+          }
+      Serial.println("ECCX08 locked successfully");
+      Serial.println();
+      }
 }
 }
 
