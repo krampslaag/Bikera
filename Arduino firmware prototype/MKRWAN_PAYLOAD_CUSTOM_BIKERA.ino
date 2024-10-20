@@ -44,8 +44,9 @@ FlashStorage(BikeraNetworkAppKeyAppEuiSaved, bool);
 FlashStorage(BikeraNetworkAppKey, String);
 FlashStorage(BikeraNetworkAppEui, String);
 FlashStorage(CurrentFreeSlot, byte);
-FlashStorage(SavedPrivateKeyToSlot, bool);
+FlashStorage(SavedPrivateKeyToSlotFlash, bool);
 FlashStorage(ConfigurationAlreadyLoaded, bool);
+FlashStorage(AppKeyAppEuiVerified, bool);
 
   
 struct BikeraSaveData {
@@ -106,8 +107,8 @@ void setup() {
   Serial.print("Your device EUI is: ");
   Serial.println(modem.deviceEUI());
 
-  BikeraNetworkAppKeyAppEuiSaved.read() = OTAAConnectionEstablished
-  if (OTAAConnectionEstablished != 1) {
+  BikeraNetworkAppKeyAppEuiSaved.read() = OTAAConnectionEstablished //Appeui and Appkey need to be entered, check weither it is already stored in flashdrive
+  if (!OTAAConnectionEstablished) {
     Serial.println("Enter The Bikera Network APP EUI and confirm by pressing Enter");
     while (!Serial.available());
     appEui = Serial.readStringUntil('\n');
@@ -118,39 +119,46 @@ void setup() {
 
     appKey.trim();
     appEui.trim();
-
-    connected = modem.joinOTAA(appEui, appKey); //this is confirmation of the network for connection activation
-
+    
     BikeraNetworkAppKey.write(appKey);
     BikeraNetworkAppEui.write(appEui);
     BikeraNetworkAppKeyAppEuiSaved.write(1);
-  
-    if (!connected) {
-      Serial.println("Something went wrong; are you indoor? Move near a window and retry");
-      while (1) {}
+    OTAAConnectionEstablished = 1;
+  }
+  appKey = BikeraNetworkAppKey.read();
+  appEui = BikeraNetworkAppEui.read();
+  if (OTAAConnectionEstablished == 1 && !AppKeyAppEuiVerified ) {
+    Serial.println("this is the stored appEui:");
+    Serial.println(appEui);
+    Serial.println("this is the stored appKey:");
+    Serial.println(appKey);
+    Serial.println("Verify if this is correct and verify with (1)Yes or (2)No")
+    VerifyAppKeyAppEuiCorrect = Serial.readStringUntil('\n').toInt();
+    if (VerifyAppKeyAppEuiCorrect == 1) {
+          AppKeyAppEuiVerified.write(1);
+    }
+    if (VerifyAppKeyAppEuiCorrect == 2) {
+          BikeraNetworkAppKeyAppEuiSaved.write(0);  // flashmemory gets reset, which resets this part of the setup
+          Serial.println("appKey and appEui reset, unplug the power and restart the setup.");
     }
   }
-  if (OTAAConnectionEstablished == 1) {
-    BikeraNetworkAppKey.read() = appkey
-    BikeraNetworkAppEui.read() = appEui
-    
-    appKey.trim();
-    appEui.trim();
-
+  if (OTAAConnectionEstablished == 1 && AppKeyAppEuiVerified == 1) {
     connected = modem.joinOTAA(appEui, appKey); //this is confirmation of the network for connection activation
     if (!connected) {
-      Serial.println("Something went wrong; are you indoor? Move near a window and retry");
-      while (1) {}
-      }
+          Serial.println("Something went wrong; are you indoor? Move near a window and retry");
+          while (1) {}
     }
+    Serial.println("connecting to IoT network");
+  }
+
   
   // Initialize ATEC608 or ATEC508 chip
-if (!ECCX08.begin()) {
+  if (!ECCX08.begin()) {
     Serial.println("Failed to communicate with ECC508/ECC608!");
     while(1);
   }
   //See if chip is locked with a private key
-if (!ECCX08.locked()) { //at startup the 
+  if (!ECCX08.locked()) { //at startup the 
     Serial.println("The ECC508/ECC608 is not locked! and you need to enter a private key for this BikeraLockDevice");
     Serial.println("Enter the number to choose (1) Input private key or (2) Generate private key");
     while (!Serial.available());
@@ -194,14 +202,14 @@ if (!ECCX08.locked()) { //at startup the
              PrivateKeyGenChoiceVerify = Serial.readStringUntil('\n').toInt(); 
              if ( PrivateKeyGenChoiceVerify == 1 ) {
                 Serial.println("Succes, the device will now configure and lock.");
-                SavedPrivateKeyToSlot = 1;
+                SavedPrivateKeyToSlotFlash.write(1);
                 StoreConfiguration = 1;
                 }
              if ( PrivateKeyGenChoiceVerify == 2 ){
                Serial.println("Try another curve then secp256k1, Last chance to pull the power and restart");
                Serial.println("Go YOLO and press ENTER to continue");
                Serial.readStringUntil('\n');
-               SavedPrivateKeyToSlot = 1;
+               SavedPrivateKeyToSlotFlash.write(1);
                StoreConfiguration = 1;
                 }
               
@@ -216,29 +224,34 @@ if (!ECCX08.locked()) { //at startup the
                 Serial.print(input[i] >> 4, HEX);
                 Serial.print(input[i] & 0x0f, HEX);
                 } 
-          SavedPrivateKeyToSlot = 1;
+          SavedPrivateKeyToSlotFlash.write(1);
           StoreConfiguration = 1;
           }
   }
+  SavedPrivateKeyToSlot = SavedPrivateKeyToSlotFlash.read();
+  ConfigurationAlreadyLoaded = ConfigurationAlreadyLoadedFlash.read(); 
   if (StoreConfiguration == 1 && ConfigurationAlreadyLoaded != 1) {
-          ECCX08.writeConfiguration(ECCX08_DEFAULT_TLS_CONFIG);
-          ConfigurationAlreadyLoaded == 1
-          }
+          ECCX08.writeConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG);
+          ConfigurationAlreadyLoadedFlash.write(1);
+  }
   if (ECCX08.readConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG)) {
           Serial.println("EECX08 configuration loaded correctly.")
           ConfigurationChipOk = 1;
-          }
+  }
   if (!ECCX08.readConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG)) {
-          Serial.println("ECC608 configuration file loading failed or is not the same as first entry, check if file is corrupted")
-          }
-  if (  SavedPrivateKeyToSlot == 1 && ConfigurationChipOk == 1 ){
+          Serial.println("Configuration file loading failed or is not the same as first entry, check if file is corrupted!")
+          Serial.println("Press enter to restart the device to load the current updated or altered configuration file or unplug the power to retry."
+          Serial.readStringUntil('\n');
+          ConfigurationAlreadyLoadedFlash.write(0);
+  }
+  if ( SavedPrivateKeyToSlot == 1 && ConfigurationChipOk == 1 ){
           if (!ECCX08.lock()) {
               Serial.println("Locking ECCX08 configuration failed!");
               while (1);
               }
           Serial.println("ECCX08 locked & loaded");
           Serial.println();
-          }
+  }
 }
 
 
