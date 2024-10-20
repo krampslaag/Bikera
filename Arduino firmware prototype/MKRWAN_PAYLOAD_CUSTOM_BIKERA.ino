@@ -10,6 +10,7 @@
 #include <ArduinoECCX08.h>
 #include <SD.h>
 #include <FlashStorage.h>
+#include <Entropy.h>
 
 #define PIN_SPI_CS 4
 
@@ -26,9 +27,12 @@ String appSKey;
 
 byte PrivateKeyGenChoice = 0;
 String PrivateKeyLockOwner = "";
-byte PrivateKeyGenChoiceVerify = 0;
+int PrivateKeyGenChoiceVerify = 0;
 
-byte StorePrivateKey = 0;
+byte SavedPrivateKeyToSlot = 0;
+int StorePrivateKey = 0;
+byte ConfigurationAlreadyLoaded = 0;
+byte StoreConfiguration = 0;
 byte PrivateKeyLockOwnerBuffer[32];
 byte slot = 0;
 byte publicKey[64];
@@ -40,8 +44,8 @@ FlashStorage(BikeraNetworkAppKeyAppEuiSaved, bool);
 FlashStorage(BikeraNetworkAppKey, String);
 FlashStorage(BikeraNetworkAppEui, String);
 FlashStorage(CurrentFreeSlot, byte);
-FlashStorage(SavedPrivateKeySlot, byte);
-FlashStorage(ReadyForConfiguration,byte); 
+FlashStorage(SavedPrivateKeyToSlot, bool);
+FlashStorage(ConfigurationAlreadyLoaded, bool);
 
   
 struct BikeraSaveData {
@@ -150,7 +154,7 @@ if (!ECCX08.locked()) { //at startup the
     Serial.println("The ECC508/ECC608 is not locked! and you need to enter a private key for this BikeraLockDevice");
     Serial.println("Enter the number to choose (1) Input private key or (2) Generate private key");
     while (!Serial.available());
-    PrivateKeyGenChoice = Serial.readStringUntil('\n').toInt();
+    PrivateKeyGenChoice = Serial.readByteUntil('\n');
     if (PrivateKeyGenChoice == 1) {
         Serial.println("Enter your private key, make sure it is correct because this device is write only once protected! ")
         Serial.println("the Private key is inputted as 2 hexadecimal values per byte, totalling to 64 hexadecimal numbers for 32Byte or 256bit encryption.")
@@ -189,15 +193,18 @@ if (!ECCX08.locked()) { //at startup the
              while (!Serial.available());
              PrivateKeyGenChoiceVerify = Serial.readStringUntil('\n').toInt(); 
              if ( PrivateKeyGenChoiceVerify == 1 ) {
-                Serial.println("Succes, the device will now configure and lock this data");
-                SavedPrivateKeySlot = 1;
+                Serial.println("Succes, the device will now configure and lock.");
+                SavedPrivateKeyToSlot = 1;
+                StoreConfiguration = 1;
                 }
              if ( PrivateKeyGenChoiceVerify == 2 ){
                Serial.println("Try another curve then secp256k1, Last chance to pull the power and restart");
                Serial.println("Go YOLO and press ENTER to continue");
                Serial.readStringUntil('\n');
-               SavedPrivateKeySlot = 1;
-               }
+               SavedPrivateKeyToSlot = 1;
+               StoreConfiguration = 1;
+                }
+              
       }         
 
       if (PrivateKeyGenChoice == 2){
@@ -209,30 +216,39 @@ if (!ECCX08.locked()) { //at startup the
                 Serial.print(input[i] >> 4, HEX);
                 Serial.print(input[i] & 0x0f, HEX);
                 } 
-          SavedPrivateKeySlot = 1;
+          SavedPrivateKeyToSlot = 1;
+          StoreConfiguration = 1;
           }
-      if (!ECCX08.writeConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG)) {
-          Serial.println("Writing ECCX08 configuration failed!");
-          while (1);
+  }
+  if (StoreConfiguration == 1 && ConfigurationAlreadyLoaded != 1) {
+          ECCX08.writeConfiguration(ECCX08_DEFAULT_TLS_CONFIG);
+          ConfigurationAlreadyLoaded == 1
           }
-      ConfigurationChipOk = 1;
-      if (  SavedPrivateKeySlot == 1 && ConfigurationChipOk == 1 ){
+  if (ECCX08.readConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG)) {
+          Serial.println("EECX08 configuration loaded correctly.")
+          ConfigurationChipOk = 1;
+          }
+  if (!ECCX08.readConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG)) {
+          Serial.println("ECC608 configuration file loading failed or is not the same as first entry, check if file is corrupted")
+          }
+  if (  SavedPrivateKeyToSlot == 1 && ConfigurationChipOk == 1 ){
           if (!ECCX08.lock()) {
-               Serial.println("Locking ECCX08 configuration failed!");
-               while (1);
+              Serial.println("Locking ECCX08 configuration failed!");
+              while (1);
+              }
+          Serial.println("ECCX08 locked & loaded");
+          Serial.println();
           }
-      Serial.println("ECCX08 locked successfully");
-      Serial.println();
-      }
 }
-}
+
 
 
 void loop() {
+  
   if (Serial.available() > 0) {
     // Read the payload from serial input
-    String input =  ; // coordinates of wio or gps module
-    HEX input = buffer[];
+    String input = ""  ; //  manual input coordinates of wio or gps module
+    byte input = buffer[];
    
     uint8_t payloadSize = input.length();
 
@@ -240,7 +256,15 @@ void loop() {
     for (int i = 0; i < payloadSize; i++) {
       payload[i] = input[i];
     }
+  if (!Serial.available()) {
+    for(int i=0; i < 64; i++) {
+      uint8_t RandomBytenumber = Entropy.randomByte();
+      Payload[i] = RandomBytenumber;
+    }
 
+
+
+      
     // Create the LoRaWAN packet
     LoRaWAN_Packet packet;
     createLoRaWANPacket(packet, payload, payloadSize);
