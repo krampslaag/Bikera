@@ -33,7 +33,7 @@ byte SavedPrivateKeyToSlot = 0;
 int StorePrivateKey = 0;
 byte ConfigurationAlreadyLoaded = 0;
 byte StoreConfiguration = 0;
-byte PrivateKeyLockOwnerBuffer[32];
+byte PrivateKeyLockOwnerBuffer[];
 byte slot = 0;
 byte publicKey[64];
 byte publicKeyLength;
@@ -49,44 +49,22 @@ FlashStorage(ConfigurationAlreadyLoaded, bool);
 FlashStorage(AppKeyAppEuiVerified, bool);
 
   
-struct BikeraSaveData {
+struct BikeraConnetionSaveData {
   String appEui;
   String appKey;
   String devAddr;
   byte OTAAConnectionEstablished;
-}
+};
 
-struct BikeraLora { // Define the structure of a LoRaWAN packet
+struct BikeraLoraPacket { // Define the structure of a LoRaWAN packet
   int connected;
-  uint8_t preamble[0];
-  uint8_t phdr;
-  uint8_t phdr_crc;
-  uint8_t phyPayload[];
-  uint8_t crc;
+  uint8_t preamble[];
   uint8_t payload[];
   size_t SendData = 0;
   uint8_t lenght; //keeps track of the payload lenght
   int err;
 };
 
-// Function to create a LoRaWAN packet
-void createLoRaWANPacket(BikeraLora &packet, uint8_t *payload, uint8_t payloadSize) {
-  // Fill the preamble
-    packet.preamble[] = [33, 48, 68]; // Example preamble value
-  }
-
-  // Set the PHDR and PHDR_CRC
-  packet.phdr = payloadSize;
-  packet.phdr_crc = 0xa8; // Example CRC value
-
-  // Copy the payload
-  for (int i = 0; i < payloadSize; i++) {
-    packet.phyPayload[i] = payload[i];
-  }
-
-  // Set the CRC
-  packet.crc = 0xAB; // Example CRC value
-}
 
 void setup() {
   Serial.begin(9600);
@@ -252,54 +230,70 @@ void setup() {
           Serial.println("ECCX08 locked & loaded");
           Serial.println();
   }
+   modem.minPollInterval(60);
+  // NOTE: independent of this setting, the modem will
+  // not allow sending more than one message every 2 minutes,
+  // this is enforced by firmware and can not be changed. #MKWRWAN limitation
+}
+
+// Function to create a LoRaWAN packet
+void createLoRaWANPacket(BikeraLora &packet, uint8_t *payload, uint8_t payloadSize) {
+  int EncodeMessage = 0; 
+  byte signature[64];
+  uint8_t payloadSize;
+  // Fill the preamble
+  packet.preamble[] = [33, 48, 68]; // Example preamble value, should this have random generated numbers? check for further connection..
+
+  if (Serial.available() > 0) { // testing if input is comming through the network with right output 
+    // Read the payload from serial input
+    Serial.readBytesuntil('\n', PayloadInput);//  manual input coordinates of wio or gps module
+    packet.payloadSize = PayloadInput.length();
+    Serial.println("Encode message with private key on-board lock (1)Yes or (2)No")
+    EncodeMessage = Serial.read();
+    if (EncodeMessage == 1) {
+      ECCX08.ecSign(slot, PayloadInput, signature);
+      for(int i=0; i < 64; i++) {
+        packet.payload[i] = signature[i];
+        packet.payloadSize = 64;
+      }
+    if (EncodeMessage == 2) {
+      for(int i=0; i < payloadSize; i++) {
+      packet.payload[i] = PayloadInput[i]; 
+  }
+  if (!Serial.available()) { // lock is not connected to a computer or serial input device
+    for(int i=0; i < 64; i++) { /*for testing purpose we will let the MCU generated random data, in the future this data should be encrypted for the bikera blockchain sidechain
+                                to decypher and store GPS coordinates on the ledger if needed, gps module inbound ETA december added in code.
+                                64 bytes of data, this is a SHA-256 digest. 
+                                */   
+      uint8_t RandomBytenumber = Entropy.randomByte();
+      packet.payload[i] = RandomBytenumber;
+      payloadSize = 64;
+    }
 }
 
 
-
 void loop() {
-  
-  if (Serial.available() > 0) {
-    // Read the payload from serial input
-    String input = ""  ; //  manual input coordinates of wio or gps module
-    byte input = buffer[];
-   
-    uint8_t payloadSize = input.length();
-
-    // Convert input string to byte array
-    for (int i = 0; i < payloadSize; i++) {
-      payload[i] = input[i];
-    }
-  if (!Serial.available()) {
-    for(int i=0; i < 64; i++) {
-      uint8_t RandomBytenumber = Entropy.randomByte();
-      Payload[i] = RandomBytenumber;
-    }
-
-
-
-      
-    // Create the LoRaWAN packet
-    LoRaWAN_Packet packet;
-    createLoRaWANPacket(packet, payload, payloadSize);
-
-    // Print the packet for verification
-    Serial.println("LoRaWAN Packet Created:");
-    for (int i = 0; i < sizeof(packet.preamble); i++) {
-      Serial.print(packet.preamble[i], HEX);
-      Serial.print(" ");
-    }
-    Serial.println();
-    Serial.print("PHDR: ");
-    Serial.println(packet.phdr, HEX);
-    Serial.print("PHDR_CRC: ");
-    Serial.println(packet.phdr_crc, HEX);
-    Serial.print("Payload: ");
-    for (int i = 0; i < payloadSize; i++) {
-      Serial.print(packet.phyPayload[i], HEX);
-      Serial.print(" ");
-    }
-    Serial.println();
-    Serial.print("CRC: ");
-    Serial.println(packet.crc, HEX);
+  createBikeraLoraPacket(packet, payload, payloadSize);
+  // Print the packet for verification
+  Serial.println("LoRaWAN Packet Created:");
+  for (int i = 0; i < sizeof(packet.preamble); i++) {
+    Serial.print(packet.preamble[i], HEX);
+    Serial.print(" ");
+  }
+  Serial.println();
+  Serial.print("Payload: ");
+  for (int i = 0; i < payloadSize; i++) {
+    Serial.print(packet.Payload[i], HEX);
+    Serial.print(" ");
+  }
+  modem.beginPacket();
+  modem.write(packet.payload, packet.payloadSize);
+  err = modem.endPacket(true);
+  if (err > 0) {
+    Serial.println("Message sent correctly!");
+  } else {
+    Serial.println("Error sending message :(");
+    Serial.println("(you may send a limited amount of messages per minute, depending on the signal strength");
+    Serial.println("it may vary from 1 message every couple of seconds to 1 message every minute)");
   }
 }
