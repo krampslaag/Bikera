@@ -165,6 +165,7 @@ void setup() {
             Serial.print(PrivateKeyLockOwnerBuffer[i] & 0x0f, HEX); // print first 4 bit in hexadecimal format
             }
         Serial.println("Do you wish to store this permanently in the lock? (1)YES or (2)NO.");
+        while (!Serial.available());
         StorePrivateKey = Serial.readStringUntil('\n').toInt();
         if (StorePrivateKey != 1) {
             Serial.println("Unplug the battery or power supply to restart the configuration");
