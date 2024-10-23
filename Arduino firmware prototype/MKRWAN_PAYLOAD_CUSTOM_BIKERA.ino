@@ -153,7 +153,7 @@ void setup() {
     Serial.println("The ECC508/ECC608 is not locked! and you need to enter a private key for this BikeraLockDevice");
     Serial.println("Enter the number to choose (1) Input private key or (2) Generate private key");
     while (!Serial.available());
-    PrivateKeyGenChoice = Serial.read();
+    PrivateKeyGenChoice = Serial.readStringUntil('\n').toInt();
     if (PrivateKeyGenChoice == 1) {
         Serial.println("Enter your private key, make sure it is correct because this device is write only once protected! ");
         Serial.println("the Private key is inputted as 2 hexadecimal values per byte, totalling to 64 hexadecimal numbers for 32Byte or 256bit encryption.");
@@ -234,6 +234,7 @@ void setup() {
   if (!ECCX08.readConfiguration(configCopy)) {
           Serial.println("Configuration file loading failed or is not the same as first entry, check if file is corrupted!");
           Serial.println("Press enter to restart the device to load the current updated or altered configuration file or unplug the power to retry.");
+          while(!Serial.available());
           Serial.readStringUntil('\n');
           ConfigurationAlreadyLoadedFlash.write(0);
   }
