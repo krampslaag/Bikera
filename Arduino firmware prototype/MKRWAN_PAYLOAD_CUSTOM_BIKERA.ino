@@ -18,7 +18,7 @@ byte SavedLastLocationBufferByteArray[] = {};
 String nwkSKey;
 String appSKey;
 byte OTAAConnectionEstablished;
-bool VerifyAppKeyAppEuiCorrect;
+bool VerifyAppKeyAppEuiCorrect = 0;
 bool ConfigurationChipOk = 0;
 byte configCopy[sizeof(ECCX08_DEFAULT_BIKERA_CONFIG)];
 
@@ -56,7 +56,7 @@ struct LoRaSavedData {
 
 struct LoRaBikeraPacket { // Define the structure of a LoRaWAN packet
   int connected;
-  uint8_t* preamble;
+  uint8_t* preamble;  // should this have random generated numbers? check for further connection..
   uint8_t* payload; 
   size_t SendData = 0;
   uint8_t length; //keeps track of the payload length
@@ -71,10 +71,16 @@ AlmostRandom ranDom;
 
 
 void setup() {
-  
+
+  // Start UART communication
   Serial.begin(9600);
   while (!Serial);
   Serial.println("Welcome to Bikera");
+  
+  // allocate memory for variable arrays
+  packet.preamble = (uint8_t*)malloc(MAX_PREAMBLE_SIZE * sizeof(uint8_t)); // allocate memory for dynamic size array 
+  packet.payload = (uint8_t*)malloc(MAX_PAYLOAD_SIZE * sizeof(uint8_t));
+  packet.payloadInput = (uint8_t*)malloc(MAX_PAYLOAD_SIZE * sizeof(uint8_t));
   
   // Initialize LoRa module
   if (!modem.begin(EU868)) {  //if you're in another region change this to AS923, 915E6, ...
@@ -117,14 +123,15 @@ void setup() {
     Serial.println("this is the stored appKey:");
     Serial.println(data.appKey);
     Serial.println("Verify if this is correct and verify with (1)Yes or (2)No");
+    while (!Serial.available());
     VerifyAppKeyAppEuiCorrect = Serial.readStringUntil('\n').toInt();
-    if (VerifyAppKeyAppEuiCorrect == 1) {
-          AppKeyAppEuiVerified.write(1);
-    }
-    if (VerifyAppKeyAppEuiCorrect == 2) {
-          BikeraNetworkAppKeyAppEuiSaved.write(0);  // flashmemory gets reset, which resets this part of the setup
-          Serial.println("appKey and appEui reset, unplug the power and restart the setup.");
-    }
+  }
+  if (VerifyAppKeyAppEuiCorrect == 1) {
+        AppKeyAppEuiVerified.write(1);
+  }
+  if (VerifyAppKeyAppEuiCorrect == 2) {
+        BikeraNetworkAppKeyAppEuiSaved.write(0);  // flashmemory gets reset, which resets this part of the setup
+        Serial.println("appKey and appEui reset, unplug the power and restart the setup.");
   }
   if (OTAAConnectionEstablished == 1 && data.verified == 1) {
     packet.connected = modem.joinOTAA(data.appEui, data.appKey); //this is confirmation of the network for connection activation
@@ -134,10 +141,7 @@ void setup() {
     }
     Serial.println("connecting to IoT network");
   }
-  packet.preamble = (uint8_t*)malloc(MAX_PREAMBLE_SIZE * sizeof(uint8_t)); // allocate memory for dynamic size array 
-  packet.payload = (uint8_t*)malloc(MAX_PAYLOAD_SIZE * sizeof(uint8_t));
-  packet.payloadInput = (uint8_t*)malloc(MAX_PAYLOAD_SIZE * sizeof(uint8_t));
-  
+
   // Initialize ATEC608 or ATEC508 chip
   if (!ECCX08.begin()) {
     Serial.println("Failed to communicate with ECC508/ECC608!");
@@ -153,6 +157,7 @@ void setup() {
     if (PrivateKeyGenChoice == 1) {
         Serial.println("Enter your private key, make sure it is correct because this device is write only once protected! ");
         Serial.println("the Private key is inputted as 2 hexadecimal values per byte, totalling to 64 hexadecimal numbers for 32Byte or 256bit encryption.");
+        while (!Serial.available());
         Serial.readBytesUntil('\n', PrivateKeyLockOwnerBuffer, 32); 
         Serial.println("this is the private key you entered");
         for (int i = 0; i < 32; i++) {
@@ -195,6 +200,7 @@ void setup() {
              if ( PrivateKeyGenChoiceVerify == 2 ){
                Serial.println("Try another curve then secp256k1, Last chance to pull the power and restart");
                Serial.println("Go YOLO and press ENTER to continue");
+               while (!Serial.available());
                Serial.readStringUntil('\n');
                SavedPrivateKeyToSlotFlash.write(1);
                StoreConfiguration = 1;
@@ -247,17 +253,21 @@ void setup() {
 
 // Function to create a LoRaWAN packet
 void createBikeraLoraPacket(uint8_t *payLoad, uint8_t payloadSize) {
+  
   int EncodeMessage = 0; 
   byte signature[64];
   byte RandomBytenumber;
-  // Fill the preamble
-  uint8_t preamble[] = {33, 48, 68}; // Example preamble value, should this have random generated numbers? check for further connection..
-  memcpy(packet.preamble, preamble, sizeof(preamble));
+  
+  // Fill preamble function, now it will have fixed 6 numbers
+  for(int i=0; i < 5; i++) {
+  packet.preamble[i] = random(15);  
+  }
   
   if (Serial.available() > 0) { // testing if input is comming through the network with right output 
     // Read the payload from serial input
     Serial.readBytesUntil('\n', packet.payloadInput, sizeof(packet.payloadInput));//  manual input coordinates of wio or gps module
     Serial.println("Encode message with private key on-board lock (1)Yes or (2)No");
+    while (!Serial.available());
     EncodeMessage = Serial.read();
     if (EncodeMessage == 1) {
       ECCX08.ecSign(slot, packet.payloadInput, signature);
