@@ -1,5 +1,4 @@
 #include <SPI.h>
-#include <Wire.h>
 #include <Arduino.h>
 #include <MKRWAN.h>
 #include <ArduinoECCX08.h>
@@ -13,14 +12,15 @@
 #define MAX_PAYLOAD_SIZE 256
 
 File BikeraLog;
-String Err = "This is the last location before power OFF";
+String Error = "This is the last location before power OFF";
 byte SavedLastLocationBufferByteArray[] = {};
 
 String nwkSKey;
 String appSKey;
 byte OTAAConnectionEstablished;
-String VerifyAppKeyAppEuiCorrect;
+bool VerifyAppKeyAppEuiCorrect;
 bool ConfigurationChipOk = 0;
+byte configCopy[sizeof(ECCX08_DEFAULT_BIKERA_CONFIG)];
 
 byte PrivateKeyGenChoice = 0;
 String PrivateKeyLockOwner = "";
@@ -34,8 +34,10 @@ byte PrivateKeyLockOwnerBuffer[32];
 byte slot = 0;
 byte publicKey[64];
 byte publicKeyLength;
+uint8_t *payLoad;
+uint8_t payloadSize;
 
-static constexpr uint32_t EXECUTION_PERIOD = 50;    // [msec.]static WM1110_Geolocation& wm1110_geolocation = WM1110_Geolocation::getInstance();
+static const uint32_t EXECUTION_PERIOD = 50;    // [msec.]static WM1110_Geolocation& wm1110_geolocation = WM1110_Geolocation::getInstance();
 
 FlashStorage(BikeraNetworkAppKeyAppEuiSaved, bool);
 FlashStorage(BikeraNetworkAppKey, String);
@@ -65,6 +67,8 @@ struct LoRaBikeraPacket { // Define the structure of a LoRaWAN packet
 LoRaModem modem;
 LoRaSavedData data;
 LoRaBikeraPacket packet;
+AlmostRandom ranDom;
+
 
 void setup() {
   
@@ -139,6 +143,7 @@ void setup() {
     Serial.println("Failed to communicate with ECC508/ECC608!");
     while(1);
   }
+  memcpy(configCopy, ECCX08_DEFAULT_BIKERA_CONFIG, sizeof(ECCX08_DEFAULT_BIKERA_CONFIG));
   //See if chip is locked with a private key
   if (!ECCX08.locked()) { //at startup the 
     Serial.println("The ECC508/ECC608 is not locked! and you need to enter a private key for this BikeraLockDevice");
@@ -216,11 +221,11 @@ void setup() {
           ECCX08.writeConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG);
           ConfigurationAlreadyLoadedFlash.write(1);
   }
-  if (ECCX08.readConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG)) {
+  if (ECCX08.readConfiguration(configCopy)) {
           Serial.println("EECX08 configuration loaded correctly.");
           ConfigurationChipOk = 1;
   }
-  if (!ECCX08.readConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG)) {
+  if (!ECCX08.readConfiguration(configCopy)) {
           Serial.println("Configuration file loading failed or is not the same as first entry, check if file is corrupted!");
           Serial.println("Press enter to restart the device to load the current updated or altered configuration file or unplug the power to retry.");
           Serial.readStringUntil('\n');
@@ -241,7 +246,7 @@ void setup() {
 }
 
 // Function to create a LoRaWAN packet
-void createLoRaWANPacket(uint8_t *payLoad, uint8_t payloadSize) {
+void createBikeraLoraPacket(uint8_t *payLoad, uint8_t payloadSize) {
   int EncodeMessage = 0; 
   byte signature[64];
   byte RandomBytenumber;
@@ -260,24 +265,28 @@ void createLoRaWANPacket(uint8_t *payLoad, uint8_t payloadSize) {
         payLoad[i] = signature[i];
         payloadSize = 64;
       }
+    }
     if (EncodeMessage == 2) {
       for(int i=0; i < payloadSize; i++) {
       packet.payload[i] = packet.payloadInput[i]; 
+      }
+    }
   }
   if (!Serial.available()) { // lock is not connected to a computer or serial input device
     for(int i=0; i < 64; i++) { /*for testing purpose we will let the MCU generated random data, in the future this data should be encrypted for the bikera blockchain sidechain
                                 to decypher and store GPS coordinates on the ledger if needed, gps module inbound ETA december added in code.
                                 64 bytes of data, this is a SHA-256 digest. 
                                 */   
-      RandomBytenumber = TrueRandom.randomByte()
+      RandomBytenumber = random(255);
       packet.payload[i] = RandomBytenumber;
       payloadSize = 64;
     }
+  }
 }
 
 
 void loop() {
-  createBikeraLoraPacket(packet, payload, payloadSize);
+    createBikeraLoraPacket (payLoad, payloadSize);
   // Print the packet for verification
   Serial.println("LoRaWAN Packet Created:");
   for (int i = 0; i < sizeof(packet.preamble); i++) {
@@ -287,19 +296,20 @@ void loop() {
   Serial.println();
   Serial.print("Payload: ");
   for (int i = 0; i < payloadSize; i++) {
-    Serial.print(packet.Payload[i], HEX);
+    Serial.print(packet.payload[i], HEX);
     Serial.print(" ");
   }
   modem.beginPacket();
-  modem.write(packet.payload, packet.payloadSize);
-  err = modem.endPacket(true);
-  if (err > 0) {
+  modem.write(packet.payload, payloadSize);
+  packet.err = modem.endPacket(true);
+  if (packet.err > 0) {
     Serial.println("Message sent correctly!");
-  } else {
+  } 
+  else {
     Serial.println("Error sending message :(");
     Serial.println("(you may send a limited amount of messages per minute, depending on the signal strength");
     Serial.println("it may vary from 1 message every couple of seconds to 1 message every minute)");
   }
-  free(data.preamble);
-  free(data.payload);
+  free(packet.preamble);
+  free(packet.payload);
 }
