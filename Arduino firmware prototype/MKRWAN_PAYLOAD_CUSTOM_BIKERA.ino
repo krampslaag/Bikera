@@ -48,8 +48,8 @@ FlashStorage(ConfigurationAlreadyLoadedFlash, bool);
 FlashStorage(AppKeyAppEuiVerified, bool);
 
 struct LoRaSavedData {
-  String appEui;
-  String appKey;
+  String appEui = "";
+  String appKey = "";
   String devAddr;
   bool verified;
 };
@@ -105,9 +105,6 @@ void setup() {
     Serial.println("Enter The local Bikera sidechain APP KEY");
     while (!Serial.available());
     data.appKey = Serial.readStringUntil('\n');
-
-    data.appKey.trim();
-    data.appEui.trim();
     
     BikeraNetworkAppKey.write(data.appKey);
     BikeraNetworkAppEui.write(data.appEui);
@@ -158,7 +155,8 @@ void setup() {
         Serial.println("Enter your private key, make sure it is correct because this device is write only once protected! ");
         Serial.println("the Private key is inputted as 2 hexadecimal values per byte, totalling to 64 hexadecimal numbers for 32Byte or 256bit encryption.");
         while (!Serial.available());
-        Serial.readBytesUntil('\n', PrivateKeyLockOwnerBuffer, 32); 
+        Serial.readBytesUntil('\n', PrivateKeyLockOwnerBuffer, 32); // ***the input was D and it stored the value as 4, so somehow it translates the inputted bytes from 
+                                                                    //the serial monitor to a different form
         Serial.println("this is the private key you entered");
         for (int i = 0; i < 32; i++) {
             Serial.print(PrivateKeyLockOwnerBuffer[i] >> 4, HEX); // print last 4 bit as hexadecimal number
@@ -167,7 +165,7 @@ void setup() {
         Serial.println("Do you wish to store this permanently in the lock? (1)YES or (2)NO.");
         while (!Serial.available());
         StorePrivateKey = Serial.readStringUntil('\n').toInt();
-        if (StorePrivateKey != 1) {
+        if (StorePrivateKey == 2) {
             Serial.println("Unplug the battery or power supply to restart the configuration");
             while (1);
             }
