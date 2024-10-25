@@ -39,13 +39,15 @@ uint8_t payloadSize;
 
 static const uint32_t EXECUTION_PERIOD = 50;    // [msec.]static WM1110_Geolocation& wm1110_geolocation = WM1110_Geolocation::getInstance();
 
-FlashStorage(BikeraNetworkAppKeyAppEuiSaved, bool);
-FlashStorage(BikeraNetworkAppKey, String);
-FlashStorage(BikeraNetworkAppEui, String);
-FlashStorage(CurrentFreeSlot, byte);
-FlashStorage(SavedPrivateKeyToSlotFlash, bool);
-FlashStorage(ConfigurationAlreadyLoadedFlash, bool);
-FlashStorage(AppKeyAppEuiVerified, bool);
+struct FlashSaved {
+  bool BikeraNetworkAppKeyAppEuiSaved;
+  char BikeraNetworkAppKey [80];
+  char BikeraNetworkAppEui [80];
+  byte CurrentFreeSlot;
+  bool SavedPrivateKeyToSlotFlash;
+  bool ConfigurationAlreadyLoadedFlash;
+  bool AppKeyAppEuiVerified;
+};
 
 struct LoRaSavedData {
   String appEui = "";
@@ -64,11 +66,13 @@ struct LoRaBikeraPacket { // Define the structure of a LoRaWAN packet
   uint8_t* payloadInput;
 };
 
+FlashStorage(flashmem, FlashSaved);
+
 LoRaModem modem;
 LoRaSavedData data;
 LoRaBikeraPacket packet;
 AlmostRandom ranDom;
-
+FlashSaved flash;
 
 void setup() {
 
@@ -76,11 +80,15 @@ void setup() {
   Serial.begin(9600);
   while (!Serial);
   Serial.println("Welcome to Bikera");
+  Serial.setTimeout(30000);
   
   // allocate memory for variable arrays
   packet.preamble = (uint8_t*)malloc(MAX_PREAMBLE_SIZE * sizeof(uint8_t)); // allocate memory for dynamic size array 
   packet.payload = (uint8_t*)malloc(MAX_PAYLOAD_SIZE * sizeof(uint8_t));
   packet.payloadInput = (uint8_t*)malloc(MAX_PAYLOAD_SIZE * sizeof(uint8_t));
+
+  // read the memory of the 2Mb internal SPI connected memory and fill the FlashSaved variables with the stored value
+  flash = flashmem.read();
   
   // Initialize LoRa module
   if (!modem.begin(EU868)) {  //if you're in another region change this to AS923, 915E6, ...
@@ -96,7 +104,8 @@ void setup() {
   Serial.print("Your device EUI is: ");
   Serial.println(modem.deviceEUI());
 
-  OTAAConnectionEstablished = BikeraNetworkAppKeyAppEuiSaved.read(); //Appeui and Appkey need to be entered, check weither it is already stored in flashdrive
+ //Appeui and Appkey need to be entered, check weither it is already stored in flashdrive
+  OTAAConnectionEstablished = flash.BikeraNetworkAppKeyAppEuiSaved; 
   if (!OTAAConnectionEstablished) {
     Serial.println("Enter The Bikera Network APP EUI and confirm by pressing Enter");
     while (!Serial.available());
@@ -106,28 +115,31 @@ void setup() {
     while (!Serial.available());
     data.appKey = Serial.readStringUntil('\n');
     
-    BikeraNetworkAppKey.write(data.appKey);
-    BikeraNetworkAppEui.write(data.appEui);
-    BikeraNetworkAppKeyAppEuiSaved.write(1);
+    data.appKey.toCharArray(flash.BikeraNetworkAppKey, 80);
+    data.appEui.toCharArray(flash.BikeraNetworkAppEui, 80);
+    flash.BikeraNetworkAppKeyAppEuiSaved = 1;
     OTAAConnectionEstablished = 1;
+    
   }
-  data.appKey = BikeraNetworkAppKey.read();
-  data.appEui = BikeraNetworkAppEui.read();
-  data.verified = AppKeyAppEuiVerified.read();
+  data.verified = flash.AppKeyAppEuiVerified;
+  if (data.verified == 1) {
+      data.appKey = flash.BikeraNetworkAppKey;
+      data.appEui = flash.BikeraNetworkAppEui;
+  }
   if (OTAAConnectionEstablished == 1 && data.verified == 0 ) {
     Serial.println("this is the stored appEui:");
-    Serial.println(data.appEui);
+    Serial.println(flash.BikeraNetworkAppEui);
     Serial.println("this is the stored appKey:");
-    Serial.println(data.appKey);
+    Serial.println(flash.BikeraNetworkAppKey);
     Serial.println("Verify if this is correct and verify with (1)Yes or (2)No");
     while (!Serial.available());
     VerifyAppKeyAppEuiCorrect = Serial.readStringUntil('\n').toInt();
   }
   if (VerifyAppKeyAppEuiCorrect == 1) {
-        AppKeyAppEuiVerified.write(1);
+        flash.AppKeyAppEuiVerified = 1;
   }
   if (VerifyAppKeyAppEuiCorrect == 2) {
-        BikeraNetworkAppKeyAppEuiSaved.write(0);  // flashmemory gets reset, which resets this part of the setup
+        flash.BikeraNetworkAppKeyAppEuiSaved = 0;  // flashmemory variable gets set to 0, which resets this part of the setup
         Serial.println("appKey and appEui reset, unplug the power and restart the setup.");
   }
   if (OTAAConnectionEstablished == 1 && data.verified == 1) {
@@ -193,7 +205,7 @@ void setup() {
              PrivateKeyGenChoiceVerify = Serial.readStringUntil('\n').toInt(); 
              if ( PrivateKeyGenChoiceVerify == 1 ) {
                 Serial.println("Succes, the device will now configure and lock.");
-                SavedPrivateKeyToSlotFlash.write(1);
+                flash.SavedPrivateKeyToSlotFlash = 1;
                 StoreConfiguration = 1;
                 }
              if ( PrivateKeyGenChoiceVerify == 2 ){
@@ -201,7 +213,7 @@ void setup() {
                Serial.println("Go YOLO and press ENTER to continue");
                while (!Serial.available());
                Serial.readStringUntil('\n');
-               SavedPrivateKeyToSlotFlash.write(1);
+               flash.SavedPrivateKeyToSlotFlash = 1;
                StoreConfiguration = 1;
                 }
               
@@ -216,15 +228,15 @@ void setup() {
                 Serial.print(publicKey[i] >> 4, HEX);
                 Serial.print(publicKey[i] & 0x0f, HEX);
                 } 
-          SavedPrivateKeyToSlotFlash.write(1);
+          flash.SavedPrivateKeyToSlotFlash = 1;
           StoreConfiguration = 1;
           }
   }
-  SavedPrivateKeyToSlot = SavedPrivateKeyToSlotFlash.read();
-  ConfigurationAlreadyLoaded = ConfigurationAlreadyLoadedFlash.read(); 
+  SavedPrivateKeyToSlot = flash.SavedPrivateKeyToSlotFlash;
+  ConfigurationAlreadyLoaded = flash.ConfigurationAlreadyLoadedFlash; 
   if (StoreConfiguration == 1 && ConfigurationAlreadyLoaded != 1) {
           ECCX08.writeConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG);
-          ConfigurationAlreadyLoadedFlash.write(1);
+          flash.ConfigurationAlreadyLoadedFlash = 1;
   }
   if (ECCX08.readConfiguration(configCopy)) {
           Serial.println("EECX08 configuration loaded correctly.");
@@ -235,7 +247,7 @@ void setup() {
           Serial.println("Press enter to restart the device to load the current updated or altered configuration file or unplug the power to retry.");
           while(!Serial.available());
           Serial.readStringUntil('\n');
-          ConfigurationAlreadyLoadedFlash.write(0);
+          flash.ConfigurationAlreadyLoadedFlash = 0;
   }
   if ( SavedPrivateKeyToSlot == 1 && ConfigurationChipOk == 1 ){
           if (!ECCX08.lock()) {
@@ -245,6 +257,7 @@ void setup() {
           Serial.println("ECCX08 locked & loaded");
           Serial.println();
   }
+   flashmem.write(flash);
    modem.minPollInterval(60);
   // NOTE: independent of this setting, the modem will
   // not allow sending more than one message every 2 minutes,
