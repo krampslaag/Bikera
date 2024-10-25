@@ -11,6 +11,7 @@
 #define MAX_PREAMBLE_SIZE 16
 #define MAX_PAYLOAD_SIZE 256
 
+bool Isfalse = 0;
 File BikeraLog;
 String Error = "This is the last location before power OFF";
 byte SavedLastLocationBufferByteArray[] = {};
@@ -128,7 +129,7 @@ void setup() {
       Serial.println("this is the stored appKey:");
       Serial.println(flash.BikeraNetworkAppKey);
   }
-  if (OTAAConnectionEstablished == 1 && data.verified == 0 ) {
+  if (OTAAConnectionEstablished == 1 && data.verified == 0 && Isfalse == 1) { //***Isfalse needs to be removed after debugging
     Serial.println("Verify if this is correct and verify with (1)Yes or (2)No");
     while (!Serial.available());
     VerifyAppKeyAppEuiCorrect = Serial.readStringUntil('\n').toInt();
@@ -165,13 +166,15 @@ void setup() {
     Serial.println("Enter the number to choose (1) Input private key or (2) Generate private key");
     while (!Serial.available());
     PrivateKeyGenChoice = Serial.readStringUntil('\n').toInt();
+    delay(5);
     if (PrivateKeyGenChoice == 1) {
         Serial.println("Enter your private key, make sure it is correct because this device is write only once protected! ");
         Serial.println("the Private key is inputted as 2 hexadecimal values per byte, totalling to 64 hexadecimal numbers for 32Byte or 256bit encryption.");
-        if (Serial.available() >= 64) { // Check if 64 characters are available
+    
+    if (!Serial.available()) { 
     char hexString[65]; // Extra byte for null terminator
     Serial.readBytes(hexString, 64);
-    hexString[64] = '\0'; // Null terminator
+    hexString[65] = '\0'; // Null terminator
 
     for (int i = 0; i < 32; i++) {
       char hexByte[3] = { hexString[i * 2], hexString[i * 2 + 1], '\0' };
