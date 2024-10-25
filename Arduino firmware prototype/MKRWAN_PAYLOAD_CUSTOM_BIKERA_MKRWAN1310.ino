@@ -79,7 +79,6 @@ void setup() {
   Serial.begin(9600);
   while (!Serial);
   Serial.println("Welcome to Bikera");
-  Serial.setTimeout(30000);
   
   // allocate memory for variable arrays
   packet.preamble = (uint8_t*)malloc(MAX_PREAMBLE_SIZE * sizeof(uint8_t)); // allocate memory for dynamic size array 
@@ -124,12 +123,12 @@ void setup() {
   if (data.verified == 1) {
       data.appKey = flash.BikeraNetworkAppKey;
       data.appEui = flash.BikeraNetworkAppEui;
+      Serial.println("this is the stored appEui:");
+      Serial.println(flash.BikeraNetworkAppEui);
+      Serial.println("this is the stored appKey:");
+      Serial.println(flash.BikeraNetworkAppKey);
   }
   if (OTAAConnectionEstablished == 1 && data.verified == 0 ) {
-    Serial.println("this is the stored appEui:");
-    Serial.println(flash.BikeraNetworkAppEui);
-    Serial.println("this is the stored appKey:");
-    Serial.println(flash.BikeraNetworkAppKey);
     Serial.println("Verify if this is correct and verify with (1)Yes or (2)No");
     while (!Serial.available());
     VerifyAppKeyAppEuiCorrect = Serial.readStringUntil('\n').toInt();
@@ -141,13 +140,14 @@ void setup() {
         flash.BikeraNetworkAppKeyAppEuiSaved = 0;  // flashmemory variable gets set to 0, which resets this part of the setup
         Serial.println("appKey and appEui reset, unplug the power and restart the setup.");
   }
+  flashmem.write(flash);
   if (OTAAConnectionEstablished == 1 && data.verified == 1) {
+    Serial.println("connecting to IoT network");
     packet.connected = modem.joinOTAA(data.appEui, data.appKey); //this is confirmation of the network for connection activation
     if (!packet.connected) {
           Serial.println("Something went wrong; are you indoor? Move near a window and retry");
           while (1) {}
     }
-    Serial.println("connecting to IoT network");
   }
 
   // Initialize ATEC608 or ATEC508 chip
@@ -155,7 +155,10 @@ void setup() {
     Serial.println("Failed to communicate with ECC508/ECC608!");
     while(1);
   }
+
+  // this copies the CONFIG file to a copy array that is stored locally to be used in this instance of the program
   memcpy(configCopy, ECCX08_DEFAULT_BIKERA_CONFIG, sizeof(ECCX08_DEFAULT_BIKERA_CONFIG));
+  
   //See if chip is locked with a private key
   if (!ECCX08.locked()) { //at startup the 
     Serial.println("The ECC508/ECC608 is not locked! and you need to enter a private key for this BikeraLockDevice");
@@ -165,9 +168,23 @@ void setup() {
     if (PrivateKeyGenChoice == 1) {
         Serial.println("Enter your private key, make sure it is correct because this device is write only once protected! ");
         Serial.println("the Private key is inputted as 2 hexadecimal values per byte, totalling to 64 hexadecimal numbers for 32Byte or 256bit encryption.");
-        while (!Serial.available());
-        Serial.readBytesUntil('\n', PrivateKeyLockOwnerBuffer, 32); // ***the input was D and it stored the value as 4, so somehow it translates the inputted bytes from 
-                                                                    //the serial monitor to a different form
+        if (Serial.available() >= 64) { // Check if 64 characters are available
+    char hexString[65]; // Extra byte for null terminator
+    Serial.readBytes(hexString, 64);
+    hexString[64] = '\0'; // Null terminator
+
+    for (int i = 0; i < 32; i++) {
+      char hexByte[3] = { hexString[i * 2], hexString[i * 2 + 1], '\0' };
+      PrivateKeyLockOwnerBuffer[i] = strtol(hexByte, NULL, 16);
+    }
+
+    Serial.println("32-byte array:");
+    for (int i = 0; i < 32; i++) {
+      Serial.print(PrivateKeyLockOwnerBuffer[i], HEX);
+      Serial.print(" ");
+    }
+    Serial.println();
+        }  
         Serial.println("this is the private key you entered");
         for (int i = 0; i < 32; i++) {
             Serial.print(PrivateKeyLockOwnerBuffer[i] >> 4, HEX); // print last 4 bit as hexadecimal number
