@@ -23,7 +23,6 @@ bool ConfigurationChipOk = 0;
 byte configCopy[sizeof(ECCX08_DEFAULT_BIKERA_CONFIG)];
 
 byte PrivateKeyGenChoice = 0;
-String PrivateKeyLockOwner = "";
 int PrivateKeyGenChoiceVerify = 0;
 
 byte SavedPrivateKeyToSlot = 0;
