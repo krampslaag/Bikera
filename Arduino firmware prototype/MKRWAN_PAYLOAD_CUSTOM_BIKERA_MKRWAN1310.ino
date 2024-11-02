@@ -171,16 +171,15 @@ void setup() {
         Serial.println("Enter your private key, make sure it is correct because this device is write only once protected! ");
         Serial.println("the Private key is inputted as 2 hexadecimal values per byte, totalling to 64 hexadecimal numbers for 32Byte or 256bit encryption.");
     
-    if (!Serial.available()) { 
-    char hexString[65]; // Extra byte for null terminator
-    Serial.readBytes(hexString, 64);
-    hexString[65] = '\0'; // Null terminator
-
-    for (int i = 0; i < 32; i++) {
-      char hexByte[3] = { hexString[i * 2], hexString[i * 2 + 1], '\0' };
-      PrivateKeyLockOwnerBuffer[i] = strtol(hexByte, NULL, 16);
+    if (Serial.available()) { int idx = 0;   
+          while (idx < 64) { if (Serial.available()) { hexString[idx++] = Serial.read(); } } 
+          hexString[64] = '\0'; // Null terminator
+          for (int i = 0; i < 32; i++) {
+              char hexByte[3] = { hexString[i * 2], hexString[i * 2 + 1], '\0' };
+              PrivateKeyLockOwnerBuffer[i] = strtol(hexByte, NULL, 16);
+          }
     }
-
+    
     Serial.println("32-byte array:");
     for (int i = 0; i < 32; i++) {
       Serial.print(PrivateKeyLockOwnerBuffer[i], HEX);
