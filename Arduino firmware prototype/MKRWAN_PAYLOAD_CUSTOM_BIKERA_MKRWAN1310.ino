@@ -1,3 +1,4 @@
+
 #include <SPI.h>
 #include <Arduino.h>
 #include <MKRWAN.h>
@@ -5,7 +6,90 @@
 #include <SD.h>
 #include <FlashStorage.h>
 #include <AlmostRandom.h>
-#include <ECCX08_DEFAULT_BIKERA_CONFIG.h>
+
+byte ECCX08_DEFAULT_BIKERA_CONFIG[128] = {
+// Read only - start
+  // SN[0:3]
+  0x01, 0x23, 0x00, 0x00,
+  // RevNum
+  0x00, 0x00, 0x50, 0x00,
+  // SN[4:8]
+  0x00, 0x00, 0x00, 0x00, 0x00,
+  // Reserved
+  0xC0,
+  // I2C_Enable
+  0x71,
+  // Reserved                  
+  0x00,
+// Read only - end
+  // I2C_Address
+  0xC0,
+  // Reserved
+  0x00,
+  // OTPmode
+  0x55,
+  // ChipMode
+  0x00,
+  // SlotConfig
+  0x83, 0x20, // External Signatures | Internal Signatures | IsSecret | Write Configure Never, Default: 0x83, 0x20, 
+  0x87, 0x20, // External Signatures | Internal Signatures | ECDH | IsSecret | Write Configure Never, Default: 0x87, 0x20,
+  0x87, 0x20, // External Signatures | Internal Signatures | ECDH | IsSecret | Write Configure Never, Default: 0x8F, 0x20,
+  0x87, 0x2F, // External Signatures | Internal Signatures | ECDH | IsSecret | WriteKey all slots | Write Configure Never, Default: 0xC4, 0x8F,
+  0x87, 0x2F, // External Signatures | Internal Signatures | ECDH | IsSecret | WriteKey all slots | Write Configure Never, Default: 0x8F, 0x8F, 
+  0x8F, 0x8F,
+  0x9F, 0x8F, 
+  0xAF, 0x8F,
+  0x00, 0x00, 
+  0x00, 0x00,
+  0x00, 0x00, 
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00, 
+  0xAF, 0x8F,
+  // Counter[0]
+  0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00,
+  // Counter[1]
+  0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00,
+  // LastKeyUse
+  0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF,
+// Write via commands only - start
+  // UserExtra
+  0x00, 
+  // Selector
+  0x00,
+  // LockValue
+  0x55,
+  // LockConfig
+  0x55,
+  // SlotLocked
+  0xFF, 0xFF,
+// Write via commands only - end
+  // RFU
+  0x00, 0x00,
+  // X509format
+  0x00, 0x00, 0x00, 0x00,
+  // KeyConfig
+  0x33, 0x00, // Private | Public | P256 NIST ECC key, Default: 0x33, 0x00,
+  0x33, 0x00, // Private | Public | P256 NIST ECC key, Default: 0x33, 0x00,
+  0x33, 0x00, // Private | Public | P256 NIST ECC key, Default: 0x33, 0x00,
+  0x33, 0x00, // Private | Public | P256 NIST ECC key, Default: 0x1C, 0x00,
+  0x33, 0x00, // Private | Public | P256 NIST ECC key, Default: 0x1C, 0x00,
+  0x1C, 0x00,
+  0x1C, 0x00,
+  0x1C, 0x00,
+  0x3C, 0x00,
+  0x3C, 0x00,
+  0x3C, 0x00,
+  0x3C, 0x00,
+  0x3C, 0x00,
+  0x3C, 0x00,
+  0x3C, 0x00,
+  0x1C, 0x00
+};
 
 #define PIN_SPI_CS 4
 #define MAX_PREAMBLE_SIZE 16
@@ -21,7 +105,6 @@ String appSKey;
 byte OTAAConnectionEstablished;
 bool VerifyAppKeyAppEuiCorrect = 0;
 bool ConfigurationChipOk = 0;
-byte configCopy[sizeof(ECCX08_DEFAULT_BIKERA_CONFIG)];
 
 byte PrivateKeyGenChoice = 0;
 int PrivateKeyGenChoiceVerify = 0;
@@ -30,6 +113,7 @@ byte SavedPrivateKeyToSlot = 0;
 int StorePrivateKey = 0;
 byte ConfigurationAlreadyLoaded = 0;
 byte StoreConfiguration = 0;
+char hexString [64];
 byte PrivateKeyLockOwnerBuffer[32];
 byte slot = 0;
 byte publicKey[64];
@@ -66,13 +150,13 @@ struct LoRaBikeraPacket { // Define the structure of a LoRaWAN packet
   uint8_t* payloadInput;
 };
 
-FlashStorage(flashmem, FlashSaved);
-
 LoRaModem modem;
 LoRaSavedData data;
 LoRaBikeraPacket packet;
 AlmostRandom ranDom;
 FlashSaved flash;
+
+FlashStorage(flashmem, FlashSaved);
 
 void setup() {
 
@@ -88,6 +172,11 @@ void setup() {
 
   // read the memory of the 2Mb internal SPI connected memory and fill the FlashSaved variables with the stored value
   flash = flashmem.read();
+
+  // load the variables of the flash memory into the program memory
+  SavedPrivateKeyToSlot = flash.SavedPrivateKeyToSlotFlash;
+  ConfigurationAlreadyLoaded = flash.ConfigurationAlreadyLoadedFlash; 
+
   
   // Initialize LoRa module
   if (!modem.begin(EU868)) {  //if you're in another region change this to AS923, 915E6, ...
@@ -157,8 +246,7 @@ void setup() {
     while(1);
   }
 
-  // this copies the CONFIG file to a copy array that is stored locally to be used in this instance of the program
-  memcpy(configCopy, ECCX08_DEFAULT_BIKERA_CONFIG, sizeof(ECCX08_DEFAULT_BIKERA_CONFIG));
+
   
   //See if chip is locked with a private key
   if (!ECCX08.locked()) { //at startup the 
@@ -171,7 +259,8 @@ void setup() {
         Serial.println("Enter your private key, make sure it is correct because this device is write only once protected! ");
         Serial.println("the Private key is inputted as 2 hexadecimal values per byte, totalling to 64 hexadecimal numbers for 32Byte or 256bit encryption.");
     
-    if (Serial.available()) { int idx = 0;   
+    if (Serial.available()) { 
+          int idx = 0;   
           while (idx < 64) { if (Serial.available()) { hexString[idx++] = Serial.read(); } } 
           hexString[64] = '\0'; // Null terminator
           for (int i = 0; i < 32; i++) {
@@ -179,7 +268,7 @@ void setup() {
               PrivateKeyLockOwnerBuffer[i] = strtol(hexByte, NULL, 16);
           }
     }
-    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     Serial.println("32-byte array:");
     for (int i = 0; i < 32; i++) {
       Serial.print(PrivateKeyLockOwnerBuffer[i], HEX);
@@ -249,18 +338,15 @@ void setup() {
           flash.SavedPrivateKeyToSlotFlash = 1;
           StoreConfiguration = 1;
           }
-  }
-  SavedPrivateKeyToSlot = flash.SavedPrivateKeyToSlotFlash;
-  ConfigurationAlreadyLoaded = flash.ConfigurationAlreadyLoadedFlash; 
   if (StoreConfiguration == 1 && ConfigurationAlreadyLoaded != 1) {
           ECCX08.writeConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG);
           flash.ConfigurationAlreadyLoadedFlash = 1;
   }
-  if (ECCX08.readConfiguration(configCopy)) {
+  if (ECCX08.readConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG)) {
           Serial.println("EECX08 configuration loaded correctly.");
           ConfigurationChipOk = 1;
   }
-  if (!ECCX08.readConfiguration(configCopy)) {
+  if (!ECCX08.readConfiguration(ECCX08_DEFAULT_BIKERA_CONFIG)) {
           Serial.println("Configuration file loading failed or is not the same as first entry, check if file is corrupted!");
           Serial.println("Press enter to restart the device to load the current updated or altered configuration file or unplug the power to retry.");
           while(!Serial.available());
