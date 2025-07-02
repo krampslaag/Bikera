@@ -1,0 +1,793 @@
+import logging
+import asyncio
+from telegram import Update
+from telegram import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
+from telegram.ext import ConversationHandler
+from telegram.ext import ApplicationBuilder
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
+import json
+import time
+import hashlib
+import csv
+import xml.etree.ElementTree as ET
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import rsa, padding, ec
+from cryptography.hazmat.backends import default_backend
+import datetime
+import random
+from math import radians, sin, cos, sqrt, atan2
+import asyncio
+import os
+from dotenv import load_dotenv
+import signal
+from typing import Dict, List, Optional, Tuple, Set
+from dataclasses import dataclass
+from enum import Enum
+import uuid
+import threading
+import socket
+import struct
+
+# P2P Networking imports
+
+import zmq
+import zmq.asyncio
+
+# Load environment variables
+
+load_dotenv()
+TELEGRAM_TOKEN = os.getenv(‘TELEGRAM_TOKEN’)
+WAITING_ADDRESS = 1
+WAITING_LOCATION = 1
+
+# Network Constants
+
+CONSENSUS_ROUND_DURATION = 30  # 30 seconds per consensus round
+MIN_NODES = 1  # Minimum nodes for network operation (works with single node)
+NODE_SYNC_INTERVAL = 150  # Sync with peers every 2.5 minutes (150 seconds)
+BLOCK_PROPAGATION_DELAY = 2  # 2 seconds for block propagation
+MINING_INTERVAL_DURATION = 300  # 5 minutes per mining interval (300 seconds)
+
+# P2P Network Constants
+
+DEFAULT_P2P_PORT = 8333
+DEFAULT_CONSENSUS_PORT = 5555
+DEFAULT_GOSSIP_PORT = 5556
+HEARTBEAT_INTERVAL = 10  # seconds
+PEER_TIMEOUT = 30  # seconds
+MAX_PEERS = 8
+
+# Configure logging
+
+logging.basicConfig(
+format=’%(asctime)s - %(name)s - %(levelname)s - %(message)s’,
+level=logging.INFO
+)
+logger = logging.getLogger(**name**)
+
+def calculate_distance(coord1, coord2):
+“”“Calculate the distance between two coordinates using Haversine formula”””
+R = 6371  # Earth’s radius in kilometers
+
+```
+lat1, lon1 = map(radians, coord1)
+lat2, lon2 = map(radians, coord2)
+
+dlat = lat2 - lat1
+dlon = lon2 - lon1
+
+a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+c = 2 * atan2(sqrt(a), sqrt(1-a))
+distance = R * c
+
+return distance
+```
+
+def calculate_travel_distance(start_coords, end_coords):
+“”“Calculate the distance traveled between two coordinate pairs”””
+return calculate_distance(start_coords, end_coords)
+
+@dataclass
+class VRFProof:
+“”“VRF proof containing signature and hash”””
+signature: bytes
+hash_value: bytes
+public_key: bytes
+node_id: str
+seed: str
+
+@dataclass
+class P2PMessage:
+“”“P2P message structure”””
+type: str
+sender_id: str
+recipient_id: str  # “broadcast” for all peers
+timestamp: float
+data: dict
+message_id: str = None
+
+```
+def __post_init__(self):
+    if self.message_id is None:
+        self.message_id = hashlib.sha256(
+            f"{self.type}{self.sender_id}{self.timestamp}".encode()
+        ).hexdigest()[:16]
+```
+
+@dataclass
+class PeerInfo:
+“”“Information about a network peer”””
+node_id: str
+address: str
+port: int
+last_seen: float
+public_key: bytes = None
+is_authority: bool = False
+
+```
+def is_alive(self) -> bool:
+    return (time.time() - self.last_seen) < PEER_TIMEOUT
+```
+
+@dataclass
+class DistanceProposal:
+“”“Proposal for random distance generation”””
+node_id: str
+vrf_proof: VRFProof
+target_distance: float
+round_number: int
+timestamp: float
+
+@dataclass
+class BlockProposal:
+“”“Proposal for block mining”””
+node_id: str
+vrf_proof: VRFProof
+block_data: dict
+round_number: int
+timestamp: float
+
+class VRF:
+“”“Verified Random Function implementation using ECDSA”””
+
+```
+def __init__(node):
+    node.private_key = ec.generate_private_key(ec.SECP256K1(), default_backend())
+    node.public_key = node.private_key.public_key()
+
+def prove(node, seed: str, node_id: str) -> VRFProof:
+    """Generate VRF proof for given seed"""
+    message = f"{seed}:{node_id}".encode('utf-8')
+    signature = node.private_key.sign(message, ec.ECDSA(hashes.SHA256()))
+    hash_value = hashlib.sha256(signature).digest()
+    
+    public_key_bytes = node.public_key.public_bytes(
+        encoding=serialization.Encoding.X962,
+        format=serialization.PublicFormat.UncompressedPoint
+    )
+    
+    return VRFProof(signature, hash_value, public_key_bytes, node_id, seed)
+
+@staticmethod
+def verify(proof: VRFProof) -> bool:
+    """Verify VRF proof"""
+    try:
+        # Reconstruct public key
+        public_key = ec.EllipticCurvePublicKey.from_encoded_point(
+            ec.SECP256K1(), proof.public_key
+        )
+        
+        # Verify signature
+        message = f"{proof.seed}:{proof.node_id}".encode('utf-8')
+        public_key.verify(proof.signature, message, ec.ECDSA(hashes.SHA256()))
+        
+        # Verify hash
+        computed_hash = hashlib.sha256(proof.signature).digest()
+        return computed_hash == proof.hash_value
+        
+    except Exception as e:
+        logging.error(f"VRF verification failed: {e}")
+        return False
+```
+
+class P2PNetworkLayer:
+“”“Real P2P networking implementation using ZeroMQ”””
+
+```
+def __init__(network, node_id: str, port: int = DEFAULT_P2P_PORT):
+    network.node_id = node_id
+    network.port = port
+    network.context = zmq.asyncio.Context()
+    
+    # ZeroMQ sockets for different message types
+    network.pub_socket = None  # Publisher for broadcasting
+    network.sub_socket = None  # Subscriber for receiving broadcasts
+    network.router_socket = None  # For direct peer communication
+    network.dealer_socket = None  # For outgoing connections
+    
+    # Peer management
+    network.peers: Dict[str, PeerInfo] = {}
+    network.active_connections: Set[str] = set()
+    network.message_handlers: Dict[str, callable] = {}
+    network.seen_messages: Set[str] = set()
+    
+    # Network state
+    network.is_running = False
+    network.heartbeat_task = None
+    network.message_processor_task = None
+    
+    logging.info(f"P2P Network Layer initialized for node {node_id} on port {port}")
+
+async def start(network):
+    """Start the P2P network layer"""
+    try:
+        # Setup ZeroMQ sockets
+        await network._setup_sockets()
+        
+        # Start background tasks
+        network.heartbeat_task = asyncio.create_task(network._heartbeat_loop())
+        network.message_processor_task = asyncio.create_task(network._message_processor())
+        
+        network.is_running = True
+        logging.info(f"P2P network started on port {network.port}")
+        
+    except Exception as e:
+        logging.error(f"Failed to start P2P network: {e}")
+        await network.stop()
+
+async def _setup_sockets(network):
+    """Setup ZeroMQ sockets for P2P communication"""
+    # Publisher socket for broadcasting to all peers
+    network.pub_socket = network.context.socket(zmq.PUB)
+    network.pub_socket.bind(f"tcp://*:{network.port}")
+    
+    # Subscriber socket for receiving broadcasts
+    network.sub_socket = network.context.socket(zmq.SUB)
+    network.sub_socket.setsockopt(zmq.SUBSCRIBE, b"")  # Subscribe to all messages
+    
+    # Router socket for direct peer communication (server)
+    network.router_socket = network.context.socket(zmq.ROUTER)
+    network.router_socket.bind(f"tcp://*:{network.port + 1}")
+    
+    # Dealer socket for outgoing connections (client)
+    network.dealer_socket = network.context.socket(zmq.DEALER)
+    network.dealer_socket.setsockopt(zmq.IDENTITY, network.node_id.encode())
+    
+    logging.info("ZeroMQ sockets configured successfully")
+
+async def connect_to_peer(network, peer_address: str, peer_port: int, peer_id: str):
+    """Connect to a specific peer"""
+    try:
+        peer_url = f"tcp://{peer_address}:{peer_port}"
+        
+        # Subscribe to peer's broadcasts
+        network.sub_socket.connect(peer_url)
+        
+        # Connect dealer socket for direct communication
+        network.dealer_socket.connect(f"tcp://{peer_address}:{peer_port + 1}")
+        
+        # Add peer to active connections
+        peer_info = PeerInfo(
+            node_id=peer_id,
+            address=peer_address,
+            port=peer_port,
+            last_seen=time.time()
+        )
+        network.peers[peer_id] = peer_info
+        network.active_connections.add(peer_id)
+        
+        logging.info(f"Connected to peer {peer_id} at {peer_address}:{peer_port}")
+        
+        # Send initial handshake
+        await network.send_handshake(peer_id)
+        
+    except Exception as e:
+        logging.error(f"Failed to connect to peer {peer_id}: {e}")
+
+async def send_handshake(network, peer_id: str):
+    """Send handshake message to establish connection"""
+    handshake_msg = P2PMessage(
+        type="handshake",
+        sender_id=network.node_id,
+        recipient_id=peer_id,
+        timestamp=time.time(),
+        data={
+            'node_id': network.node_id,
+            'port': network.port,
+            'version': '1.0.0'
+        }
+    )
+    await network.send_direct_message(peer_id, handshake_msg)
+
+async def broadcast_message(network, message: P2PMessage):
+    """Broadcast message to all connected peers"""
+    try:
+        message_bytes = json.dumps({
+            'type': message.type,
+            'sender_id': message.sender_id,
+            'timestamp': message.timestamp,
+            'data': message.data,
+            'message_id': message.message_id
+        }).encode()
+        
+        await network.pub_socket.send_multipart([
+            message.type.encode(),  # Topic
+            message_bytes  # Message data
+        ])
+        
+        logging.debug(f"Broadcasted {message.type} message to all peers")
+        
+    except Exception as e:
+        logging.error(f"Failed to broadcast message: {e}")
+
+async def send_direct_message(network, peer_id: str, message: P2PMessage):
+    """Send direct message to specific peer"""
+    try:
+        message_data = {
+            'type': message.type,
+            'sender_id': message.sender_id,
+            'recipient_id': message.recipient_id,
+            'timestamp': message.timestamp,
+            'data': message.data,
+            'message_id': message.message_id
+        }
+        
+        await network.dealer_socket.send_multipart([
+            peer_id.encode(),
+            json.dumps(message_data).encode()
+        ])
+        
+        logging.debug(f"Sent {message.type} message to {peer_id}")
+        
+    except Exception as e:
+        logging.error(f"Failed to send direct message to {peer_id}: {e}")
+
+async def _message_processor(network):
+    """Process incoming messages from peers"""
+    while network.is_running:
+        try:
+            # Check for broadcast messages
+            if network.sub_socket.poll(timeout=100, flags=zmq.POLLIN):
+                topic, message_bytes = await network.sub_socket.recv_multipart()
+                await network._handle_broadcast_message(topic.decode(), message_bytes)
+            
+            # Check for direct messages
+            if network.router_socket.poll(timeout=100, flags=zmq.POLLIN):
+                sender_id, message_bytes = await network.router_socket.recv_multipart()
+                await network._handle_direct_message(sender_id.decode(), message_bytes)
+                
+            await asyncio.sleep(0.1)  # Prevent busy waiting
+            
+        except Exception as e:
+            logging.error(f"Error in message processor: {e}")
+            await asyncio.sleep(1)
+
+async def _handle_broadcast_message(network, topic: str, message_bytes: bytes):
+    """Handle incoming broadcast message"""
+    try:
+        message_data = json.loads(message_bytes.decode())
+        
+        # Ignore our own messages
+        if message_data['sender_id'] == network.node_id:
+            return
+        
+        # Check for duplicate messages
+        if message_data['message_id'] in network.seen_messages:
+            return
+        
+        network.seen_messages.add(message_data['message_id'])
+        
+        # Update peer info
+        sender_id = message_data['sender_id']
+        if sender_id in network.peers:
+            network.peers[sender_id].last_seen = time.time()
+        
+        # Handle message based on type
+        message_type = message_data['type']
+        if message_type in network.message_handlers:
+            await network.message_handlers[message_type](message_data)
+            
+        logging.debug(f"Processed broadcast message: {message_type} from {sender_id}")
+        
+    except Exception as e:
+        logging.error(f"Error handling broadcast message: {e}")
+
+async def _handle_direct_message(network, sender_id: str, message_bytes: bytes):
+    """Handle incoming direct message"""
+    try:
+        message_data = json.loads(message_bytes.decode())
+        
+        # Update peer info
+        if sender_id in network.peers:
+            network.peers[sender_id].last_seen = time.time()
+        
+        # Handle message based on type
+        message_type = message_data['type']
+        if message_type in network.message_handlers:
+            await network.message_handlers[message_type](message_data)
+            
+        logging.debug(f"Processed direct message: {message_type} from {sender_id}")
+        
+    except Exception as e:
+        logging.error(f"Error handling direct message: {e}")
+
+async def _heartbeat_loop(network):
+    """Send periodic heartbeat messages to maintain connections"""
+    while network.is_running:
+        try:
+            # Send heartbeat to all peers
+            heartbeat_msg = P2PMessage(
+                type="heartbeat",
+                sender_id=network.node_id,
+                recipient_id="broadcast",
+                timestamp=time.time(),
+                data={'status': 'alive'}
+            )
+            
+            await network.broadcast_message(heartbeat_msg)
+            
+            # Clean up dead peers
+            current_time = time.time()
+            dead_peers = [
+                peer_id for peer_id, peer in network.peers.items()
+                if (current_time - peer.last_seen) > PEER_TIMEOUT
+            ]
+            
+            for peer_id in dead_peers:
+                logging.info(f"Removing dead peer: {peer_id}")
+                del network.peers[peer_id]
+                network.active_connections.discard(peer_id)
+            
+            await asyncio.sleep(HEARTBEAT_INTERVAL)
+            
+        except Exception as e:
+            logging.error(f"Error in heartbeat loop: {e}")
+            await asyncio.sleep(HEARTBEAT_INTERVAL)
+
+def register_message_handler(network, message_type: str, handler: callable):
+    """Register handler for specific message type"""
+    network.message_handlers[message_type] = handler
+    logging.info(f"Registered handler for message type: {message_type}")
+
+async def discover_peers(network, bootstrap_addresses: List[Tuple[str, int, str]]):
+    """Connect to bootstrap peers to join the network"""
+    for address, port, peer_id in bootstrap_addresses:
+        try:
+            await network.connect_to_peer(address, port, peer_id)
+            await asyncio.sleep(1)  # Stagger connections
+        except Exception as e:
+            logging.warning(f"Failed to connect to bootstrap peer {peer_id}: {e}")
+
+def get_active_peers(network) -> List[PeerInfo]:
+    """Get list of currently active peers"""
+    return [peer for peer in network.peers.values() if peer.is_alive()]
+
+async def stop(network):
+    """Stop the P2P network layer"""
+    network.is_running = False
+    
+    # Cancel background tasks
+    if network.heartbeat_task:
+        network.heartbeat_task.cancel()
+    if network.message_processor_task:
+        network.message_processor_task.cancel()
+    
+    # Close sockets
+    if network.pub_socket:
+        network.pub_socket.close()
+    if network.sub_socket:
+        network.sub_socket.close()
+    if network.router_socket:
+        network.router_socket.close()
+    if network.dealer_socket:
+        network.dealer_socket.close()
+    
+    # Terminate context
+    network.context.term()
+    
+    logging.info("P2P network stopped")
+```
+
+class NetworkNode:
+“”“Individual node in the decentralized network with real P2P capabilities”””
+
+```
+def __init__(node, node_id: str, is_local: bool = False, port: int = None):
+    node.node_id = node_id
+    node.is_local = is_local
+    node.vrf = VRF()
+    node.blockchain = None  # Will be set by main system
+    node.last_seen = time.time()
+    node.is_active = True
+    
+    # P2P Network layer
+    if port is None:
+        port = DEFAULT_P2P_PORT + hash(node_id) % 1000  # Unique port per node
+    node.p2p_network = P2PNetworkLayer(node_id, port)
+    
+    # Node-specific state
+    node.pending_vrf_proposals = []
+    node.current_round = 0
+    
+    # Bootstrap peers (in production, these would be discovered via DNS or config)
+    node.bootstrap_peers = [
+        # Format: (address, port, node_id)
+        # These would be real network addresses in production
+    ]
+    
+async def start(node):
+    """Start the network node"""
+    await node.p2p_network.start()
+    
+    # Register message handlers
+    node.p2p_network.register_message_handler("vrf_distance_proposal", node._handle_vrf_distance_proposal)
+    node.p2p_network.register_message_handler("vrf_mining_proposal", node._handle_vrf_mining_proposal)
+    node.p2p_network.register_message_handler("block_announcement", node._handle_block_announcement)
+    node.p2p_network.register_message_handler("handshake", node._handle_handshake)
+    node.p2p_network.register_message_handler("heartbeat", node._handle_heartbeat)
+    
+    # Connect to bootstrap peers if this is a local node
+    if node.is_local and node.bootstrap_peers:
+        await node.p2p_network.discover_peers(node.bootstrap_peers)
+    
+    logging.info(f"Network node {node.node_id} started")
+
+async def stop(node):
+    """Stop the network node"""
+    await node.p2p_network.stop()
+    logging.info(f"Network node {node.node_id} stopped")
+
+async def _handle_handshake(node, message_data):
+    """Handle handshake from new peer"""
+    sender_id = message_data['sender_id']
+    logging.info(f"Received handshake from {sender_id}")
+    
+    # Send handshake response
+    response_msg = P2PMessage(
+        type="handshake_response",
+        sender_id=node.node_id,
+        recipient_id=sender_id,
+        timestamp=time.time(),
+        data={
+            'node_id': node.node_id,
+            'status': 'connected'
+        }
+    )
+    await node.p2p_network.send_direct_message(sender_id, response_msg)
+
+async def _handle_heartbeat(node, message_data):
+    """Handle heartbeat from peer"""
+    # Heartbeats are automatically handled by the P2P layer
+    pass
+
+async def _handle_vrf_distance_proposal(node, message_data):
+    """Handle VRF distance generation proposal"""
+    proposal_data = message_data['data']
+    logging.info(f"Received distance proposal from {message_data['sender_id']}")
+    # Forward to consensus layer
+    node.pending_vrf_proposals.append(('distance', proposal_data))
+
+async def _handle_vrf_mining_proposal(node, message_data):
+    """Handle VRF mining proposal"""
+    proposal_data = message_data['data']
+    logging.info(f"Received mining proposal from {message_data['sender_id']}")
+    # Forward to consensus layer
+    node.pending_vrf_proposals.append(('mining', proposal_data))
+
+async def _handle_block_announcement(node, message_data):
+    """Handle new block announcement"""
+    block_data = message_data['data']
+    logging.info(f"Received block announcement from {message_data['sender_id']}")
+    # Forward to blockchain layer for validation and addition
+
+def generate_distance_proposal(node, round_number: int, last_block_hash: str) -> DistanceProposal:
+    """Generate VRF proposal for distance generation"""
+    seed = f"distance_round_{round_number}_{last_block_hash}"
+    vrf_proof = node.vrf.prove(seed, node.node_id)
+    
+    # Generate deterministic random distance based on VRF hash
+    hash_int = int.from_bytes(vrf_proof.hash_value[:4], byteorder='big')
+    target_distance = 0.1 + (hash_int % 9900) / 1000.0  # 0.1 to 10.0 km
+    
+    proposal = DistanceProposal(
+        node_id=node.node_id,
+        vrf_proof=vrf_proof,
+        target_distance=target_distance,
+        round_number=round_number,
+        timestamp=time.time()
+    )
+    
+    # Broadcast proposal to network
+    asyncio.create_task(node._broadcast_distance_proposal(proposal))
+    
+    return proposal
+
+async def _broadcast_distance_proposal(node, proposal: DistanceProposal):
+    """Broadcast distance proposal to network"""
+    message = P2PMessage(
+        type="vrf_distance_proposal",
+        sender_id=node.node_id,
+        recipient_id="broadcast",
+        timestamp=time.time(),
+        data={
+            'proposal': {
+                'node_id': proposal.node_id,
+                'target_distance': proposal.target_distance,
+                'round_number': proposal.round_number,
+                'timestamp': proposal.timestamp,
+                'vrf_proof': {
+                    'signature': proposal.vrf_proof.signature.hex(),
+                    'hash_value': proposal.vrf_proof.hash_value.hex(),
+                    'public_key': proposal.vrf_proof.public_key.hex(),
+                    'seed': proposal.vrf_proof.seed
+                }
+            }
+        }
+    )
+    await node.p2p_network.broadcast_message(message)
+
+def generate_mining_proposal(node, round_number: int, winner_data: dict, last_block_hash: str) -> BlockProposal:
+    """Generate VRF proposal for block mining"""
+    seed = f"mining_round_{round_number}_{last_block_hash}_{winner_data['user_id']}"
+    vrf_proof = node.vrf.prove(seed, node.node_id)
+    
+    proposal = BlockProposal(
+        node_id=node.node_id,
+        vrf_proof=vrf_proof,
+        block_data=winner_data,
+        round_number=round_number,
+        timestamp=time.time()
+    )
+    
+    # Broadcast proposal to network
+    asyncio.create_task(node._broadcast_mining_proposal(proposal))
+    
+    return proposal
+
+async def _broadcast_mining_proposal(node, proposal: BlockProposal):
+    """Broadcast mining proposal to network"""
+    message = P2PMessage(
+        type="vrf_mining_proposal",
+        sender_id=node.node_id,
+        recipient_id="broadcast",
+        timestamp=time.time(),
+        data={
+            'proposal': {
+                'node_id': proposal.node_id,
+                'round_number': proposal.round_number,
+                'timestamp': proposal.timestamp,
+                'block_data': proposal.block_data,
+                'vrf_proof': {
+                    'signature': proposal.vrf_proof.signature.hex(),
+                    'hash_value': proposal.vrf_proof.hash_value.hex(),
+                    'public_key': proposal.vrf_proof.public_key.hex(),
+                    'seed': proposal.vrf_proof.seed
+                }
+            }
+        }
+    )
+    await node.p2p_network.broadcast_message(message)
+
+def add_peer(node, peer_id: str):
+    """Add peer node"""
+    # This is now handled by the P2P network layer
+    pass
+    
+def remove_peer(node, peer_id: str):
+    """Remove peer node"""
+    # This is now handled by the P2P network layer
+    pass
+    
+def get_status(node) -> dict:
+    """Get node status"""
+    active_peers = node.p2p_network.get_active_peers() if node.p2p_network else []
+    return {
+        'node_id': node.node_id,
+        'is_local': node.is_local,
+        'is_active': node.is_active,
+        'peers_count': len(active_peers),
+        'last_seen': node.last_seen,
+        'current_round': node.current_round,
+        'network_port': node.p2p_network.port if node.p2p_network else None
+    }
+```
+
+class DecentralizedNetwork:
+“”“Manages the real decentralized network of nodes”””
+
+```
+def __init__(network):
+    network.nodes: Dict[str, NetworkNode] = {}
+    network.local_node_id = f"node_{uuid.uuid4().hex[:8]}"
+    network.local_node = NetworkNode(network.local_node_id, is_local=True)
+    network.nodes[network.local_node_id] = network.local_node
+    
+    # Network state
+    network.current_distance_round = 0
+    network.current_mining_round = 0
+    network.pending_distance_proposals = {}
+    network.pending_mining_proposals = {}
+    
+    # Consensus locks
+    network.distance_consensus_lock = asyncio.Lock()
+    network.mining_consensus_lock = asyncio.Lock()
+    
+    logging.info(f"Initialized local node: {network.local_node_id}")
+
+async def start(network):
+    """Start the decentralized network"""
+    # Start local node
+    await network.local_node.start()
+    
+    # In a real deployment, connect to known bootstrap nodes
+    # For testing, we can add some simulated nodes
+    await network._setup_test_network()
+    
+    logging.info("Decentralized network started")
+
+async def _setup_test_network(network):
+    """Setup test network with simulated remote nodes"""
+    # Add some simulated remote nodes for testing
+    # In production, these would be discovered via DHT or bootstrap nodes
+    test_node_ids = [f"remote_node_{i}" for i in range(1, 4)]
+    
+    for node_id in test_node_ids:
+        remote_node = NetworkNode(node_id, is_local=False)
+        network.nodes[node_id] = remote_node
+        # Note: We don't start these nodes as they represent remote peers
+    
+    logging.info(f"Test network setup with {len(network.nodes)} nodes")
+
+async def stop(network):
+    """Stop the decentralized network"""
+    # Stop all local nodes
+    for node in network.nodes.values():
+        if node.is_local:
+            await node.stop()
+    
+    logging.info("Decentralized network stopped")
+
+def add_node(network, node_id: str) -> NetworkNode:
+    """Add a new node to the network"""
+    if node_id not in network.nodes:
+        node = NetworkNode(node_id, is_local=False)
+        network.nodes[node_id] = node
+        logging.info(f"Added node {node_id} to network")
+    return network.nodes[node_id]
+
+def remove_node(network, node_id: str):
+    """Remove node from network"""
+    if node_id in network.nodes and node_id != network.local_node_id:
+        del network.nodes[node_id]
+        logging.info(f"Removed node {node_id} from network")
+
+def get_active_nodes(network) -> List[NetworkNode]:
+    """Get list of active nodes"""
+    active_nodes = []
+    
+    for node in network.nodes.values():
+        if node.is_local:
+            # Local node is always active if running
+            node.is_active = True
+            active_nodes.append(node)
+        else:
+            # Remote nodes are active if they're in our peer list
+            local_peers = network.local_node.p2p_network.get_active_peers()
+            peer_ids = [peer.node_id for peer in local_peers]
+            
+            if node.node_id in peer_ids:
+                node.is_active = True
+                active_nodes.append(node)
+            else:
+                node.is_active = False
+    
+    return active_nodes
+
+async def select_distance_generator(network, round_number: int, last_block_hash: str) -> Optional[DistanceProposal]:
+    """Use real VRF consensus to select which node generates the target distance"""
+    async with network.distance_consensus_lock:
+        active_nodes = network.get_active_nodes()
+        
+        if len(active_nodes) < MIN_NODES:
+            logging.warning(f"Insufficient active nodes: {len(active_nodes)} < {MIN_
+```
