@@ -615,7 +615,7 @@ async function checkBatchTrigger(env, supabase) {
       .select('*', { count: 'exact', head: true })
       .eq('status', 'pending');
     
-    const lastProcessed = await env.KV.get('last_batch_processed');
+    const lastProcessed = await env.BikeraWorkerClaude.get('last_batch_processed');
     const timeSinceLastBatch = Date.now() - (parseInt(lastProcessed) || 0);
     
     const minBatchSize = env.MIN_BATCH_SIZE || CONFIG.BATCH.MIN_SIZE;
@@ -804,7 +804,7 @@ async function triggerBatchProcessing(env, supabase) {
     
     await Promise.allSettled(processingPromises);
     
-    await env.KV.put('last_batch_processed', Date.now().toString());
+    await env.BikeraWorkerClaude.put('last_batch_processed', Date.now().toString());
     console.log(`Batch ${batchId} processing completed`);
     
   } catch (error) {
@@ -939,8 +939,8 @@ async function sendToICP(batch, env) {
     console.error('Error sending to ICP:', error);
     
     // Store failed batch for retry
-    if (env.KV) {
-      await env.KV.put(
+    if (env.BikeraWorkerClaude) {
+      await env.BikeraWorkerClaude.put(
         `failed_batch:${batch.intervalId}`,
         JSON.stringify(batch),
         { expirationTtl: 86400 } // Keep for 24 hours
