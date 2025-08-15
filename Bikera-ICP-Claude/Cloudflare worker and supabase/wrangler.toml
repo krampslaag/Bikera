@@ -2,9 +2,17 @@ name = "bikeraworker"
 main = "worker.js"
 compatibility_date = "2024-01-01"
 
-# KV Namespaces for caching
+# Account ID
+account_id = "5101afd4cdb65dea17d6f9312f62b66e"
+
+# Routes
+#routes = [
+#  { pattern = "api.bikera.org/*", zone_name = "bikera.org" }
+#]
+
+# KV Namespaces - FIXED binding name
 kv_namespaces = [
-  { binding = "BikeraWorker", id = "380c73b90be7480fb1ada90785fe8b05" }
+  { binding = "BikeraWorkerClaude", id = "e7d9c1a79b58413fbd07cea0714e07f2" }
 ]
 
 # Durable Objects for rate limiting
@@ -26,12 +34,28 @@ queue = "location-processing"
 max_batch_size = 100
 max_batch_timeout = 30
 
-# Environment variables (set in dashboard)
+# Environment variables (public values only)
 [vars]
-ICP_CANISTER_URL = "https://your-canister.ic0.app"
+# Replace these with your actual values
 SUPABASE_URL = "https://your-project.supabase.co"
+ICP_CANISTER_URL = "https://your-canister.ic0.app"
+SOLANA_RPC_URL = "https://api.mainnet-beta.solana.com"
+TOKEN_ADDRESS = "FtrH7NCrPDkhDmKCCdTnsDBFxiibc1X5aJPHqKQnpump"
 
-# Secrets (set via wrangler secret)
-# wrangler secret put SUPABASE_ANON_KEY
-# wrangler secret put JWT_SECRET
-# wrangler secret put ICP_API_KEY
+# Pi-Node endpoints (update with your actual pi-node addresses)
+PI_ENDPOINTS = '{"default":"http://pi1.bikera.org:3000","zone1":"http://pi2.bikera.org:3000"}'
+
+# Rate limiting configuration
+USER_RATE_LIMIT_WINDOW = 150000
+IP_RATE_LIMIT_WINDOW = 60000
+USER_RATE_LIMIT = 1
+IP_RATE_LIMIT = 1000
+
+# Batch processing configuration
+MIN_BATCH_SIZE = 100
+MAX_BATCH_WAIT = 300000
+MAX_BATCH_SIZE = 1000
+
+# Optional features
+GEO_FENCE_ENABLED = false
+DEBUG = false
