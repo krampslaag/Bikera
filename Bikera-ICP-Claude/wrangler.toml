@@ -1,0 +1,37 @@
+name = "bikeraworker"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# KV Namespaces for caching
+kv_namespaces = [
+  { binding = "BikeraWorker", id = "380c73b90be7480fb1ada90785fe8b05" }
+]
+
+# Durable Objects for rate limiting
+[[durable_objects.bindings]]
+name = "RATE_LIMITER"
+class_name = "RateLimiter"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["RateLimiter"]
+
+# Queue for async processing
+[[queues.producers]]
+binding = "LOCATION_QUEUE"
+queue = "location-processing"
+
+[[queues.consumers]]
+queue = "location-processing"
+max_batch_size = 100
+max_batch_timeout = 30
+
+# Environment variables (set in dashboard)
+[vars]
+ICP_CANISTER_URL = "https://your-canister.ic0.app"
+SUPABASE_URL = "https://your-project.supabase.co"
+
+# Secrets (set via wrangler secret)
+# wrangler secret put SUPABASE_ANON_KEY
+# wrangler secret put JWT_SECRET
+# wrangler secret put ICP_API_KEY
