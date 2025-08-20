@@ -1,0 +1,89 @@
+<div data-layer="NFT Deatils" className="NftDeatils w-[375px] h-[812px] relative bg-[#09060e]  overflow-hidden">
+  <div data-layer="Rectangle 2" className="Rectangle2 w-[375px] h-11 left-0 top-0 absolute bg-[#121c34]" />
+  <div data-layer="Bars/Status Bars/iPhone/Light" className="BarsStatusBarsIphoneLight w-[375px] h-11 left-0 top-0 absolute">
+    <div data-layer="Battery" className="Battery w-[24.33px] h-[11.33px] left-[336.33px] top-[17.33px] absolute">
+      <div data-layer="Border" className="Border w-[22px] h-[11.33px] left-0 top-0 absolute opacity-30 rounded-sm border border-white" />
+      <div data-layer="Capacity" className="Capacity w-[18px] h-[7.33px] left-[2px] top-[2px] absolute bg-white rounded-sm" />
+    </div>
+    <img data-layer="Wifi" className="Wifi w-[15.33px] h-[11px] left-[316px] top-[17.33px] absolute" src="https://via.placeholder.com/15x11" />
+    <img data-layer="Cellular Connection" className="CellularConnection w-[17px] h-[10.67px] left-[294px] top-[17.67px] absolute" src="https://via.placeholder.com/17x11" />
+    <div data-layer="Time Style" className="TimeStyle w-[54px] h-[21px] pt-[7px] left-[21px] top-[7.33px] absolute justify-center items-center inline-flex">
+      <div data-layer="Time" className="Time w-[54px] text-center text-white text-[15px] font-semibold font-['SF Pro Text']">9:41</div>
+    </div>
+  </div>
+  <div data-layer="Rectangle 1" className="Rectangle1 w-[375px] h-[54px] left-0 top-[44px] absolute bg-slate-900" />
+  <div data-layer="Frame 4" className="Frame4 w-[168px] h-14 p-[5px] left-[16px] top-[113px] absolute bg-slate-900 rounded-[14px] flex-col justify-start items-start gap-2.5 inline-flex overflow-hidden">
+    <div data-layer="Frame 3" className="Frame3 justify-start items-center gap-[11px] inline-flex">
+      <div data-layer="Frame 2" className="Frame2 p-2.5 bg-[#1a2641] rounded-[14px] justify-start items-center gap-2.5 flex">
+        <img data-layer="Blockchain 1" className="Blockchain1 w-[26px] h-[26px] origin-top-left rotate-180" src="https://via.placeholder.com/26x26" />
+      </div>
+      <div data-layer="Frame 1" className="Frame1 w-[84px] flex-col justify-center items-start gap-[3px] inline-flex">
+        <div data-layer="34" className="text-[#c0cae1] text-base font-semibold font-['Inter']">34</div>
+        <div data-layer="Block Mined" className="BlockMined text-[#848da2] text-xs font-normal font-['Inter']">Block Mined</div>
+      </div>
+    </div>
+    <div data-layer="Ellipse 2" className="Ellipse2 w-[111px] h-14 bg-gradient-to-bl from-[#ff3eff] to-[#41beee] rounded-full blur-[34px]" />
+  </div>
+  <div data-layer="Frame 5" className="Frame5 w-[168px] h-14 p-[5px] left-[191px] top-[113px] absolute bg-slate-900 rounded-[14px] flex-col justify-start items-start gap-2.5 inline-flex overflow-hidden">
+    <div data-layer="Frame 3" className="Frame3 justify-start items-center gap-[11px] inline-flex">
+      <div data-layer="Frame 2" className="Frame2 p-2.5 bg-[#1a2641] rounded-[14px] justify-start items-center gap-2.5 flex">
+        <img data-layer="Long-Distance 1" className="LongDistance1 w-[26px] h-[26px]" src="https://via.placeholder.com/26x26" />
+      </div>
+      <div data-layer="Frame 1" className="Frame1 w-[84px] flex-col justify-center items-start gap-[3px] inline-flex">
+        <div data-layer="3.5 km" className="5Km text-[#c0cae1] text-base font-semibold font-['Inter']">3.5 km</div>
+        <div data-layer="Distance Travelled" className="DistanceTravelled text-[#848da2] text-xs font-normal font-['Inter']">Distance Travelled</div>
+      </div>
+    </div>
+    <div data-layer="Ellipse 2" className="Ellipse2 w-[111px] h-14 bg-gradient-to-bl from-[#ff3eff] to-[#41beee] rounded-full blur-[34px]" />
+  </div>
+  <div data-layer="Rectangle 3" className="Rectangle3 w-[343px] h-[525px] left-[16px] top-[182px] absolute bg-slate-900 rounded-3xl shadow-[inset_0px_2px_4px_3px_rgba(255,62,255,0.21)] shadow-[inset_0px_-3px_4px_1px_rgba(71,186,239,0.40)] border-2 border-white/10" />
+  <div data-layer="Mera NFT #23" className="MeraNft23 left-[139px] top-[195px] absolute text-[#ff3eff] text-[13px] font-bold font-['Inter'] uppercase">Mera NFT #23</div>
+  <img data-layer="SANS FOND Course 1" className="SansFondCourse1 w-[282px] h-[282px] left-[50px] top-[233px] absolute" src="https://via.placeholder.com/282x282" />
+  <div data-layer="Frame 19" className="Frame19 h-[91px] left-[44px] top-[584px] absolute flex-col justify-start items-center gap-3 inline-flex">
+    <div data-layer="Frame 18" className="Frame18 justify-start items-center gap-1 inline-flex">
+      <div data-layer="Frame 15" className="Frame15 p-2 bg-[#1a2641] rounded-md shadow-[0px_4px_1px_0px_rgba(0,0,0,0.05)] border border-[#848da2]/10 justify-center items-center gap-2.5 flex">
+        <div data-layer="1m" className="M text-[#41beee] text-xs font-normal font-['Inter'] uppercase">1m</div>
+      </div>
+      <div data-layer="Frame 16" className="Frame16 p-2 bg-[#1a2641] rounded-md shadow-[0px_4px_1px_0px_rgba(0,0,0,0.05)] border border-[#848da2]/10 justify-center items-center gap-2.5 flex">
+        <div data-layer="10m" className="M text-[#41beee] text-xs font-normal font-['Inter'] uppercase">10m</div>
+      </div>
+      <div data-layer="Frame 17" className="Frame17 p-2 bg-[#1a2641] rounded-md shadow-[0px_4px_1px_0px_rgba(0,0,0,0.05)] border border-[#848da2]/10 justify-center items-center gap-2.5 flex">
+        <div data-layer="100m" className="M text-[#41beee] text-xs font-normal font-['Inter'] uppercase">100m</div>
+      </div>
+    </div>
+    <div data-layer="Frame 6" className="Frame6 self-stretch h-12 px-[103px] py-1.5 bg-gradient-to-r from-[#ff3eff] to-[#41beee] rounded-[11px] justify-center items-center gap-2.5 inline-flex">
+      <div data-layer="Boost" className="Boost text-slate-900 text-base font-bold font-['Inter'] uppercase">Boost</div>
+    </div>
+  </div>
+  <div data-layer="Frame 7" className="Frame7 p-1.5 left-[16px] top-[53px] absolute bg-[#1a2641] rounded-[11px] justify-start items-center gap-2.5 inline-flex">
+    <div data-layer="Arrow Up Sm" className="ArrowUpSm w-6 h-6 origin-top-left -rotate-90 justify-center items-center gap-6 flex" />
+  </div>
+  <div data-layer="Frame 13" className="Frame13 p-1.5 left-[44px] top-[216px] absolute bg-[#1a2641] rounded-[11px] justify-start items-center gap-2.5 inline-flex">
+    <div data-layer="Arrow Up Left" className="ArrowUpLeft w-6 h-6 p-[7.05px] origin-top-left rotate-90 justify-center items-center flex" />
+  </div>
+  <div data-layer="Frame 14" className="Frame14 p-1.5 left-[295px] top-[216px] absolute bg-[#1a2641] rounded-[11px] justify-start items-center gap-2.5 inline-flex">
+    <div data-layer="Settings" className="Settings w-6 h-6 p-[3px] origin-top-left rotate-90 justify-center items-center flex" />
+  </div>
+  <div data-layer="Level" className="Level left-[163px] top-[61px] absolute text-[#c0cae1] text-base font-semibold font-['Inter'] uppercase">Level</div>
+  <div data-layer="Frame 9" className="Frame9 w-[343px] h-[58px] px-10 py-[13px] left-[16px] top-[738px] absolute bg-slate-900 rounded-[10px] flex-col justify-center items-center gap-2.5 inline-flex">
+    <div data-layer="Frame 8" className="Frame8 justify-start items-center gap-[95px] inline-flex">
+      <div data-layer="Leader Board 1" className="LeaderBoard1 w-8 h-8 px-[3.53px] py-[0.40px] origin-top-left rotate-180 justify-center items-center flex overflow-hidden" />
+      <div data-layer="Bike 1" className="Bike1 w-8 h-8 px-[0.40px] py-[6.19px] justify-center items-center flex overflow-hidden" />
+      <div data-layer="World 2" className="World2 w-8 h-8 p-[0.40px] justify-center items-center flex overflow-hidden" />
+    </div>
+  </div>
+  <div data-layer="Frame 12" className="Frame12 w-[273px] left-[55px] top-[496px] absolute justify-start items-center gap-[34px] inline-flex">
+    <div data-layer="Frame 10" className="Frame10 flex-col justify-start items-start gap-1.5 inline-flex">
+      <div data-layer="$56" className="56 text-[#c0cae1] text-[19px] font-bold font-['Inter']">$56</div>
+      <div data-layer="Earned" className="Earned text-[#848da2] text-xs font-normal font-['Inter']">Earned</div>
+    </div>
+    <div data-layer="Frame 12" className="Frame12 flex-col justify-start items-start gap-1.5 inline-flex">
+      <div data-layer="10" className="text-[#c0cae1] text-[19px] font-bold font-['Inter']">10</div>
+      <div data-layer="Participated" className="Participated text-[#848da2] text-xs font-normal font-['Inter']">Participated</div>
+    </div>
+    <div data-layer="Frame 11" className="Frame11 w-[84px] flex-col justify-start items-start gap-1.5 inline-flex">
+      <div data-layer="3.5 km" className="5Km text-[#c0cae1] text-[19px] font-bold font-['Inter']">3.5 km</div>
+      <div data-layer="Distance Travelled" className="DistanceTravelled text-[#848da2] text-xs font-normal font-['Inter']">Distance Travelled</div>
+    </div>
+  </div>
+</div>
