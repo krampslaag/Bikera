@@ -1,0 +1,35 @@
+type CompactSubmission = record {
+    uid: nat32;
+    lat: int32;
+    lon: int32;
+    t: nat64;
+};
+
+type ClusterWinner = record {
+    uid: nat32;
+    cluster_center: record { int32; int32 };
+    participants: nat8;
+};
+
+type IntervalResult = record {
+    interval_id: nat64;
+    valid: bool;
+    merkle_root: text;
+    valid_submissions: nat32;
+    cluster_winners: vec ClusterWinner;
+};
+
+type BatchValidationRequest = record {
+    interval_ids: vec nat64;
+    submissions_batch: vec vec CompactSubmission;
+    signature: text;
+};
+
+type BatchValidationResult = record {
+    results: vec IntervalResult;
+    batch_merkle_root: text;
+};
+
+service : {
+    validate_batch: (BatchValidationRequest) -> (BatchValidationResult) query;
+}

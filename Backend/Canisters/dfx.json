@@ -1,0 +1,29 @@
+{
+  "canisters": {
+    "validator": {
+      "type": "rust",
+      "package": "validator",
+      "candid": "src/validator/validator.did"
+    },
+    "consensus": {
+      "type": "rust", 
+      "package": "consensus",
+      "candid": "src/consensus/consensus.did"
+    },
+    "rewards": {
+      "type": "rust",
+      "package": "rewards", 
+      "candid": "src/rewards/rewards.did"
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    },
+    "ic": {
+      "providers": ["https://ic0.app"],
+      "type": "persistent"
+    }
+  }
+}
