@@ -1,0 +1,25 @@
+name = "bikera-movement-processor"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[durable_objects]
+bindings = [
+  { name = "MOVEMENT_PROCESSOR", class_name = "MovementProcessor" }
+]
+
+[[kv_namespaces]]
+binding = "RESULTS"
+id = "your-kv-namespace-id"
+
+[vars]
+ICP_VALIDATOR_CANISTER = "your-validator-canister-id"
+ICP_CONSENSUS_CANISTER = "your-consensus-canister-id"
+ICP_REWARDS_CANISTER = "your-rewards-canister-id"
+ICP_HOST = "https://ic0.app"
+EDGE_SERVER_ID = "edge-server-1"
+SUPABASE_URL = "your-supabase-url"
+SUPABASE_KEY = "your-supabase-anon-key"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["MovementProcessor"]
