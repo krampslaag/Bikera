@@ -1,1 +1,6 @@
 Telegram Python Replit/
+.dfx/
+canister_ids.json
+.vessel/
+node_modules/
+.cache/
