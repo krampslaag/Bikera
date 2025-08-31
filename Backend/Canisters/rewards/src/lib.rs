@@ -1,8 +1,16 @@
-// src/rewards/lib.rs
-use candid::{CandidType, Deserialize, Principal};
+use candid::{CandidType, Deserialize, Principal, encode_one, decode_one};
 use ic_cdk_macros::*;
-use ic_stable_structures::{StableBTreeMap, memory_manager::*};
+use ic_stable_structures::{
+    StableBTreeMap, 
+    memory_manager::*,
+    DefaultMemoryImpl,
+    Storable,
+    storable::Bound
+};
 use std::cell::RefCell;
+use std::borrow::Cow;
+
+type Memory = VirtualMemory<DefaultMemoryImpl>;
 
 #[derive(CandidType, Deserialize, Clone)]
 pub struct UserRewards {
@@ -11,6 +19,30 @@ pub struct UserRewards {
     pub pending_rewards: u64,
     pub last_claim: u64,
     pub principal: Option<Principal>,
+}
+
+// Implement Storable for UserRewards
+impl Storable for UserRewards {
+    fn to_bytes(&self) -> Cow<[u8]> {
+        Cow::Owned(encode_one(self).unwrap())
+    }
+
+    fn from_bytes(bytes: Cow<[u8]>) -> Self {
+        decode_one(&bytes).unwrap()
+    }
+
+    const BOUND: Bound = Bound::Bounded {
+        max_size: 256,
+        is_fixed_size: false,
+    };
+}
+
+// Define ClusterWinner type that was missing
+#[derive(CandidType, Deserialize, Clone)]
+pub struct ClusterWinner {
+    pub uid: u32,
+    pub cluster_center: (i32, i32),
+    pub participants: u8,
 }
 
 thread_local! {
@@ -31,13 +63,13 @@ pub fn distribute_rewards(interval_id: u64, winners: Vec<ClusterWinner>) -> Stri
         let mut rewards_map = rewards.borrow_mut();
         
         for winner in winners {
-            // Calculate reward based on cluster size
             let reward = calculate_reward(winner.participants);
+            let user_id = format!("user_{}", winner.uid);
             
             let mut user_rewards = rewards_map
-                .get(&winner.user_id)
+                .get(&user_id)
                 .unwrap_or(UserRewards {
-                    user_id: winner.user_id.clone(),
+                    user_id: user_id.clone(),
                     total_rewards: 0,
                     pending_rewards: 0,
                     last_claim: 0,
@@ -47,7 +79,7 @@ pub fn distribute_rewards(interval_id: u64, winners: Vec<ClusterWinner>) -> Stri
             user_rewards.total_rewards += reward;
             user_rewards.pending_rewards += reward;
             
-            rewards_map.insert(winner.user_id.clone(), user_rewards);
+            rewards_map.insert(user_id.clone(), user_rewards);
             updated += 1;
         }
     });
@@ -55,42 +87,75 @@ pub fn distribute_rewards(interval_id: u64, winners: Vec<ClusterWinner>) -> Stri
     format!("Updated {} users for interval {}", updated, interval_id)
 }
 
+#[derive(CandidType, Deserialize)]
+pub struct ClaimRequest {
+    pub user_id: String,
+    pub amount: Option<u64>,
+}
+
+#[derive(CandidType, Deserialize)]
+pub struct ClaimResult {
+    pub success: bool,
+    pub amount_claimed: u64,
+    pub remaining_balance: u64,
+    pub transaction_id: Option<String>,
+    pub error: Option<String>,
+}
+
 #[update]
-pub async fn claim_rewards(user_id: String) -> Result<u64, String> {
+pub async fn claim_rewards(request: ClaimRequest) -> ClaimResult {
     let caller = ic_cdk::caller();
     
-    let (amount, needs_link) = USER_REWARDS.with(|rewards| {
+    USER_REWARDS.with(|rewards| {
         let mut rewards_map = rewards.borrow_mut();
         
-        if let Some(mut user_rewards) = rewards_map.get(&user_id) {
-            // Link principal if first time
+        if let Some(mut user_rewards) = rewards_map.get(&request.user_id) {
             if user_rewards.principal.is_none() {
                 user_rewards.principal = Some(caller);
             } else if user_rewards.principal != Some(caller) {
-                return Err("Principal mismatch".to_string());
+                return ClaimResult {
+                    success: false,
+                    amount_claimed: 0,
+                    remaining_balance: user_rewards.pending_rewards,
+                    transaction_id: None,
+                    error: Some("Principal mismatch".to_string()),
+                };
             }
             
-            let pending = user_rewards.pending_rewards;
-            if pending == 0 {
-                return Err("No pending rewards".to_string());
+            let amount = request.amount.unwrap_or(user_rewards.pending_rewards);
+            
+            if amount > user_rewards.pending_rewards {
+                return ClaimResult {
+                    success: false,
+                    amount_claimed: 0,
+                    remaining_balance: user_rewards.pending_rewards,
+                    transaction_id: None,
+                    error: Some("Insufficient balance".to_string()),
+                };
             }
             
-            // Update state
-            user_rewards.pending_rewards = 0;
+            user_rewards.pending_rewards -= amount;
             user_rewards.last_claim = ic_cdk::api::time();
             
-            rewards_map.insert(user_id, user_rewards.clone());
+            rewards_map.insert(request.user_id.clone(), user_rewards.clone());
             
-            Ok((pending, user_rewards.principal.is_none()))
+            ClaimResult {
+                success: true,
+                amount_claimed: amount,
+                remaining_balance: user_rewards.pending_rewards,
+                transaction_id: Some(format!("tx_{}", ic_cdk::api::time())),
+                error: None,
+            }
         } else {
-            Err("User not found".to_string())
+            ClaimResult {
+                success: false,
+                amount_claimed: 0,
+                remaining_balance: 0,
+                transaction_id: None,
+                error: Some("User not found".to_string()),
+            }
         }
-    })?;
-    
-    // For now, just track the claim - actual token transfer would happen here
-    ic_cdk::println!("Claimed {} rewards for user {}", amount, user_id);
-    
-    Ok(amount)
+    })
 }
 
 #[query]
@@ -100,22 +165,16 @@ pub fn get_user_rewards(user_id: String) -> Option<UserRewards> {
     })
 }
 
-#[query]
-pub fn get_total_rewards() -> u64 {
-    USER_REWARDS.with(|rewards| {
-        rewards.borrow()
-            .iter()
-            .map(|(_, user)| user.total_rewards)
-            .sum()
-    })
-}
-
 fn calculate_reward(participants: u8) -> u64 {
-    // More participants = more reward (network effect)
     match participants {
         2..=5 => 100,
         6..=10 => 200,
         11..=20 => 500,
         _ => 1000,
     }
+}
+
+#[init]
+fn init() {
+    ic_cdk::println!("Rewards canister initialized");
 }

@@ -1,0 +1,52 @@
+type ClusterWinner = record {
+    uid: nat32;
+    cluster_center: record { int32; int32 };
+    participants: nat8;
+};
+
+type IntervalResult = record {
+    interval_id: nat64;
+    valid: bool;
+    merkle_root: text;
+    valid_submissions: nat32;
+    cluster_winners: vec ClusterWinner;
+};
+
+type BatchConsensusRequest = record {
+    batch_id: text;
+    interval_ids: vec nat64;
+    batch_results: vec IntervalResult;
+    batch_merkle_root: text;
+    edge_server_id: text;
+    timestamp: nat64;
+};
+
+type ConsensusResult = record {
+    success: bool;
+    block_index: opt nat64;
+    block_hash: opt text;
+    confirmations_received: nat32;
+    confirmations_required: nat32;
+    status: text;
+};
+
+type ConsensusRequest = record {
+    interval_id: nat64;
+    validation_result: IntervalResult;
+    edge_server_id: text;
+};
+
+type Block = record {
+    index: nat64;
+    timestamp: nat64;
+    interval_ids: vec nat64;
+    batch_merkle_root: text;
+    winner_count: nat32;
+    hash: text;
+};
+
+service : {
+    submit_consensus: (ConsensusRequest) -> (variant { Ok: text; Err: text });
+    submit_batch_consensus: (BatchConsensusRequest) -> (ConsensusResult);
+    get_latest_blocks: (nat32) -> (vec Block) query;
+}

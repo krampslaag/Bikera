@@ -1,0 +1,31 @@
+type UserRewards = record {
+    user_id: text;
+    total_rewards: nat64;
+    pending_rewards: nat64;
+    last_claim: nat64;
+};
+
+type ClusterWinner = record {
+    uid: nat32;
+    cluster_center: record { int32; int32 };
+    participants: nat8;
+};
+
+type ClaimRequest = record {
+    user_id: text;
+    amount: opt nat64;
+};
+
+type ClaimResult = record {
+    success: bool;
+    amount_claimed: nat64;
+    remaining_balance: nat64;
+    transaction_id: opt text;
+    error: opt text;
+};
+
+service : {
+    distribute_rewards: (nat64, vec ClusterWinner) -> (text);
+    claim_rewards: (ClaimRequest) -> (ClaimResult);
+    get_user_rewards: (text) -> (opt UserRewards) query;
+}
