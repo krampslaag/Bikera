@@ -1,0 +1,102 @@
+// bikera_token.did - Candid Interface for Bikera Token
+type Account = record {
+    owner : principal;
+    subaccount : opt blob;
+};
+
+type TransferArg = record {
+    from_subaccount : opt blob;
+    to : Account;
+    amount : nat;
+    fee : opt nat;
+    memo : opt blob;
+    created_at_time : opt nat64;
+};
+
+type TransferError = variant {
+    BadFee : record { expected_fee : nat };
+    BadBurn : record { min_burn_amount : nat };
+    InsufficientFunds : record { balance : nat };
+    TooOld;
+    CreatedInFuture : record { ledger_time : nat64 };
+    Duplicate : record { duplicate_of : nat };
+    TemporarilyUnavailable;
+    GenericError : record { error_code : nat; message : text };
+};
+
+type MintRequest = record {
+    to : Account;
+    amount : nat;
+    memo : opt blob;
+    created_at_time : opt nat64;
+};
+
+type StandardRecord = record {
+    name : text;
+    url : text;
+};
+
+type TokenInitArgs = record {
+    name : text;
+    symbol : text;
+    decimals : nat8;
+    fee : nat;
+    minting_account : opt Account;
+    initial_balances : vec record { Account; nat };
+    max_supply : opt nat;
+};
+
+type Value = variant {
+    Blob : blob;
+    Text : text;
+    Nat : nat;
+    Int : int;
+    Array : vec Value;
+    Map : vec record { text; Value };
+};
+
+type Transaction = record {
+    operation : Operation;
+    timestamp : nat64;
+    memo : opt blob;
+};
+
+type Operation = variant {
+    Transfer : record {
+        from : Account;
+        to : Account;
+        amount : nat;
+        fee : opt nat;
+    };
+    Mint : record {
+        to : Account;
+        amount : nat;
+    };
+    Burn : record {
+        from : Account;
+        amount : nat;
+    };
+};
+
+service : (TokenInitArgs) -> {
+    // ICRC-1 Standard Methods
+    icrc1_name : () -> (text) query;
+    icrc1_symbol : () -> (text) query;
+    icrc1_decimals : () -> (nat8) query;
+    icrc1_fee : () -> (nat) query;
+    icrc1_metadata : () -> (vec record { text; Value }) query;
+    icrc1_total_supply : () -> (nat) query;
+    icrc1_minting_account : () -> (opt Account) query;
+    icrc1_balance_of : (Account) -> (nat) query;
+    icrc1_supported_standards : () -> (vec StandardRecord) query;
+    icrc1_transfer : (TransferArg) -> (variant { Ok : nat; Err : TransferError });
+    
+    // Custom Minting Methods
+    mint_rewards : (MintRequest) -> (variant { Ok : nat; Err : text });
+    batch_mint_rewards : (vec MintRequest) -> (vec variant { Ok : nat; Err : text });
+    
+    // Utility Methods
+    get_transaction : (nat) -> (opt Transaction) query;
+    get_holder_count : () -> (nat64) query;
+    canister_status : () -> (Value) query;
+}
