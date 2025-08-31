@@ -1,8 +1,10 @@
-// src/consensus/lib.rs
 use candid::{CandidType, Deserialize, Principal};
 use ic_cdk_macros::*;
-use ic_stable_structures::{StableVec, StableBTreeMap, memory_manager::*};
+use ic_stable_structures::{StableVec, memory_manager::*, Storable, DefaultMemoryImpl};
+use ic_stable_structures::memory_manager::VirtualMemory;
+use ic_stable_structures::storable::Bound;
 use std::cell::RefCell;
+use std::collections::HashMap;
 
 type Memory = VirtualMemory<DefaultMemoryImpl>;
 
@@ -14,6 +16,36 @@ pub struct Block {
     pub winner_count: u32,
     pub timestamp: u64,
     pub hash: String,
+}
+
+// Implement Storable for Block
+impl Storable for Block {
+    const BOUND: Bound = Bound::Bounded { max_size: 1024, is_fixed_size: false };
+    
+    fn to_bytes(&self) -> std::borrow::Cow<[u8]> {
+        use candid::Encode;
+        std::borrow::Cow::Owned(Encode!(self).unwrap())
+    }
+
+    fn from_bytes(bytes: std::borrow::Cow<[u8]>) -> Self {
+        use candid::Decode;
+        Decode!(bytes.as_ref(), Self).unwrap()
+    }
+}
+
+#[derive(CandidType, Deserialize, Clone)]
+pub struct ClusterWinner {
+    pub user_id: String,
+    pub cluster_center: (f32, f32),
+    pub participants: u8,
+}
+
+#[derive(CandidType, Deserialize, Clone)]
+pub struct ValidationResult {
+    pub valid: bool,
+    pub merkle_root: String,
+    pub valid_submissions: u32,
+    pub cluster_winners: Vec<ClusterWinner>,
 }
 
 #[derive(CandidType, Deserialize)]
@@ -98,7 +130,7 @@ async fn finalize_consensus(interval_id: u64) -> Result<String, String> {
     let winning_result = results
         .into_iter()
         .find(|r| r.merkle_root == winning_merkle)
-        .ok_or("No winning result found")?;
+        .ok_or("No winning result found".to_string())?;
     
     // Create block
     let block = Block {

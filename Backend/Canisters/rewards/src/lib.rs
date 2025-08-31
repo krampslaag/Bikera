@@ -1,8 +1,11 @@
-// src/rewards/lib.rs
 use candid::{CandidType, Deserialize, Principal};
 use ic_cdk_macros::*;
-use ic_stable_structures::{StableBTreeMap, memory_manager::*};
+use ic_stable_structures::{StableBTreeMap, memory_manager::*, Storable, DefaultMemoryImpl};
+use ic_stable_structures::memory_manager::VirtualMemory;
+use ic_stable_structures::storable::Bound;
 use std::cell::RefCell;
+
+type Memory = VirtualMemory<DefaultMemoryImpl>;
 
 #[derive(CandidType, Deserialize, Clone)]
 pub struct UserRewards {
@@ -11,6 +14,28 @@ pub struct UserRewards {
     pub pending_rewards: u64,
     pub last_claim: u64,
     pub principal: Option<Principal>,
+}
+
+// Implement Storable for UserRewards
+impl Storable for UserRewards {
+    const BOUND: Bound = Bound::Unbounded;
+    
+    fn to_bytes(&self) -> std::borrow::Cow<[u8]> {
+        use candid::Encode;
+        std::borrow::Cow::Owned(Encode!(self).unwrap())
+    }
+
+    fn from_bytes(bytes: std::borrow::Cow<[u8]>) -> Self {
+        use candid::Decode;
+        Decode!(bytes.as_ref(), Self).unwrap()
+    }
+}
+
+#[derive(CandidType, Deserialize, Clone)]
+pub struct ClusterWinner {
+    pub user_id: String,
+    pub cluster_center: (f32, f32),
+    pub participants: u8,
 }
 
 thread_local! {
@@ -58,8 +83,9 @@ pub fn distribute_rewards(interval_id: u64, winners: Vec<ClusterWinner>) -> Stri
 #[update]
 pub async fn claim_rewards(user_id: String) -> Result<u64, String> {
     let caller = ic_cdk::caller();
+    let user_id_clone = user_id.clone(); // Clone for later use
     
-    let (amount, needs_link) = USER_REWARDS.with(|rewards| {
+    let amount = USER_REWARDS.with(|rewards| {
         let mut rewards_map = rewards.borrow_mut();
         
         if let Some(mut user_rewards) = rewards_map.get(&user_id) {
@@ -79,16 +105,15 @@ pub async fn claim_rewards(user_id: String) -> Result<u64, String> {
             user_rewards.pending_rewards = 0;
             user_rewards.last_claim = ic_cdk::api::time();
             
-            rewards_map.insert(user_id, user_rewards.clone());
+            rewards_map.insert(user_id, user_rewards);
             
-            Ok((pending, user_rewards.principal.is_none()))
+            Ok(pending)
         } else {
             Err("User not found".to_string())
         }
     })?;
     
-    // For now, just track the claim - actual token transfer would happen here
-    ic_cdk::println!("Claimed {} rewards for user {}", amount, user_id);
+    ic_cdk::println!("Claimed {} rewards for user {}", amount, user_id_clone);
     
     Ok(amount)
 }
