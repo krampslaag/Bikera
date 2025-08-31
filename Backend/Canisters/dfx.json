@@ -1,5 +1,4 @@
 {
-  "version": 1,
   "canisters": {
     "validator": {
       "type": "rust",
@@ -7,13 +6,13 @@
       "candid": "src/validator/validator.did"
     },
     "consensus": {
-      "type": "rust",
+      "type": "rust", 
       "package": "consensus",
       "candid": "src/consensus/consensus.did"
     },
     "rewards": {
       "type": "rust",
-      "package": "rewards",
+      "package": "rewards", 
       "candid": "src/rewards/rewards.did"
     }
   },

@@ -1,0 +1,184 @@
+// canisters/src/consensus/consensus.did
+// Candid interface for the consensus canister
+
+// ============= TYPE DEFINITIONS =============
+
+// Cluster winner from validation
+type ClusterWinner = record {
+    uid: nat32;
+    cluster_center: record { int32; int32 };
+    participants: nat8;
+};
+
+// Result from a single interval validation
+type IntervalResult = record {
+    interval_id: nat64;
+    valid: bool;
+    merkle_root: text;
+    valid_submissions: nat32;
+    cluster_winners: vec ClusterWinner;
+};
+
+// Block structure for the blockchain
+type Block = record {
+    index: nat64;
+    timestamp: nat64;
+    interval_ids: vec nat64;
+    batch_merkle_root: text;
+    winner_count: nat32;
+    previous_hash: text;
+    hash: text;
+    edge_server_confirmations: vec text;
+};
+
+// Consensus request from edge server
+type ConsensusRequest = record {
+    batch_id: text;
+    interval_results: vec IntervalResult;
+    batch_merkle_root: text;
+    edge_server_id: text;
+    timestamp: nat64;
+    signature: text;
+};
+
+// Batch consensus request (for multiple intervals)
+type BatchConsensusRequest = record {
+    batch_id: text;
+    interval_ids: vec nat64;
+    batch_results: vec IntervalResult;
+    batch_merkle_root: text;
+    edge_server_id: text;
+    timestamp: nat64;
+};
+
+// Consensus result
+type ConsensusResult = record {
+    success: bool;
+    block_index: opt nat64;
+    block_hash: opt text;
+    confirmations_received: nat32;
+    confirmations_required: nat32;
+    status: text;
+};
+
+// Consensus status for monitoring
+type ConsensusStatus = record {
+    current_block_height: nat64;
+    pending_confirmations: nat32;
+    total_blocks: nat64;
+    total_intervals_processed: nat64;
+    last_block_time: nat64;
+    participating_edge_servers: vec text;
+};
+
+// Edge server info
+type EdgeServer = record {
+    id: text;
+    principal: principal;
+    reputation_score: nat32;
+    blocks_validated: nat64;
+    last_active: nat64;
+};
+
+// Configuration parameters
+type ConsensusConfig = record {
+    min_confirmations: nat8;
+    confirmation_timeout: nat64;
+    max_edge_servers: nat32;
+    consensus_threshold: nat8;
+};
+
+// Query result for blocks
+type BlockQuery = record {
+    start_index: nat64;
+    count: nat32;
+};
+
+type BlockQueryResult = record {
+    blocks: vec Block;
+    total_blocks: nat64;
+};
+
+// Pending consensus data
+type PendingConsensus = record {
+    batch_id: text;
+    interval_ids: vec nat64;
+    submissions: vec record { text; IntervalResult };
+    created_at: nat64;
+    confirmations: nat32;
+};
+
+// ============= SERVICE INTERFACE =============
+
+service : {
+    // ===== UPDATE METHODS =====
+    
+    // Submit consensus for a single interval (legacy)
+    submit_consensus: (ConsensusRequest) -> (ConsensusResult);
+    
+    // Submit consensus for multiple intervals (batch)
+    submit_batch_consensus: (BatchConsensusRequest) -> (ConsensusResult);
+    
+    // Register a new edge server
+    register_edge_server: (text) -> (variant { Ok: text; Err: text });
+    
+    // Update consensus configuration
+    update_config: (ConsensusConfig) -> (variant { Ok: text; Err: text });
+    
+    // Finalize pending consensus (called automatically or manually)
+    finalize_consensus: (text) -> (variant { Ok: Block; Err: text });
+    
+    // ===== QUERY METHODS =====
+    
+    // Get latest blocks
+    get_latest_blocks: (nat32) -> (vec Block) query;
+    
+    // Get blocks by range
+    get_blocks_range: (BlockQuery) -> (BlockQueryResult) query;
+    
+    // Get specific block by index
+    get_block: (nat64) -> (opt Block) query;
+    
+    // Get block by hash
+    get_block_by_hash: (text) -> (opt Block) query;
+    
+    // Get current consensus status
+    get_consensus_status: () -> (ConsensusStatus) query;
+    
+    // Get pending consensus items
+    get_pending_consensus: () -> (vec PendingConsensus) query;
+    
+    // Get edge server info
+    get_edge_server: (text) -> (opt EdgeServer) query;
+    
+    // Get all registered edge servers
+    get_edge_servers: () -> (vec EdgeServer) query;
+    
+    // Get consensus configuration
+    get_config: () -> (ConsensusConfig) query;
+    
+    // Verify if a batch was processed
+    verify_batch: (text) -> (variant { Valid: Block; Invalid: text; NotFound: null }) query;
+    
+    // Get merkle proof for a specific interval
+    get_merkle_proof: (nat64) -> (opt vec text) query;
+    
+    // ===== INTER-CANISTER CALLS =====
+    
+    // Notify rewards canister about confirmed winners
+    notify_rewards: (nat64, vec ClusterWinner) -> ();
+    
+    // ===== ADMIN METHODS =====
+    
+    // Initialize canister with configuration
+    init: (ConsensusConfig) -> ();
+    
+    // Clear old blocks (admin only, for storage management)
+    prune_old_blocks: (nat64) -> (nat64);
+    
+    // Emergency stop (admin only)
+    emergency_stop: () -> (variant { Ok: text; Err: text });
+    
+    // Resume after emergency stop
+    resume: () -> (variant { Ok: text; Err: text });
+}
