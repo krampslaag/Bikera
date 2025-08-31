@@ -15,12 +15,21 @@
       "type": "rust",
       "package": "rewards", 
       "candid": "src/rewards/rewards.did"
+    },
+    "bikera_token": {
+      "type": "rust",
+      "package": "bikera_token",
+      "candid": "src/bikera_token/bikera_token.did"
     }
   },
   "networks": {
     "local": {
       "bind": "127.0.0.1:8000",
       "type": "ephemeral"
+    },
+    "ic": {
+      "providers": ["https://ic0.app"],
+      "type": "persistent"
     }
   }
 }

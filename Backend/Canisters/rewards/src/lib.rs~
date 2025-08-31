@@ -279,9 +279,9 @@ fn calculate_reward(participants: u8) -> u64 {
     // More participants = more reward (network effect)
     // Return in token units (with 6 decimals: 1 iMERA = 1,000,000 units)
     match participants {
-        1..=5 => 100_000_000,      // 100 iMERA
-        6..=10 => 200_000_000,     // 200 iMERA
-        11..=20 => 500_000,    // 500 iMERA
-        _ => 1_000_000_000,        // 1000 iMERA
+        1..=5 => 100_000_000,      // 1 iMERA
+        6..=10 => 200_000_000,     // 0.2 iMERA
+        11..=20 => 500_000,    // 0.5 iMERA
+        _ => 1_000_000_000,        // 1.0 iMERA
     }
 }
