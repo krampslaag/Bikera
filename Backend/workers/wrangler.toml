@@ -1,25 +1,169 @@
-name = "bikera-movement-processor"
-main = "src/index.ts"
+# Bikera Backend - Complete Wrangler Configuration
+# Privacy-First Implementation (No GPS Storage)
+# Located at: Backend/workers/wrangler.toml
+
+name = "bikera-backend"
+main = "worker.js"
 compatibility_date = "2024-01-01"
 
-[durable_objects]
-bindings = [
-  { name = "MOVEMENT_PROCESSOR", class_name = "MovementProcessor" }
+# Your Cloudflare account ID
+account_id = "5101afd4cdb65dea17d6f9312f62b66e"
+
+# Optional: Custom route
+# routes = [
+#   { pattern = "api.bikera.org/*", zone_name = "bikera.org" }
+# ]
+
+# KV Namespace for persistent storage
+kv_namespaces = [
+  { binding = "BikeraWorkerClaude", id = "e7d9c1a79b58413fbd07cea0714e07f2" }
 ]
 
-[[kv_namespaces]]
-binding = "RESULTS"
-id = "your-kv-namespace-id"
-
-[vars]
-ICP_VALIDATOR_CANISTER = "your-validator-canister-id"
-ICP_CONSENSUS_CANISTER = "your-consensus-canister-id"
-ICP_REWARDS_CANISTER = "your-rewards-canister-id"
-ICP_HOST = "https://ic0.app"
-EDGE_SERVER_ID = "edge-server-1"
-SUPABASE_URL = "your-supabase-url"
-SUPABASE_KEY = "your-supabase-anon-key"
+# Durable Objects for rate limiting and state management
+[[durable_objects.bindings]]
+name = "RATE_LIMITER"
+class_name = "RateLimiter"
 
 [[migrations]]
-tag = "v1"
-new_classes = ["MovementProcessor"]
+tag = "v3"  # Updated version
+new_classes = ["RateLimiter"]
+
+# Queue for async batch processing
+[[queues.producers]]
+binding = "LOCATION_QUEUE"
+queue = "location-processing"
+
+[[queues.consumers]]
+queue = "location-processing"
+max_batch_size = 100
+max_batch_timeout = 30
+max_retries = 3
+max_concurrent = 2
+
+# Scheduled tasks (cron triggers)
+[triggers]
+crons = [
+  "*/5 * * * *",  # Process mining intervals every 5 minutes
+  "0 0 */3 * *"   # Distribute XP every 3 days
+]
+
+# Environment variables
+[vars]
+# API Version
+API_VERSION = "2.0.0"
+ENVIRONMENT = "production"
+
+# ICP Canister IDs (Your deployed canisters)
+ICP_VALIDATOR_CANISTER = "uzt4z-lp777-77774-qaabq-cai"
+ICP_CONSENSUS_CANISTER = "uxrrr-q7777-77774-qaaaq-cai"
+ICP_REWARDS_CANISTER = "u6s2n-gx777-77774-qaaba-cai"
+ICP_TOKEN_CANISTER = "ulvla-h7777-77774-qaacq-cai"
+ICP_XP_CANISTER = "your-xp-canister-id"  # Deploy the XP canister and add ID here
+ICP_HOST = "https://ic0.app"
+
+# Supabase Configuration
+SUPABASE_URL = "https://your-project.supabase.co"  # Replace with your Supabase URL
+# SUPABASE_KEY - Set via: wrangler secret put SUPABASE_KEY
+
+# Solana Configuration (for pi-node verification)
+SOLANA_RPC_URL = "https://api.mainnet-beta.solana.com"
+TOKEN_ADDRESS = "FtrH7NCrPDkhDmKCCdTnsDBFxiibc1X5aJPHqKQnpump"
+REQUIRED_TOKEN_BALANCE = "1000000"  # 1 million tokens for pi-nodes
+
+# Pi-Node Configuration (optional)
+PI_ENDPOINTS = '''
+{
+  "default": "http://pi1.bikera.org:3000",
+  "zone1": "http://pi2.bikera.org:3000",
+  "zone2": "http://pi3.bikera.org:3000"
+}
+'''
+PI_NODES_ENABLED = "false"  # Set to true when pi-nodes are ready
+
+# Rate Limiting Configuration
+USER_RATE_LIMIT_WINDOW = "150000"  # 2.5 minutes in milliseconds
+IP_RATE_LIMIT_WINDOW = "60000"     # 1 minute in milliseconds
+USER_RATE_LIMIT = "1"               # 1 submission per 2.5 minutes per user
+IP_RATE_LIMIT = "1000"              # 1000 requests per minute per IP
+
+# Mining Configuration
+MINING_INTERVAL = "300000"          # 5 minutes in milliseconds
+TARGET_DISTANCE_MIN = "0"           # Minimum target distance in meters
+TARGET_DISTANCE_MAX = "5000"        # Maximum target distance in meters (5km)
+REWARD_POOL = "500"                 # 500 IMERA tokens per interval
+WINNER_PERCENTAGE = "10"            # Top 10% of participants win
+MAX_WINNERS_PER_INTERVAL = "50"     # Maximum 50 winners per interval
+
+# Anti-Gaming Rules
+MAX_DAILY_WINS = "38"               # Maximum wins per day per user
+MIN_WINNERS_FOR_RULES = "5"         # Apply rules when 5+ winners
+PREVENT_CONSECUTIVE_WINS = "true"   # Prevent winning twice in a row
+CONSECUTIVE_WIN_COOLDOWN = "300000" # 5 minute cooldown between wins
+
+# XP Distribution Configuration
+XP_DISTRIBUTION_DAYS = "3"          # Distribute XP every 3 days
+XP_PER_KM = "1"                     # 1 XP per kilometer
+MIN_DISTANCE_FOR_XP = "100"        # Minimum 100m for XP
+
+# Anti-Spoofing Configuration
+MAX_SPEED_MS = "13.89"              # Maximum speed 50 km/h (13.89 m/s)
+MIN_ACCURACY = "20"                 # Minimum GPS accuracy in meters
+MIN_DISTANCE_FILTER = "5"           # Minimum movement 5 meters
+MAX_SINGLE_SUBMISSION = "500000"    # Max 500km in single submission
+
+# Batch Processing Configuration
+MIN_BATCH_SIZE = "100"              # Minimum submissions before ICP processing
+MAX_BATCH_WAIT = "1800000"          # Maximum wait time 30 minutes
+MAX_BATCH_SIZE = "1000"             # Maximum batch size for ICP
+BATCH_TO_ICP_THRESHOLD = "100"     # Send to ICP after 100 validations
+
+# Data Retention
+GPS_RETENTION_DAYS = "0"            # GPS never stored (privacy-first)
+DISTANCE_RETENTION_DAYS = "14"      # Keep distance data for 14 days
+AGGREGATE_RETENTION_DAYS = "60"     # Keep aggregates for 60 days
+
+# Cost Optimization
+USE_CACHE_FOR_READS = "true"        # Cache frequently accessed data
+ICP_SYNC_INTERVAL = "3600000"       # Sync with ICP every hour
+COMPRESS_BATCH_DATA = "true"        # Compress data before ICP submission
+
+# Feature Flags
+ENABLE_DEBUG_LOGGING = "false"
+ENABLE_ICP_SUBMISSION = "true"
+ENABLE_SOLANA_VERIFICATION = "false"  # Enable when pi-nodes ready
+ENABLE_XP_DISTRIBUTION = "true"
+ENABLE_COMPETITIONS = "true"
+ENABLE_LEADERBOARDS = "true"
+
+# Worker Configuration
+WORKER_URL = "https://bikera-backend.workers.dev"  # Your worker URL
+EDGE_SERVER_ID = "edge-server-1"
+
+# Secrets to set via wrangler CLI:
+# wrangler secret put SUPABASE_KEY
+# wrangler secret put JWT_SECRET
+# wrangler secret put ADMIN_API_KEY
+
+# Development overrides (comment out for production)
+# [env.development.vars]
+# ENVIRONMENT = "development"
+# ENABLE_DEBUG_LOGGING = "true"
+# ICP_HOST = "http://localhost:8000"
+# SUPABASE_URL = "http://localhost:54321"
+
+# Compatibility flags
+compatibility_flags = ["nodejs_compat"]
+
+# Build configuration
+[build]
+command = ""
+watch_paths = ["worker.js", "src/**/*.js"]
+
+# Usage analytics (optional)
+[analytics]
+enabled = true
+
+# Logpush (optional - for production monitoring)
+# [logpush]
+# enabled = true
+# destination = "your-log-destination"
