@@ -5,3 +5,17 @@ canister_ids.json
 node_modules/
 .cache/
 node_modules/
+
+# Rust build artifacts
+target/ Cargo.lock
+# DFX (Internet Computer) artifacts
+.dfx/ .vessel/
+# Node.js dependencies (if you have any)
+node_modules/ npm-debug.log* yarn-debug.log* yarn-error.log*
+# IDE files
+.vscode/ .idea/ *.swp *.swo *~
+# OS generated files
+.DS_Store .DS_Store? ._* .Spotlight-V100 .Trashes ehthumbs.db Thumbs.db
+# Environment variables
+.env .env.local
+.env.*.local
