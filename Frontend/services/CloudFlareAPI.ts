@@ -216,6 +216,21 @@ class CloudFlareAPI {
     return response;
   }
 
+  async startSession(userId: string, deviceId: string) {
+    return this.request('/api/session/start', {
+      method: 'POST',
+      body: JSON.stringify({ userId, deviceId })
+    });
+  }
+  
+  async endSession(sessionId: string, userId: string) {
+    return this.request('/api/session/end', {
+      method: 'POST',
+      body: JSON.stringify({ sessionId, userId })
+    });
+  }
+
+
   // ============= User Methods =============
 
   async getUserProfile(userId?: string): Promise<UserData> {
@@ -258,6 +273,22 @@ class CloudFlareAPI {
   }
 
   // ============= Mining Methods =============
+
+  async submitDistance(submission: {
+    sessionId: string;
+    userId: string;
+    distanceMeters: number;
+    durationSeconds: number;
+    averageSpeed: number;
+    maxSpeed: number;
+    timestamp: number;
+    deviceId: string;
+  }): Promise<any> {
+    return this.request('/api/submit-distance', {
+      method: 'POST',
+      body: JSON.stringify(submission)
+    });
+  }
 
   async startMiningSession(location: LocationData): Promise<MiningSession> {
     if (!this.userId) throw new Error('Not authenticated');

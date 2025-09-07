@@ -283,6 +283,96 @@ export default {
     // ============= API ROUTES =============
 
     // Handle OPTIONS for CORS
+
+    router.post('/api/auth/register', async (req) => {
+      const { username, email, solanaWallet } = await req.json();
+      
+      if (!solanaWallet) {
+        return new Response(JSON.stringify({ 
+          error: 'Solana wallet address required' 
+        }), { 
+          status: 400,
+          headers: corsHeaders 
+        });
+      }
+      
+      const { data: user, error } = await supabase
+        .from('users')
+        .insert({
+          username,
+          email,
+          solana_wallet: solanaWallet,
+          device_id: req.headers.get('X-Device-ID')
+          // Don't specify id - let Supabase auto-generate UUID
+        })
+        .select()
+        .single();
+      
+      if (error) {
+        return new Response(JSON.stringify({ 
+          error: error.message 
+        }), { 
+          status: 400,
+          headers: corsHeaders 
+        });
+      }
+      
+      return new Response(JSON.stringify({
+        success: true,
+        userId: user.id, // This will be the UUID
+        username: user.username,
+        walletAddress: user.solana_wallet
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    });
+
+    router.post('/api/auth/login', async (req) => {
+      const { username } = await req.json();
+  
+      // Simple lookup - no password since you don't store it
+      const { data: user } = await supabase
+        .from('users')
+        .select('*')
+        .eq('username', username)
+        .single();
+  
+        if (!user) {
+        return new Response(JSON.stringify({ 
+          error: 'User not found' 
+        }), { 
+         status: 404,
+         headers: corsHeaders 
+          });
+       }
+  
+      return new Response(JSON.stringify({
+        success: true,
+        userId: user.id,
+        username: user.username
+       }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+    });
+
+      // Add to worker.js - Uses mining_intervals table
+    router.get('/api/competition/status', async (req) => {  
+      // Call your Supabase function
+      const { data } = await supabase
+       .rpc('get_current_interval_status');
+  
+      return new Response(JSON.stringify({
+       isActive: true,
+          intervalId: data[0].current_interval_id,
+          secondsRemaining: data[0].seconds_remaining,
+          participants: data[0].current_participants,
+          projectedWinners: data[0].projected_winners,
+          usersAtLimit: data[0].users_at_daily_limit
+          }), {
+       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+       });
+    });
+
     router.options('*', () => {
       return new Response(null, { headers: corsHeaders });
     });
@@ -297,6 +387,23 @@ export default {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     });
+
+    // Add to worker.js - Uses mining_intervals table
+  router.get('/api/blocks', async (req) => {
+   const { data: intervals } = await supabase
+    .from('mining_intervals')
+    .select('*')
+    .eq('processed', true)
+    .order('end_time', { ascending: false })
+    .limit(20);
+  
+    return new Response(JSON.stringify(intervals), {
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+  });
+
+
+
 
     // Submit distance (privacy-first: no GPS coordinates)
     router.post('/api/submit-distance', async (req) => {
@@ -421,10 +528,28 @@ export default {
     });
 
     // Start mining session
+
     router.post('/api/session/start', async (req) => {
       try {
         const { userId, deviceId } = await req.json();
-
+        
+        // Verify user exists (userId should be UUID)
+        const { data: user } = await supabase
+          .from('users')
+          .select('id')
+          .eq('id', userId)
+          .single();
+        
+        if (!user) {
+          return new Response(JSON.stringify({
+            success: false,
+            error: 'User not found. Please register first.'
+          }), {
+            status: 404,
+            headers: corsHeaders
+          });
+        }
+        
         // Check for existing active session
         const { data: existingSession } = await supabase
           .from('movement_sessions')
@@ -432,7 +557,7 @@ export default {
           .eq('user_id', userId)
           .eq('status', 'active')
           .single();
-
+    
         if (existingSession) {
           return new Response(JSON.stringify({
             success: false,
@@ -443,23 +568,23 @@ export default {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' }
           });
         }
-
-        // Create new session
+    
+        // Create new session with UUID userId
         const sessionId = `session_${userId}_${Date.now()}`;
         const { data: session, error } = await supabase
           .from('movement_sessions')
           .insert({
             session_id: sessionId,
-            user_id: userId,
+            user_id: userId, // This is now a UUID
             device_id: deviceId,
             status: 'active',
             started_at: new Date().toISOString()
           })
           .select()
           .single();
-
+    
         if (error) throw error;
-
+    
         return new Response(JSON.stringify({
           success: true,
           sessionId: session.session_id,
@@ -467,7 +592,7 @@ export default {
         }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         });
-
+    
       } catch (error) {
         console.error('Start session error:', error);
         return new Response(JSON.stringify({
@@ -726,6 +851,122 @@ export default {
         });
       }
     });
+
+
+    //API status request for debugging
+
+    router.get('/api/status', async (req) => {
+      try {
+        // Get aggregated stats
+        const { data: userCount } = await supabase
+          .from('users')
+          .select('id', { count: 'exact' });
+        
+        const { data: statsData } = await supabase
+          .from('user_stats')
+          .select('total_rewards');
+        
+        const totalRewards = statsData?.reduce((sum, user) => 
+          sum + parseFloat(user.total_rewards || 0), 0) || 0;
+        
+        return new Response(JSON.stringify({
+          totalRewards: totalRewards,
+          minerCount: userCount?.length || 0,
+          lastUpdate: new Date().toISOString(),
+          networkHealth: 'Excellent',
+          blockTime: '5 minutes',
+          difficulty: 'Dynamic'
+        }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      } catch (error) {
+        console.error('Status endpoint error:', error);
+        return new Response(JSON.stringify({
+          totalRewards: 0,
+          minerCount: 0,
+          lastUpdate: new Date().toISOString(),
+          networkHealth: 'Unknown',
+          blockTime: '5 minutes',
+          difficulty: 'Dynamic'
+        }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+    });
+
+
+    // Add to worker.js - Uses rewards_history table
+    router.post('/api/mining/claim', async (req) => {
+      const { userId } = await req.json();
+      
+      // Get user's wallet address
+      const { data: userData } = await supabase
+        .from('users')
+        .select('id, solana_wallet')
+        .eq('id', userId)
+        .single();
+      
+      if (!userData) {
+        return new Response(JSON.stringify({
+          success: false,
+          error: 'User not found'
+        }), {
+          status: 404,
+          headers: corsHeaders
+        });
+      }
+      
+      if (!userData.solana_wallet) {
+        return new Response(JSON.stringify({
+          success: false,
+          error: 'No wallet address configured. Please add a Solana wallet to claim rewards.'
+        }), {
+          status: 400,
+          headers: corsHeaders
+        });
+      }
+      
+      // Get unclaimed rewards
+      const { data: unclaimed } = await supabase
+        .from('rewards_history')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('status', 'distributed');
+      
+      if (!unclaimed || unclaimed.length === 0) {
+        return new Response(JSON.stringify({
+          success: false,
+          error: 'No rewards to claim'
+        }), {
+          status: 400,
+          headers: corsHeaders
+        });
+      }
+      
+      // Calculate total
+      const totalRewards = unclaimed.reduce((sum, r) => sum + parseFloat(r.amount), 0);
+      
+      // Mark as claimed
+      await supabase
+        .from('rewards_history')
+        .update({ status: 'claimed' })
+        .eq('user_id', userId)
+        .eq('status', 'distributed');
+      
+      // TODO: Initiate Solana transfer here
+      // const txHash = await transferSolanaTokens(userData.solana_wallet, totalRewards);
+      
+      return new Response(JSON.stringify({
+        success: true,
+        amount: totalRewards,
+        count: unclaimed.length,
+        walletAddress: userData.solana_wallet
+        // transactionHash: txHash // When Solana integration is ready
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    });
+
 
     // Get leaderboard
     router.get('/api/leaderboard/:period', async (req) => {
