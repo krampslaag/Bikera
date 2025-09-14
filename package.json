@@ -1,8 +1,0 @@
-{
-  "scripts": {
-    "dev:worker": "wrangler dev",
-    "deploy:worker": "wrangler deploy",
-    "deploy:canisters": "dfx deploy",
-    "build": "npm run build:canisters && npm run build:worker"
-  }
-}
