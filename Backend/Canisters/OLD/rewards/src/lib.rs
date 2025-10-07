@@ -1,13 +1,9 @@
-use candid::{CandidType, Deserialize, Principal, encode_one, decode_one};
+// rewards/src/lib.rs - Fixed version with token integration
+use candid::{CandidType, Deserialize, Principal, Nat};
 use ic_cdk_macros::*;
-use ic_stable_structures::{
-    StableBTreeMap, 
-    memory_manager::*,
-    DefaultMemoryImpl,
-    Storable,
-    storable::Bound
-};
+use ic_stable_structures::{StableBTreeMap, memory_manager::*, Storable, DefaultMemoryImpl, VirtualMemory};
 use std::cell::RefCell;
+use serde_bytes::ByteBuf;
 use std::borrow::Cow;
 
 type Memory = VirtualMemory<DefaultMemoryImpl>;
@@ -23,26 +19,40 @@ pub struct UserRewards {
 
 // Implement Storable for UserRewards
 impl Storable for UserRewards {
-    fn to_bytes(&self) -> Cow<[u8]> {
-        Cow::Owned(encode_one(self).unwrap())
+    const BOUND: ic_stable_structures::storable::Bound = 
+        ic_stable_structures::storable::Bound::Unbounded;
+    
+    fn to_bytes(&self) -> Cow<'_, [u8]> {
+        use candid::Encode;
+        Cow::Owned(Encode!(self).unwrap())
     }
 
     fn from_bytes(bytes: Cow<[u8]>) -> Self {
-        decode_one(&bytes).unwrap()
+        use candid::Decode;
+        Decode!(bytes.as_ref(), Self).unwrap()
     }
-
-    const BOUND: Bound = Bound::Bounded {
-        max_size: 256,
-        is_fixed_size: false,
-    };
 }
 
-// Define ClusterWinner type that was missing
 #[derive(CandidType, Deserialize, Clone)]
 pub struct ClusterWinner {
-    pub uid: u32,
-    pub cluster_center: (i32, i32),
+    pub user_id: String,
+    pub cluster_center: (f32, f32),
     pub participants: u8,
+}
+
+// Types for token canister integration
+#[derive(CandidType, Deserialize, Clone)]
+pub struct Account {
+    pub owner: Principal,
+    pub subaccount: Option<[u8; 32]>,
+}
+
+#[derive(CandidType, Deserialize, Clone)]
+pub struct MintRequest {
+    pub to: Account,
+    pub amount: Nat,
+    pub memo: Option<ByteBuf>,
+    pub created_at_time: Option<u64>,
 }
 
 thread_local! {
@@ -53,6 +63,26 @@ thread_local! {
         RefCell::new(StableBTreeMap::init(
             MEMORY_MANAGER.with(|m| m.borrow().get(MemoryId::new(0)))
         ));
+        
+    // Store the token canister ID
+    static TOKEN_CANISTER_ID: RefCell<Option<Principal>> = RefCell::new(None);
+}
+
+#[init]
+fn init(token_canister_id: Option<Principal>) {
+    if let Some(id) = token_canister_id {
+        TOKEN_CANISTER_ID.with(|token_id| {
+            *token_id.borrow_mut() = Some(id);
+        });
+    }
+}
+
+#[update]
+pub fn set_token_canister(canister_id: Principal) -> String {
+    TOKEN_CANISTER_ID.with(|token_id| {
+        *token_id.borrow_mut() = Some(canister_id);
+    });
+    format!("Token canister set to: {}", canister_id)
 }
 
 #[update]
@@ -63,13 +93,13 @@ pub fn distribute_rewards(interval_id: u64, winners: Vec<ClusterWinner>) -> Stri
         let mut rewards_map = rewards.borrow_mut();
         
         for winner in winners {
+            // Calculate reward based on cluster size
             let reward = calculate_reward(winner.participants);
-            let user_id = format!("user_{}", winner.uid);
             
             let mut user_rewards = rewards_map
-                .get(&user_id)
+                .get(&winner.user_id)
                 .unwrap_or(UserRewards {
-                    user_id: user_id.clone(),
+                    user_id: winner.user_id.clone(),
                     total_rewards: 0,
                     pending_rewards: 0,
                     last_claim: 0,
@@ -79,7 +109,7 @@ pub fn distribute_rewards(interval_id: u64, winners: Vec<ClusterWinner>) -> Stri
             user_rewards.total_rewards += reward;
             user_rewards.pending_rewards += reward;
             
-            rewards_map.insert(user_id.clone(), user_rewards);
+            rewards_map.insert(winner.user_id.clone(), user_rewards);
             updated += 1;
         }
     });
@@ -87,75 +117,140 @@ pub fn distribute_rewards(interval_id: u64, winners: Vec<ClusterWinner>) -> Stri
     format!("Updated {} users for interval {}", updated, interval_id)
 }
 
-#[derive(CandidType, Deserialize)]
-pub struct ClaimRequest {
-    pub user_id: String,
-    pub amount: Option<u64>,
-}
-
-#[derive(CandidType, Deserialize)]
-pub struct ClaimResult {
-    pub success: bool,
-    pub amount_claimed: u64,
-    pub remaining_balance: u64,
-    pub transaction_id: Option<String>,
-    pub error: Option<String>,
-}
-
 #[update]
-pub async fn claim_rewards(request: ClaimRequest) -> ClaimResult {
-    let caller = ic_cdk::caller();
+pub async fn claim_rewards(user_id: String) -> Result<u64, String> {
+    let caller = ic_cdk::api::msg_caller();
+    let user_id_clone = user_id.clone();
     
-    USER_REWARDS.with(|rewards| {
+    let amount = USER_REWARDS.with(|rewards| {
         let mut rewards_map = rewards.borrow_mut();
         
-        if let Some(mut user_rewards) = rewards_map.get(&request.user_id) {
+        if let Some(mut user_rewards) = rewards_map.get(&user_id) {
+            // Link principal if first time
             if user_rewards.principal.is_none() {
                 user_rewards.principal = Some(caller);
             } else if user_rewards.principal != Some(caller) {
-                return ClaimResult {
-                    success: false,
-                    amount_claimed: 0,
-                    remaining_balance: user_rewards.pending_rewards,
-                    transaction_id: None,
-                    error: Some("Principal mismatch".to_string()),
-                };
+                return Err("Principal mismatch".to_string());
             }
             
-            let amount = request.amount.unwrap_or(user_rewards.pending_rewards);
-            
-            if amount > user_rewards.pending_rewards {
-                return ClaimResult {
-                    success: false,
-                    amount_claimed: 0,
-                    remaining_balance: user_rewards.pending_rewards,
-                    transaction_id: None,
-                    error: Some("Insufficient balance".to_string()),
-                };
+            let pending = user_rewards.pending_rewards;
+            if pending == 0 {
+                return Err("No pending rewards".to_string());
             }
             
-            user_rewards.pending_rewards -= amount;
+            // Update state
+            user_rewards.pending_rewards = 0;
             user_rewards.last_claim = ic_cdk::api::time();
             
-            rewards_map.insert(request.user_id.clone(), user_rewards.clone());
+            rewards_map.insert(user_id, user_rewards);
             
-            ClaimResult {
-                success: true,
-                amount_claimed: amount,
-                remaining_balance: user_rewards.pending_rewards,
-                transaction_id: Some(format!("tx_{}", ic_cdk::api::time())),
-                error: None,
-            }
+            Ok(pending)
         } else {
-            ClaimResult {
-                success: false,
-                amount_claimed: 0,
-                remaining_balance: 0,
-                transaction_id: None,
-                error: Some("User not found".to_string()),
+            Err("User not found".to_string())
+        }
+    })?;
+    
+    ic_cdk::println!("Claimed {} rewards for user {}", amount, user_id_clone);
+    
+    Ok(amount)
+}
+
+// New function to mint actual tokens via token canister
+#[update]
+pub async fn mint_ride_rewards(
+    user_id: String,
+    amount: u64,
+    ride_validation_id: String
+) -> Result<String, String> {
+    let token_canister_id = TOKEN_CANISTER_ID.with(|token_id| {
+        token_id.borrow().ok_or("Token canister not configured".to_string())
+    })?;
+    
+    // Convert user_id to Principal (you'll need proper mapping)
+    // For now, assuming user_id is a principal string
+    let user_principal = Principal::from_text(&user_id)
+        .map_err(|e| format!("Invalid principal: {}", e))?;
+    
+    let mint_request = MintRequest {
+        to: Account {
+            owner: user_principal,
+            subaccount: None,
+        },
+        amount: Nat::from(amount),
+        memo: Some(ByteBuf::from(ride_validation_id.as_bytes().to_vec())),
+        created_at_time: Some(ic_cdk::api::time()),
+    };
+    
+    // Use the new call API
+    let result: Result<(Result<Nat, String>,), _> = ic_cdk::call(
+        token_canister_id,
+        "mint_rewards",
+        (mint_request,),
+    ).await;
+    
+    match result {
+        Ok((Ok(block_index),)) => Ok(format!("Minted {} tokens, block: {}", amount, block_index)),
+        Ok((Err(e),)) => Err(format!("Mint failed: {}", e)),
+        Err(e) => Err(format!("Inter-canister call failed: {:?}", e)),
+    }
+}
+
+// Batch mint for multiple winners
+#[update]
+pub async fn batch_mint_ride_rewards(winners: Vec<ClusterWinner>, validation_id: String) -> Vec<Result<String, String>> {
+    let token_canister_id = match TOKEN_CANISTER_ID.with(|token_id| token_id.borrow().clone()) {
+        Some(id) => id,
+        None => return vec![Err("Token canister not configured".to_string()); winners.len()],
+    };
+    
+    let mut mint_requests = Vec::new();
+    let mut results = Vec::new();
+    
+    for winner in winners {
+        // Convert user_id to Principal
+        match Principal::from_text(&winner.user_id) {
+            Ok(principal) => {
+                let reward_amount = calculate_reward(winner.participants);
+                mint_requests.push(MintRequest {
+                    to: Account {
+                        owner: principal,
+                        subaccount: None,
+                    },
+                    amount: Nat::from(reward_amount),
+                    memo: Some(ByteBuf::from(format!("{}_{}", validation_id, winner.user_id).as_bytes().to_vec())),
+                    created_at_time: Some(ic_cdk::api::time()),
+                });
+            },
+            Err(e) => {
+                results.push(Err(format!("Invalid principal {}: {}", winner.user_id, e)));
             }
         }
-    })
+    }
+    
+    if mint_requests.is_empty() {
+        return results;
+    }
+    
+    // Call token canister batch mint
+    match ic_cdk::call::<(Vec<MintRequest>,), (Vec<Result<Nat, String>>,)>(
+        token_canister_id,
+        "batch_mint_rewards",
+        (mint_requests,),
+    ).await {
+        Ok((mint_results,)) => {
+            for result in mint_results {
+                match result {
+                    Ok(block_index) => results.push(Ok(format!("Minted tokens, block: {}", block_index))),
+                    Err(e) => results.push(Err(format!("Mint failed: {}", e))),
+                }
+            }
+        },
+        Err(e) => {
+            results.push(Err(format!("Batch mint call failed: {:?}", e)));
+        }
+    }
+    
+    results
 }
 
 #[query]
@@ -165,16 +260,28 @@ pub fn get_user_rewards(user_id: String) -> Option<UserRewards> {
     })
 }
 
-fn calculate_reward(participants: u8) -> u64 {
-    match participants {
-        2..=5 => 100,
-        6..=10 => 200,
-        11..=20 => 500,
-        _ => 1000,
-    }
+#[query]
+pub fn get_total_rewards() -> u64 {
+    USER_REWARDS.with(|rewards| {
+        rewards.borrow()
+            .iter()
+            .map(|(_, user)| user.total_rewards)
+            .sum()
+    })
 }
 
-#[init]
-fn init() {
-    ic_cdk::println!("Rewards canister initialized");
+#[query]
+pub fn get_token_canister() -> Option<Principal> {
+    TOKEN_CANISTER_ID.with(|token_id| *token_id.borrow())
+}
+
+fn calculate_reward(participants: u8) -> u64 {
+    // More participants = more reward (network effect)
+    // Return in token units (with 6 decimals: 1 iMERA = 1,000,000 units)
+    match participants {
+        1..=5 => 100_000_000,      // 100 iMERA
+        6..=10 => 200_000_000,     // 200 iMERA
+        11..=20 => 500_000,    // 500 iMERA
+        _ => 1_000_000_000,        // 1000 iMERA
+    }
 }

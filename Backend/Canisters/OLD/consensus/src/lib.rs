@@ -1,95 +1,58 @@
-use candid::{CandidType, Deserialize, Principal, encode_one, decode_one};
+use candid::{CandidType, Deserialize, Principal};
 use ic_cdk_macros::*;
-use ic_stable_structures::{
-    StableVec, 
-    memory_manager::*,
-    DefaultMemoryImpl,
-    Storable,
-    storable::Bound
-};
+use ic_stable_structures::{StableVec, memory_manager::*, Storable, DefaultMemoryImpl};
+use ic_stable_structures::memory_manager::VirtualMemory;
+use ic_stable_structures::storable::Bound;
 use std::cell::RefCell;
 use std::collections::HashMap;
-use std::borrow::Cow;
 
 type Memory = VirtualMemory<DefaultMemoryImpl>;
 
 #[derive(CandidType, Deserialize, Clone)]
 pub struct Block {
     pub index: u64,
-    pub timestamp: u64,
-    pub interval_ids: Vec<u64>,
-    pub batch_merkle_root: String,
+    pub interval_id: u64,
+    pub merkle_root: String,
     pub winner_count: u32,
+    pub timestamp: u64,
     pub hash: String,
 }
 
 // Implement Storable for Block
 impl Storable for Block {
-    fn to_bytes(&self) -> Cow<[u8]> {
-        Cow::Owned(encode_one(self).unwrap())
+    const BOUND: Bound = Bound::Bounded { max_size: 1024, is_fixed_size: false };
+    
+    fn to_bytes(&self) -> std::borrow::Cow<[u8]> {
+        use candid::Encode;
+        std::borrow::Cow::Owned(Encode!(self).unwrap())
     }
 
-    fn from_bytes(bytes: Cow<[u8]>) -> Self {
-        decode_one(&bytes).unwrap()
+    fn from_bytes(bytes: std::borrow::Cow<[u8]>) -> Self {
+        use candid::Decode;
+        Decode!(bytes.as_ref(), Self).unwrap()
     }
-
-    const BOUND: Bound = Bound::Bounded {
-        max_size: 512,
-        is_fixed_size: false,
-    };
 }
 
 #[derive(CandidType, Deserialize, Clone)]
 pub struct ClusterWinner {
-    pub uid: u32,
-    pub cluster_center: (i32, i32),
+    pub user_id: String,
+    pub cluster_center: (f32, f32),
     pub participants: u8,
 }
 
 #[derive(CandidType, Deserialize, Clone)]
-pub struct IntervalResult {
-    pub interval_id: u64,
+pub struct ValidationResult {
     pub valid: bool,
     pub merkle_root: String,
     pub valid_submissions: u32,
     pub cluster_winners: Vec<ClusterWinner>,
 }
 
-// This was missing - define ValidationResult
-type ValidationResult = IntervalResult;
-
 #[derive(CandidType, Deserialize)]
 pub struct ConsensusRequest {
     pub interval_id: u64,
     pub validation_result: ValidationResult,
     pub edge_server_id: String,
-}
-
-#[derive(CandidType, Deserialize)]
-pub struct BatchConsensusRequest {
-    pub batch_id: String,
-    pub interval_ids: Vec<u64>,
-    pub batch_results: Vec<IntervalResult>,
-    pub batch_merkle_root: String,
-    pub edge_server_id: String,
-    pub timestamp: u64,
-}
-
-#[derive(CandidType, Deserialize)]
-pub struct ConsensusResult {
-    pub success: bool,
-    pub block_index: Option<u64>,
-    pub block_hash: Option<String>,
-    pub confirmations_received: u32,
-    pub confirmations_required: u32,
-    pub status: String,
-}
-
-#[derive(Default)]
-struct Config {
-    validator_canister: Option<Principal>,
-    distributor_canister: Option<Principal>,
-    min_confirmations: u8,
 }
 
 thread_local! {
@@ -102,14 +65,23 @@ thread_local! {
         ).unwrap()
     );
     
+    // Temporary consensus data (cleared after finalization)
     static PENDING_CONSENSUS: RefCell<HashMap<u64, Vec<ValidationResult>>> = 
         RefCell::new(HashMap::new());
     
     static CONFIG: RefCell<Config> = RefCell::new(Config::default());
 }
 
+#[derive(Default)]
+struct Config {
+    validator_canister: Option<Principal>,
+    distributor_canister: Option<Principal>,
+    min_confirmations: u8,
+}
+
 #[update]
 pub async fn submit_consensus(request: ConsensusRequest) -> Result<String, String> {
+    // Store validation result
     PENDING_CONSENSUS.with(|p| {
         p.borrow_mut()
             .entry(request.interval_id)
@@ -117,10 +89,11 @@ pub async fn submit_consensus(request: ConsensusRequest) -> Result<String, Strin
             .push(request.validation_result);
     });
     
+    // Check if we have enough confirmations
     let should_finalize = PENDING_CONSENSUS.with(|p| {
         p.borrow()
             .get(&request.interval_id)
-            .map(|results| results.len() >= 2)
+            .map(|results| results.len() >= 2) // Require 2 edge servers
             .unwrap_or(false)
     });
     
@@ -131,34 +104,8 @@ pub async fn submit_consensus(request: ConsensusRequest) -> Result<String, Strin
     }
 }
 
-#[update]
-pub async fn submit_batch_consensus(request: BatchConsensusRequest) -> ConsensusResult {
-    let block = Block {
-        index: BLOCKCHAIN.with(|b| b.borrow().len()),
-        timestamp: ic_cdk::api::time(),
-        interval_ids: request.interval_ids,
-        batch_merkle_root: request.batch_merkle_root,
-        winner_count: request.batch_results.iter()
-            .map(|r| r.cluster_winners.len() as u32)
-            .sum(),
-        hash: calculate_block_hash(&request.batch_id),
-    };
-    
-    BLOCKCHAIN.with(|b| {
-        b.borrow_mut().push(&block).unwrap();
-    });
-    
-    ConsensusResult {
-        success: true,
-        block_index: Some(block.index),
-        block_hash: Some(block.hash),
-        confirmations_received: 1,
-        confirmations_required: 2,
-        status: "Block created".to_string(),
-    }
-}
-
 async fn finalize_consensus(interval_id: u64) -> Result<String, String> {
+    // Get all validation results
     let results = PENDING_CONSENSUS.with(|p| {
         p.borrow_mut().remove(&interval_id).unwrap_or_default()
     });
@@ -167,6 +114,7 @@ async fn finalize_consensus(interval_id: u64) -> Result<String, String> {
         return Err("No consensus data".to_string());
     }
     
+    // Simple consensus: majority merkle root wins
     let mut merkle_votes: HashMap<String, u32> = HashMap::new();
     for result in &results {
         *merkle_votes.entry(result.merkle_root.clone()).or_default() += 1;
@@ -178,20 +126,36 @@ async fn finalize_consensus(interval_id: u64) -> Result<String, String> {
         .map(|(merkle, _)| merkle)
         .unwrap_or_default();
     
+    // Find the result with winning merkle root
+    let winning_result = results
+        .into_iter()
+        .find(|r| r.merkle_root == winning_merkle)
+        .ok_or("No winning result found".to_string())?;
+    
+    // Create block
     let block = Block {
         index: BLOCKCHAIN.with(|b| b.borrow().len()),
+        interval_id,
+        merkle_root: winning_merkle.clone(),
+        winner_count: winning_result.cluster_winners.len() as u32,
         timestamp: ic_cdk::api::time(),
-        interval_ids: vec![interval_id],
-        batch_merkle_root: winning_merkle.clone(),
-        winner_count: results.iter()
-            .map(|r| r.cluster_winners.len() as u32)
-            .sum(),
-        hash: calculate_block_hash(&interval_id.to_string()),
+        hash: calculate_block_hash(interval_id, &winning_merkle),
     };
     
+    // Store block
     BLOCKCHAIN.with(|b| {
         b.borrow_mut().push(&block).unwrap();
     });
+    
+    // Notify reward distributor
+    let distributor = CONFIG.with(|c| c.borrow().distributor_canister);
+    if let Some(distributor_canister) = distributor {
+        let _: Result<(String,), _> = ic_cdk::call(
+            distributor_canister,
+            "distribute_rewards",
+            (interval_id, winning_result.cluster_winners),
+        ).await;
+    }
     
     Ok(format!("Block {} created", block.index))
 }
@@ -209,15 +173,11 @@ pub fn get_latest_blocks(count: u32) -> Vec<Block> {
     })
 }
 
-fn calculate_block_hash(data: &str) -> String {
+fn calculate_block_hash(interval_id: u64, merkle_root: &str) -> String {
     use sha2::{Sha256, Digest};
     let mut hasher = Sha256::new();
-    hasher.update(data);
+    hasher.update(interval_id.to_string());
+    hasher.update(merkle_root);
     hasher.update(ic_cdk::api::time().to_string());
     hex::encode(hasher.finalize())
-}
-
-#[init]
-fn init() {
-    ic_cdk::println!("Consensus canister initialized");
 }

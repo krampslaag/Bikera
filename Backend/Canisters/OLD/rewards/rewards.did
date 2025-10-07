@@ -1,0 +1,239 @@
+// canisters/src/rewards/rewards.did
+// Candid interface for the rewards distribution canister
+
+// ============= TYPE DEFINITIONS =============
+
+// User reward information
+type UserRewards = record {
+    user_id: text;
+    user_index: nat32;
+    principal: opt principal;
+    total_rewards: nat64;
+    pending_rewards: nat64;
+    claimed_rewards: nat64;
+    last_claim: nat64;
+    participation_count: nat64;
+    first_participation: nat64;
+    last_participation: nat64;
+};
+
+// Cluster winner from consensus
+type ClusterWinner = record {
+    uid: nat32;
+    cluster_center: record { int32; int32 };
+    participants: nat8;
+};
+
+// Reward distribution record
+type RewardDistribution = record {
+    interval_id: nat64;
+    batch_id: text;
+    user_index: nat32;
+    reward_amount: nat64;
+    cluster_size: nat8;
+    timestamp: nat64;
+    status: variant { Pending; Distributed; Claimed };
+};
+
+// Claim request
+type ClaimRequest = record {
+    user_id: text;
+    amount: opt nat64;  // Optional: claim specific amount or all
+};
+
+// Claim result
+type ClaimResult = record {
+    success: bool;
+    amount_claimed: nat64;
+    remaining_balance: nat64;
+    transaction_id: opt text;
+    error: opt text;
+};
+
+// Reward statistics
+type RewardStats = record {
+    total_rewards_distributed: nat64;
+    total_rewards_claimed: nat64;
+    total_rewards_pending: nat64;
+    total_users_rewarded: nat64;
+    total_intervals_processed: nat64;
+    average_reward_per_user: nat64;
+    average_cluster_size: float32;
+};
+
+// Reward configuration
+type RewardConfig = record {
+    base_reward: nat64;
+    cluster_bonus_multiplier: float32;
+    max_reward_per_interval: nat64;
+    min_cluster_size: nat8;
+    claim_cooldown_seconds: nat64;
+};
+
+// Reward tier for different cluster sizes
+type RewardTier = record {
+    min_participants: nat8;
+    max_participants: nat8;
+    reward_amount: nat64;
+};
+
+// Batch reward distribution request
+type BatchRewardRequest = record {
+    interval_ids: vec nat64;
+    batch_id: text;
+    winners: vec record { nat64; vec ClusterWinner };  // (interval_id, winners)
+    timestamp: nat64;
+};
+
+// User statistics
+type UserStats = record {
+    user_id: text;
+    total_participations: nat64;
+    average_cluster_size: float32;
+    total_rewards_earned: nat64;
+    best_interval_reward: nat64;
+    participation_streak: nat32;
+    last_active: nat64;
+};
+
+// Leaderboard entry
+type LeaderboardEntry = record {
+    rank: nat32;
+    user_id: text;
+    total_rewards: nat64;
+    participation_count: nat64;
+};
+
+// Token integration (for future ICRC token support)
+type TokenTransfer = record {
+    to: principal;
+    amount: nat64;
+    memo: opt blob;
+    created_at: nat64;
+};
+
+// ============= SERVICE INTERFACE =============
+
+service : {
+    // ===== UPDATE METHODS =====
+    
+    // Distribute rewards for a single interval
+    distribute_rewards: (nat64, vec ClusterWinner) -> (text);
+    
+    // Distribute rewards for multiple intervals (batch)
+    distribute_batch_rewards: (BatchRewardRequest) -> (variant { Ok: text; Err: text });
+    
+    // User claims their pending rewards
+    claim_rewards: (ClaimRequest) -> (ClaimResult);
+    
+    // Link a principal to a user ID
+    link_principal: (text) -> (variant { Ok: text; Err: text });
+    
+    // Update reward configuration
+    update_config: (RewardConfig) -> (variant { Ok: text; Err: text });
+    
+    // Set reward tiers
+    set_reward_tiers: (vec RewardTier) -> (variant { Ok: text; Err: text });
+    
+    // ===== QUERY METHODS =====
+    
+    // Get user rewards information
+    get_user_rewards: (text) -> (opt UserRewards) query;
+    
+    // Get user rewards by principal
+    get_rewards_by_principal: (principal) -> (opt UserRewards) query;
+    
+    // Get multiple users' rewards
+    get_batch_user_rewards: (vec text) -> (vec opt UserRewards) query;
+    
+    // Get user statistics
+    get_user_stats: (text) -> (opt UserStats) query;
+    
+    // Get recent reward distributions for a user
+    get_user_distributions: (text, nat32) -> (vec RewardDistribution) query;
+    
+    // Get overall reward statistics
+    get_reward_stats: () -> (RewardStats) query;
+    
+    // Get current reward configuration
+    get_config: () -> (RewardConfig) query;
+    
+    // Get reward tiers
+    get_reward_tiers: () -> (vec RewardTier) query;
+    
+    // Calculate reward for cluster size
+    calculate_reward: (nat8) -> (nat64) query;
+    
+    // Get leaderboard
+    get_leaderboard: (nat32) -> (vec LeaderboardEntry) query;
+    
+    // Get leaderboard position for user
+    get_user_rank: (text) -> (opt nat32) query;
+    
+    // Check if user can claim
+    can_claim: (text) -> (variant { Yes: nat64; No: text }) query;
+    
+    // Get total rewards in pool
+    get_reward_pool_balance: () -> (nat64) query;
+    
+    // Get claim history for user
+    get_claim_history: (text, nat32) -> (vec record { nat64; nat64; text }) query;
+    
+    // ===== INTER-CANISTER METHODS =====
+    
+    // Called by consensus canister to distribute rewards
+    process_consensus_winners: (nat64, text, vec ClusterWinner) -> ();
+    
+    // Integration with token canister (future)
+    transfer_tokens: (TokenTransfer) -> (variant { Ok: nat64; Err: text });
+    
+    // ===== ADMIN METHODS =====
+    
+    // Initialize canister with configuration
+    init: (RewardConfig, vec RewardTier) -> ();
+    
+    // Add rewards to pool (admin only)
+    add_to_pool: (nat64) -> (nat64);
+    
+    // Emergency withdrawal (admin only)
+    emergency_withdraw: (principal, nat64) -> (variant { Ok: nat64; Err: text });
+    
+    // Pause/resume reward distribution
+    pause_distribution: () -> (variant { Ok: text; Err: text });
+    resume_distribution: () -> (variant { Ok: text; Err: text });
+    
+    // Set authorized callers (consensus canister)
+    set_authorized_caller: (principal) -> (variant { Ok: text; Err: text });
+    
+    // Migrate user data (for upgrades)
+    migrate_user_data: (vec record { text; UserRewards }) -> (variant { Ok: nat32; Err: text });
+    
+    // ===== STATISTICS & MONITORING =====
+    
+    // Get interval statistics
+    get_interval_stats: (nat64) -> (opt record {
+        interval_id: nat64;
+        total_winners: nat32;
+        total_rewards: nat64;
+        average_cluster_size: float32;
+        timestamp: nat64;
+    }) query;
+    
+    // Get daily statistics
+    get_daily_stats: (nat64) -> (record {
+        date: nat64;
+        intervals_processed: nat32;
+        users_rewarded: nat32;
+        total_rewards: nat64;
+        average_reward: nat64;
+    }) query;
+    
+    // Health check
+    health_check: () -> (record {
+        status: text;
+        pending_claims: nat32;
+        pool_balance: nat64;
+        last_distribution: nat64;
+        is_paused: bool;
+    }) query;
+}
