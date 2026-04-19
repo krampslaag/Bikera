@@ -11,7 +11,9 @@ Het development board zal volgende componenten bevatten:
 - SD kaart module
 - ROM chip
 - BMS-systeem (voor 2-4 18650 Li-Ion batterijen)
-- Motor-solenoide driver
+- Servo motor driver
+- Hall effect sensors voor slot beugel en pin
+- Kleurled
 
 ## BOM
 Er wordt een **materiaallijst (BOM)** opgesteld met alle gebruikte componenten. De  End-of-Life (EOL) van de componenten mag minimaal nog vijf jaar zijn.
@@ -29,16 +31,23 @@ Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJH
 	- ethereum: Keccak-256
 	- solana: Ed25519 
 - RAK11720 = LoRa +BLE 5, geen bluetooth apart
-- Zowel ROM chip (~5MB) als SD-kaart voor logging
-- BMS op PCB (TP4056 chip, protectiecircuit en spanningsregelaar)
-
+- Zowel geheugenchip (FRAM) als SD-kaart voor logging
+- BMS 
+	- Op PCB
+	- Lader detecteert USB protocol (2.0, 3.0, USB-C) en past de laadstroom aan.
+	- 3.3V buck-boost voor de meeste componenten
+	  -> batterij kan zakken tot 3V
+	- 3.3V LDO regulator voor GPS (weinig ruis)
+	- 5V boost voor servomotor
+		- aan/uit met enable pin
+		- sense weerstand om blokkage overstroom te detecteren
 # Opties voor prototype
 - Antenne
 	- LoRa: FPC antenne met MHF4 connector
 	- Verschillende antennes testen
 - E-ink module i.p.v. paneel
 - SD module
-
+- Accelerometer op breakout bord
 # Opties voor latere ontwikkelingsfases
 - kleinere componenten (reflow soolderen)
 - STM32WL als MCU en LoRa radio
@@ -47,3 +56,4 @@ Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJH
     - Draadantenne: dipool in V-vorm
     - BLE antenne op PCB
 - [NXP EdgeLock SE050](https://www.mouser.be/new/nxp-semiconductors/nxp-edgelock-se050/): meer geavanceerde ECC chip
+- Accelerometer chip in plaats van breakout bord
