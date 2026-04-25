@@ -41,6 +41,9 @@ Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJH
 	- 5V boost voor servomotor
 		- aan/uit met enable pin
 		- sense weerstand om blokkage overstroom te detecteren
+- Hall sensors
+	- THT
+	- één voor noordpool en één voor zuidpool (beugel en pin) om manipulatie tegen te gaan
 # Opties voor prototype
 - Antenne
 	- LoRa: FPC antenne met MHF4 connector
@@ -48,6 +51,7 @@ Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJH
 - E-ink module i.p.v. paneel
 - SD module
 - Accelerometer op breakout bord
+- Twee gelijke hall sensors is ok
 # Opties voor latere ontwikkelingsfases
 - kleinere componenten (reflow soolderen)
 - STM32WL als MCU en LoRa radio
@@ -57,3 +61,4 @@ Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJH
     - BLE antenne op PCB
 - [NXP EdgeLock SE050](https://www.mouser.be/new/nxp-semiconductors/nxp-edgelock-se050/): meer geavanceerde ECC chip
 - Accelerometer chip in plaats van breakout bord
+- Unipolaire hall sensors: één voor noordpool en één voor zuidpool (beugel en pin)
