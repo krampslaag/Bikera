@@ -44,10 +44,15 @@ Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJH
 - Hall sensors
 	- THT
 	- één voor noordpool en één voor zuidpool (beugel en pin) om manipulatie tegen te gaan
+- LED
+	- Rood + groen -> geel en oranje kan ook gemaakt worden
 # Opties voor prototype
 - Antenne
-	- LoRa: FPC antenne met MHF4 connector
-	- Verschillende antennes testen
+	- LoRa & bluetooth: FPC antenne met MHF4 connector
+	- Verschillende LoRa antennes testen
+	- GPS: FPC antenne 
+		- -> kabel proberen solderen
+		- anders extra RF-1 connector (quectel GPS heeft RF pinout)
 - E-ink module i.p.v. paneel
 - SD module
 - Accelerometer op breakout bord
@@ -59,6 +64,7 @@ Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJH
 - RAK11720: RF pinout versie:
     - Draadantenne: dipool in V-vorm
     - BLE antenne op PCB
+- Draadantenne of patch antenne proberen voor GPS
 - [NXP EdgeLock SE050](https://www.mouser.be/new/nxp-semiconductors/nxp-edgelock-se050/): meer geavanceerde ECC chip
 - Accelerometer chip in plaats van breakout bord
 - Unipolaire hall sensors: één voor noordpool en één voor zuidpool (beugel en pin)
