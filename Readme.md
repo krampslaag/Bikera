@@ -26,6 +26,9 @@ Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJH
     - Met debugconnectoren
     - Eerste versie als datalogger
     - Met hand soldeerbare componenten
+- RTC
+	- Updaten via LoRa
+	- Eventueel aparte (oplaadbare) knoopcel
 - ECC chip:
 	- Met socket
 	- ethereum: Keccak-256
@@ -39,8 +42,9 @@ Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJH
 	  -> batterij kan zakken tot 3V
 	- 3.3V LDO regulator voor GPS (weinig ruis)
 	- 5V boost voor servomotor
-		- aan/uit met enable pin
-		- sense weerstand om blokkage overstroom te detecteren
+- Servomotor
+	- aan/uit met enable pin van 5V boost
+	- sense weerstand om blokkage overstroom te detecteren
 - Hall sensors
 	- THT
 	- één voor noordpool en één voor zuidpool (beugel en pin) om manipulatie tegen te gaan
@@ -57,6 +61,7 @@ Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJH
 - SD module
 - Accelerometer op breakout bord
 - Twee gelijke hall sensors is ok
+- RTC updaten via LoRa
 # Opties voor latere ontwikkelingsfases
 - kleinere componenten (reflow soolderen)
 - STM32WL als MCU en LoRa radio
@@ -68,3 +73,5 @@ Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJH
 - [NXP EdgeLock SE050](https://www.mouser.be/new/nxp-semiconductors/nxp-edgelock-se050/): meer geavanceerde ECC chip
 - Accelerometer chip in plaats van breakout bord
 - Unipolaire hall sensors: één voor noordpool en één voor zuidpool (beugel en pin)
+- Eventueel aparte (oplaadbare) knoopcel voor RTC (STM32 VBAT)
+- 
