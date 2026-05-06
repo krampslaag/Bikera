@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP LC76GPAMD
+D Navigation BeiDou, Galileo, GLONASS, GPS, GNSS Transceiver Module 1.561GHz, 1.575GHz, 1.602GHz Antenna Not Included Surface Mount
+K
+F https://www.mouser.es/pdfDocs/L76_and_LC76_series_Hardware_Comparison_V1020220515.pdf
+$ENDCMP
+#
+#End Doc Library

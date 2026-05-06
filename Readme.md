@@ -13,10 +13,10 @@ Het development board zal volgende componenten bevatten:
 - BMS-systeem (voor 2-4 18650 Li-Ion batterijen)
 - Servo motor driver
 - Hall effect sensors voor slot beugel en pin
-- Kleurled
+- Kleurled (rood-groen)
 
 ## BOM
-Er wordt een **materiaallijst (BOM)** opgesteld met alle gebruikte componenten. De  End-of-Life (EOL) van de componenten mag minimaal nog vijf jaar zijn.
+Er wordt een **materiaallijst (BOM)** opgesteld met alle gebruikte componenten. De End-of-Life (EOL) van de componenten mag minimaal nog vijf jaar zijn.
 
 Materiaallijst: [Zie google sheets](https://docs.google.com/spreadsheets/d/1ZxJHOLqpuJL-1dvZkRNnV-r1_EjUXDaZgLNVo9UeM5s/edit?gid=1010541530#gid=1010541530)
 
