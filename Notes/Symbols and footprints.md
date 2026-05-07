@@ -28,13 +28,15 @@ Ah wacht stond al *in KiCad*
 	8-pin JST PH 2.0mm aansluiting
 	Module footprint met schroefgaten *zelf maken*
 	KiCad: 
-	- *JST_PH_S8B-PH-K_1x08_P2.00mm_Horizontal*
-	- *JST_PH_S8B-PH-SM4-TB_1x08-1MP_P2.00mm_Horizontal*
-	- *JST_PH_B8B-PH-K_1x08_P2.00mm_Vertical*
-	- *JST_PH_B8B-PH-SM4-TB_1x08-1MP_P2.00mm_Vertical*
+- [ ] 	- *JST_PH_S8B-PH-K_1x08_P2.00mm_Horizontal*
+- [ ] 	- *JST_PH_S8B-PH-SM4-TB_1x08-1MP_P2.00mm_Horizontal*
+- [/] 	- *JST_PH_B8B-PH-K_1x08_P2.00mm_Vertical*
+- [ ] 	- *JST_PH_B8B-PH-SM4-TB_1x08-1MP_P2.00mm_Vertical*
+- [!] Meegeleverde kabel gaat naar 8 individuele dupont connectors:
+	- [v] *PinHeader_1x08_P2.54mm_Vertical*
 - 3D: pin header
 ## Accelerometer
-**LIS2DW12**
+LIS2DW12
 **LIS2DW12 module**: *Zelf maken* - zie arch.schema
 ## SD kaart
 **SD adapter module**
@@ -52,30 +54,46 @@ Ah wacht stond al *in KiCad*
 ## BMS
 ### Lader
 **BQ25630YBGR**
+- Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/Texas-Instruments/BQ25630YBGR?qs=bpu3f%2FCR1jxmQ5vho%252BhFHQ%3D%3D)
 ### 3.3V buck-boost
 **RAA2361052GNP#HC5**
-
+- Symbol, footprint, 3D: [Mouser]([https://www.mouser.be/ProductDetail/Texas-Instruments/BQ25630YBGR?qs=bpu3f%2FCR1jxmQ5vho%252BhFHQ%3D%3D](https://www.mouser.be/ProductDetail/Renesas-Intersil/RAA2361052GNPHC5?qs=olJun0bQHM%2FTMxAlNSaKDw%3D%3D))
 ### 3.3V LDO
 **TCR3UG33A,LF**
+- Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/Toshiba/TCR3UG33ALF?qs=0lQeLiL1qyaZy60Q7HF0yg%3D%3D), [Snapeda](https://www.snapeda.com/parts/TCR3UG33A%2CLF/Toshiba%20Semiconductor%20and%20Storage/view-part/?ref=search&t=TCR3UG33A&ab_test_case=b)
 ### 5V boost
 **TPS61253F**
-
+- Symbol: *zelf maken*
+- Footprint & 3D: [Snapeda](https://www.snapeda.com/parts/DRV2625YFFR/Texas%20Instruments/view-part/?ref=search&t=DRV2625YFFR&ab_test_case=b) (ander component met zelfde package)
+	Zie [DBSGA-9](https://www.ti.com/lit/ml/mxbg144b/mxbg144b.pdf?ts=1776791418137&ref_url=https%253A%252F%252Fwww.ti.com%252Fpackaging%252Fdocs%252Fsearchtipackages.tsp%253FpackageName%253DDSBGA) footprint eigenschappen
 ## Servo motor
 TD-8120MG Digital Servo
-**Pin header female (2.54mm)**
-
-
+**Pin header female ( 1x3 2.54mm)**
+- Symbol: *zelf maken*
+- Footprint: KiCad
+	- [ ] - *PinHeader_1x03_P1.00mm_Horizontal*
+	- [/] - *PinHeader_1x03_P1.00mm_Vertical*
+	- [ ] - *PinHeader_1x03_P1.00mm_Vertical_SMD_Pin1Left*
+	- [ ] - *PinHeader_1x03_P1.00mm_Vertical_SMD_Pin1Right*
+- 3D **??**
 ## LED
 **BL-BEG204-7-E**
-
-
+- Symbol: *zelf maken*
+- Footprint zit al in KiCad:
+	- *LED_D5.0mm-3*
+	- *LED_D5.0mm-3_Horizontal_O3.81mm_Z3.0mm
+	- Pads rond maken **??**
+> - 5mm LED (5.7mm base diameter)
+> - 3 pinnen (0.5mm), 2.45mm spacing
+> - Red cathode - common anode - green cathode
+> 		--------|<-------* -------->|------- 
 ## Hall sensors
 **DRV5032DULPGM**
-
-
+- Footprint, 3D: [Snapeda](https://www.snapeda.com/parts/DRV5032DULPGM/Texas%20Instruments/view-part/?ref=search&t=DRV5032DULPGM&ab_test_case=b)
+- Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/Texas-Instruments/DRV5032DULPGM?qs=OlC7AqGiEDk9MwfBkgsRPw%3D%3D)
 ## ST-link
 TLINK-V3MINIE
-**Card Edge Connector**
+**Card Edge Connector 009159010603906
 - Dual Row Inverted 
 - 2x5pos
 - 2.0 mm pitch
@@ -87,45 +105,58 @@ Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/KYOCERA-AVX/
 ### Zit al in KiCad
 - [x] EEC chip
 - [x] STM32
-- [ ] E-ink header footprints
-- [ ] SD module header footprints
+- [x] E-ink header footprints
+- [x] SD module header footprints
+- [x] Servo pinheader footprint
+- [x] LED footprint
 ### Downloaden
 - [x] LoRa
 - [x] GPS
 - [x] FRAM
 - [x] EEC chip
-- [ ] BMS - li-ion lader
-- [ ] BMS - 3,3V buck-boost
-- [ ] BMS - 3,3V LDO regulator
-- [ ] BMS - 5V boost
-- [ ] Motor
-- [ ] LED
-- [ ] Hall effect sensor
+- [x] BMS - li-ion lader
+- [x] BMS - 3,3V buck-boost
+- [x] BMS - 3,3V LDO regulator
+- [x] BMS - 5V boost footprint
+- [x] Hall effect sensor
 - [x] ST-link header
 ### Maken
-- [ ] E-ink​ symbol
-- [ ] E-ink​ footprint
+- [x] E-ink header​ symbol
+	%%Baseren op hall effect sensor (DRV5032DULPGM)
+	Uitbreiden naar 8%%
+- [-] E-ink footprint pinnen juiste richting (JST PH 8)
 - [ ] Accelerometer module symbol
+	%%Baseren op FRAM (FM24V01A-GTR)%%
 - [ ] Accelerometer module footprint
-- [ ] SD-kaart​ module symbol
-- [ ] SD-kaart​ module footprint
+- [ ] SD-kaart​ module header symbol
+	%%Baseren op E-ink header symbool%%
+- [ ] BMS - 5V boost symbol
+	%%Baseren op FRAM (FM24V01A-GTR)
+	Pin 4 en 5 weg%%
+- [ ] Servo pinheader symbol
+	%%Baseren op hall effect sensor (DRV5032DULPGM)%%
+- [ ] LED symbol
+	%%Baseren op hall effect sensor (DRV5032DULPGM)%%
 ### Geimporteerd in KiCad
-- [x] STM32
-- [x] LoRa
-- [x] EEC chip
-- [ ] GPS
-- [ ] E-ink​ module
-- [ ] Accelerometer​
-- [ ] SD-kaart​ module 
-- [ ] FRAM
-- [ ] BMS - li-ion lader
-- [ ] BMS - 3,3V buck-boost
-- [ ] BMS - 3,3V LDO regulator
-- [ ] BMS - 5V boost
-- [ ] Motor header
-- [ ] LED
-- [ ] Hall effect sensor
-- [ ] ST-link header
+##### Bestaand
+- [v] STM32 **STM32L431CCT6TR
+- [v] LoRa **RAK11720**
+- [v] EEC chip **ATECC608B-SSHDA-T**
+##### Gedownload
+- [v] GPS **Quectel LC76GPAMD**
+- [v] FRAM **FM24V01A-GTR**
+- [v] BMS - li-ion lader **BQ25630YBGR**
+- [v] BMS - 3,3V buck-boost **RAA2361052GNP#HC5**
+- [v] BMS - 3,3V LDO regulator **TCR3UG33A,LF**
+- [v] Hall effect sensor **DRV5032DULPGM**
+- [v] ST-link header **009159010603906**
+##### Gemaakt
+- [v] E-ink​ module **Waveshare 1.54” module**
+- [ ] Accelerometer​ **LIS2DW12 module**
+- [ ] SD-kaart​ module  **SD adapter module**
+- [ ] BMS - 5V boost **TPS61253F**
+- [ ] Servo pinheader **Pin header female ( 1x3 2.54mm)**
+- [ ] LED **BL-BEG204-7-E**
 # Snapeda: How to import to Kicad 
 #### Symbols
 Using the _*.kicad_sym_ file:
