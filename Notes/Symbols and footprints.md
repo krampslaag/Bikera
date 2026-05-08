@@ -92,7 +92,7 @@ TD-8120MG Digital Servo
 - Footprint, 3D: [Snapeda](https://www.snapeda.com/parts/DRV5032DULPGM/Texas%20Instruments/view-part/?ref=search&t=DRV5032DULPGM&ab_test_case=b)
 - Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/Texas-Instruments/DRV5032DULPGM?qs=OlC7AqGiEDk9MwfBkgsRPw%3D%3D)
 ## ST-link
-TLINK-V3MINIE
+STLINK-V3MINIE
 **Card Edge Connector 009159010603906
 - Dual Row Inverted 
 - 2x5pos
@@ -157,29 +157,3 @@ Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/KYOCERA-AVX/
 - [ ] BMS - 5V boost **TPS61253F**
 - [ ] Servo pinheader **Pin header female ( 1x3 2.54mm)**
 - [ ] LED **BL-BEG204-7-E**
-# Snapeda: How to import to Kicad 
-#### Symbols
-Using the _*.kicad_sym_ file:
-1. Extract the content of the downloaded _*.zip_ file.
-2. In KiCad, go to _Preferences._
-3. Click on _Manage Symbol Libraries._
-4. On the _Global Libraries_ tab, click on _Browse Libraries_ (the _small folder icon_)
-5. Select the _.kicad_sym_ file, then click _Open._
-6. The library will appear, click _OK._
-7. Click on _Symbol Editor_.
-8. Type on the filter search field, and navigate to the symbol you imported.  
-    Double-click over it to open the file.
-#### Footprints
-Using the _*.kicad_mod_ file:
-1. Extract the content of the downloaded _*.zip_ file.
-2. In KiCad, go to _Preferences_.
-3. No, in footprint editor or footprint assignment tool
-4. Click on _Manage Footprint Libraries_.
-5. On the _Global Libraries_ tab, click on _Browse Libraries_ (the _small folder icon_)
-6. Navigate to the _Folder_ where the _.kicad_mod_ file is located. Then click _Select Folder_.
-%%**Note:** You will not normally see the _.kicad_mod_ file on this step because you need to _select the folder where it is located_.%%
-7. The library will appear, click _OK_.
-8. Click on _Footprint Editor_.
-9. Type on the filter search field, and navigate to the footprint you imported.  
-    Double-click over it to open the file.
-    

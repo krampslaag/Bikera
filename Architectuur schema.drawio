@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" pages="13">
   <diagram name="Architecture design" id="486_e8OcWno_iCCH_6T1">
-    <mxGraphModel dx="1531" dy="673" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1613" dy="1002" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1911,7 +1911,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="l_GX_pWdpV-A3VMLTpi9" name="Servo motor">
-    <mxGraphModel dx="1300" dy="832" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1031" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1922,7 +1922,7 @@
           <mxGeometry height="369.79" width="550" x="60" y="130.00000000000006" as="geometry" />
         </mxCell>
         <UserObject label="&lt;div style=&quot;forced-color-adjust: none; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 700; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(236, 236, 236); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; line-height: 13.2px;&quot;&gt;&lt;span style=&quot;forced-color-adjust: none;&quot;&gt;Servo motor&amp;nbsp;&lt;/span&gt;&lt;a class=&quot;in-cell-link&quot; href=&quot;https://www.tinytronics.nl/en/mechanics-and-actuators/motors/servomotors/td-8120mg-waterproof-digital-servo-20kg&quot; target=&quot;_blank&quot; style=&quot;font-family: Roboto, Arial; font-weight: normal; text-align: right;&quot;&gt;TD-8120MG&lt;/a&gt;&lt;/div&gt;" link="&lt;div style=&quot;forced-color-adjust: none; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 700; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(236, 236, 236); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; line-height: 13.2px;&quot;&gt;&lt;span style=&quot;forced-color-adjust: none; font-size: 20px;&quot;&gt;Servo motor&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;forced-color-adjust: none; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 700; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(236, 236, 236); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; line-height: 13.2px;&quot;&gt;&lt;span data-sheets-root=&quot;1&quot; data-mx-given-colors=&quot;{&amp;quot;color&amp;quot;:&amp;quot;rgb(67, 67, 67)&amp;quot;}&quot; style=&quot;forced-color-adjust: none; font-weight: normal; text-decoration-line: underline; font-size: 10pt; font-family: Roboto, Arial; text-decoration-skip-ink: none; color: rgb(67, 67, 67); text-align: right;&quot;&gt;&lt;a class=&quot;in-cell-link&quot; href=&quot;https://www.tinytronics.nl/en/mechanics-and-actuators/motors/servomotors/td-8120mg-waterproof-digital-servo-20kg&quot; target=&quot;_blank&quot; style=&quot;forced-color-adjust: none;&quot;&gt;TD-8120MG&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;" id="lmLPNPph_BNNGxYQcOtx-1">
-          <mxCell parent="1" style="text;whiteSpace=wrap;html=1;fontSize=30;strokeColor=default;" vertex="1">
+          <mxCell parent="1" style="text;whiteSpace=wrap;html=1;fontSize=30;strokeColor=default;fillColor=default;" vertex="1">
             <mxGeometry height="30" width="360" x="70" y="20" as="geometry" />
           </mxCell>
         </UserObject>
