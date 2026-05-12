@@ -13,9 +13,11 @@ https://componentsearchengine.com/
 Antennes gaan op rak zelf
 ## ​ECC
 **ATECC608B-SSHDA-T**
-- [Snapeda](https://www.snapeda.com/parts/ATECC608B-SSHDA-T/Microchip%20Technology/view-part/?ref=search&t=ATECC608B-SSHDA-T&ab_test_case=b)
-- [Digikey](https://www.digikey.be/nl/models/13415162?tab=ultralibrarian)
-Ah wacht stond al *in KiCad*
+- Symbol:
+	- [Snapeda](https://www.snapeda.com/parts/ATECC608B-SSHDA-T/Microchip%20Technology/view-part/?ref=search&t=ATECC608B-SSHDA-T&ab_test_case=b)
+	- [Digikey](https://www.digikey.be/nl/models/13415162?tab=ultralibrarian)
+	- Ah wacht stond al *in KiCad*
+- Footprint: breakout bord *zelf maken*
 ## GPS
 **Quectel LC76GPAMD**
 - [Mouser](https://www.mouser.be/ProductDetail/Quectel/LC76GPAMD?qs=vvQtp7zwQdMfDuCTmjRUww%3D%3D)
@@ -71,14 +73,17 @@ TD-8120MG Digital Servo
 **Pin header female ( 1x3 2.54mm)**
 - Symbol: *zelf maken*
 - Footprint: KiCad
-	- [ ] - *PinHeader_1x03_P1.00mm_Horizontal*
-	- [/] - *PinHeader_1x03_P1.00mm_Vertical*
-	- [ ] - *PinHeader_1x03_P1.00mm_Vertical_SMD_Pin1Left*
-	- [ ] - *PinHeader_1x03_P1.00mm_Vertical_SMD_Pin1Right*
+	- [-] - *PinHeader_1x03_P1.00mm_Horizontal*
+	- [-] - *PinHeader_1x03_P1.00mm_Vertical*
+	- [-] - *PinHeader_1x03_P1.00mm_Vertical_SMD_Pin1Left*
+	- [-] - *PinHeader_1x03_P1.00mm_Vertical_SMD_Pin1Right*
+ - Footprint: KiCad - JST PH (zelf crimpen)
+	 - **
 - 3D **??**
 ## LED
 **BL-BEG204-7-E**
-- Symbol: *zelf maken*
+- Symbol: ~~*zelf maken*~~
+	- Zit al in KiCad: *LED_DUAL_KAK*
 - Footprint zit al in KiCad:
 	- *LED_D5.0mm-3*
 	- *LED_D5.0mm-3_Horizontal_O3.81mm_Z3.0mm
@@ -103,11 +108,12 @@ Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/KYOCERA-AVX/
 
 # To do
 ### Zit al in KiCad
-- [x] EEC chip
+- [x] EEC chip symbol
 - [x] STM32
 - [x] E-ink header footprints
 - [x] SD module header footprints
 - [x] Servo pinheader footprint
+- [x] LED symbol
 - [x] LED footprint
 ### Downloaden
 - [x] LoRa
@@ -125,23 +131,28 @@ Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/KYOCERA-AVX/
 	%%Baseren op hall effect sensor (DRV5032DULPGM)
 	Uitbreiden naar 8%%
 - [-] E-ink footprint pinnen juiste richting (JST PH 8)
-- [ ] Accelerometer module symbol
+- [x] Accelerometer module symbol
 	%%Baseren op FRAM (FM24V01A-GTR)%%
 - [ ] Accelerometer module footprint
-- [ ] SD-kaart​ module header symbol
+- [ ] EEC chip footprint
+	- [ ] Breakout/IC voet zoeken
+	%%Baseren op%%
+- [x] SD-kaart​ module header symbol
 	%%Baseren op E-ink header symbool%%
-- [ ] BMS - 5V boost symbol
+	- [x] SD-kaart PinHeader_2x08 footprint: pinnen aanpassen (in paren)
+- [x] BMS - 5V boost symbol
+	- [x] Footprint koppelen / aanpassen
 	%%Baseren op FRAM (FM24V01A-GTR)
 	Pin 4 en 5 weg%%
-- [ ] Servo pinheader symbol
+- [x] Servo pinheader symbol
 	%%Baseren op hall effect sensor (DRV5032DULPGM)%%
-- [ ] LED symbol
+- [-] LED symbol
 	%%Baseren op hall effect sensor (DRV5032DULPGM)%%
 ### Geimporteerd in KiCad
 ##### Bestaand
 - [v] STM32 **STM32L431CCT6TR
 - [v] LoRa **RAK11720**
-- [v] EEC chip **ATECC608B-SSHDA-T**
+- [v] LED
 ##### Gedownload
 - [v] GPS **Quectel LC76GPAMD**
 - [v] FRAM **FM24V01A-GTR**
@@ -152,8 +163,9 @@ Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/KYOCERA-AVX/
 - [v] ST-link header **009159010603906**
 ##### Gemaakt
 - [v] E-ink​ module **Waveshare 1.54” module**
-- [ ] Accelerometer​ **LIS2DW12 module**
-- [ ] SD-kaart​ module  **SD adapter module**
-- [ ] BMS - 5V boost **TPS61253F**
-- [ ] Servo pinheader **Pin header female ( 1x3 2.54mm)**
-- [ ] LED **BL-BEG204-7-E**
+- [/] Accelerometer​ **LIS2DW12 module**
+- [ ] EEC chip **ATECC608B-SSHDA-T**
+- [v] SD-kaart​ module  **SD adapter module**
+- [v] BMS - 5V boost **TPS61253F**
+- [v] Servo pinheader **Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical**
+- [v] LED **BL-BEG204-7-E**

@@ -2,13 +2,13 @@
 	(version 20251024)
 	(generator "kicad_symbol_editor")
 	(generator_version "10.0")
-	(symbol "Waveshare_ePaper_module"
+	(symbol "SD_adapter_module"
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
-		(property "Reference" "H1"
+		(property "Reference" "H"
 			(at 19.05 -1.2699 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19,7 +19,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Waveshare ePaper module"
+		(property "Value" "SD adapter module"
 			(at 19.05 -3.8099 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -30,7 +30,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Horizontal"
 			(at 19.05 -94.92 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -42,7 +42,7 @@
 				(justify left top)
 			)
 		)
-		(property "Datasheet" "https://www.waveshare.com/wiki/1.54inch_e-Paper_Module"
+		(property "Datasheet" ""
 			(at 19.05 -194.92 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -54,7 +54,7 @@
 				(justify left top)
 			)
 		)
-		(property "Description" "Waveshare 1.54” 200x200 ePaper module"
+		(property "Description" "SD adapter module"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -125,7 +125,7 @@
 				(justify left top)
 			)
 		)
-		(symbol "Waveshare_ePaper_module_1_1"
+		(symbol "SD_adapter_module_1_1"
 			(rectangle
 				(start 5.08 2.54)
 				(end 17.78 -20.32)
@@ -137,10 +137,10 @@
 					(type background)
 				)
 			)
-			(pin power_in line
+			(pin passive line
 				(at 0 0 0)
 				(length 5.08)
-				(name "VCC"
+				(name "GND"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -173,10 +173,10 @@
 					)
 				)
 			)
-			(pin input line
+			(pin power_in line
 				(at 0 -5.08 0)
 				(length 5.08)
-				(name "DIN"
+				(name "+3.3V"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -194,7 +194,7 @@
 			(pin input line
 				(at 0 -15.24 0)
 				(length 5.08)
-				(name "RST#"
+				(name "SCK"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -209,10 +209,10 @@
 					)
 				)
 			)
-			(pin input line
+			(pin power_in line
 				(at 0 -7.62 0)
 				(length 5.08)
-				(name "CLK"
+				(name "+5V"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -230,7 +230,7 @@
 			(pin input line
 				(at 0 -10.16 0)
 				(length 5.08)
-				(name "CS#"
+				(name "CS"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -248,7 +248,7 @@
 			(pin input line
 				(at 0 -12.7 0)
 				(length 5.08)
-				(name "D/C"
+				(name "MOSI"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -266,7 +266,7 @@
 			(pin output line
 				(at 0 -17.78 0)
 				(length 5.08)
-				(name "BUSY"
+				(name "MISO"
 					(effects
 						(font
 							(size 1.27 1.27)

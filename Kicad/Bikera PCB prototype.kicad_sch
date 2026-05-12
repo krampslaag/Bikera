@@ -1193,6 +1193,292 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:LED_Dual_KAK"
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D1"
+				(at 0.0635 11.43 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LED_Dual_KAK"
+				(at 0.0635 8.89 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "LED_THT:LED_D5.0mm-3"
+				(at 1.27 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 1.27 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Dual LED, common anode on pin 2"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "LED diode bicolor dual"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "LED* LED_SMD:* LED_THT:*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "LED_Dual_KAK_0_1"
+				(polyline
+					(pts
+						(xy -4.572 0) (xy -2.54 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center -2.54 0)
+					(radius 0.2794)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 3.81) (xy -1.27 1.27) (xy 1.27 2.54) (xy -1.27 3.81)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 -1.27) (xy -1.27 -3.81) (xy 1.27 -2.54) (xy -1.27 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 0)
+					(radius 4.572)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 3.81) (xy 1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -1.27) (xy 1.27 -3.81)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.032 5.08) (xy 3.556 6.604) (xy 2.794 6.604) (xy 3.556 6.604) (xy 3.556 5.842)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.032 2.54) (xy -2.54 2.54) (xy -2.54 -2.54) (xy 2.032 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.302 4.064) (xy 4.826 5.588) (xy 4.064 5.588) (xy 4.826 5.588) (xy 4.826 4.826)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.81 2.54) (xy 1.905 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.81 -2.54) (xy 1.905 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LED_Dual_KAK_1_1"
+				(pin input line
+					(at 7.62 2.54 180)
+					(length 3.81)
+					(name "Red"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 0 0)
+					(length 3.048)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 7.62 -2.54 180)
+					(length 3.81)
+					(name "Green"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "FM24V01A-G:FM24V01A-G"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -2107,6 +2393,286 @@
 						)
 					)
 					(number "28"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "LIS2DW12:FM24V01A-G"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "H2"
+				(at 12.7 7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LIS2DW12 module"
+				(at 12.7 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 21.59 -94.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Datasheet" "https://www.st.com/content/ccc/resource/technical/document/datasheet/group3/30/3a/4e/6b/68/16/4a/35/DM00323179/files/DM00323179.pdf/jcr:content/translations/en.DM00323179.pdf"
+				(at 21.59 -194.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Description" "Accelerometer module"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Height" "5"
+				(at 21.59 -394.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Mouser Part Number" ""
+				(at 21.59 -494.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Mouser Price/Stock" ""
+				(at 21.59 -594.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Manufacturer_Name" ""
+				(at 21.59 -694.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Manufacturer_Part_Number" ""
+				(at 21.59 -794.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(symbol "FM24V01A-G_1_1"
+				(rectangle
+					(start 5.08 2.54)
+					(end 20.32 -10.16)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin output line
+					(at 0 0 0)
+					(length 5.08)
+					(name "SDO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(name "CS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 0 -5.08 0)
+					(length 5.08)
+					(name "INT1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 0 -7.62 0)
+					(length 5.08)
+					(name "INT2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -7.62 180)
+					(length 5.08)
+					(name "SDA"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 25.4 -5.08 180)
+					(length 5.08)
+					(name "SCL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 25.4 -2.54 180)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 25.4 0 180)
+					(length 5.08)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -4500,6 +5066,440 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "SD adapter module:SD_adapter_module"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "H"
+				(at 19.05 -1.2699 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "SD adapter module"
+				(at 19.05 -3.8099 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Horizontal"
+				(at 19.05 -94.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Datasheet" ""
+				(at 19.05 -194.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Description" "SD adapter module"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Height" "8"
+				(at 19.05 -394.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Mouser Part Number" ""
+				(at 19.05 -494.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Mouser Price/Stock" ""
+				(at 19.05 -594.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Manufacturer_Name" ""
+				(at 19.05 -694.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Manufacturer_Part_Number" ""
+				(at 19.05 -794.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(symbol "SD_adapter_module_1_1"
+				(rectangle
+					(start 5.08 2.54)
+					(end 17.78 -20.32)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin passive line
+					(at 0 0 0)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 0 0)
+					(length 5.08)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -5.08 0)
+					(length 5.08)
+					(name "+3.3V"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -5.08 0)
+					(length 5.08)
+					(hide yes)
+					(name "+3.3V"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 0)
+					(length 5.08)
+					(name "+5V"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 0)
+					(length 5.08)
+					(hide yes)
+					(name "+5V"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -10.16 0)
+					(length 5.08)
+					(name "CS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -10.16 0)
+					(length 5.08)
+					(hide yes)
+					(name "CS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -12.7 0)
+					(length 5.08)
+					(name "MOSI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -12.7 0)
+					(length 5.08)
+					(hide yes)
+					(name "MOSI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -15.24 0)
+					(length 5.08)
+					(hide yes)
+					(name "SCK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -15.24 0)
+					(length 5.08)
+					(name "SCK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 0 -17.78 0)
+					(length 5.08)
+					(hide yes)
+					(name "MISO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 0 -17.78 0)
+					(length 5.08)
+					(name "MISO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Security:ATECC608B-SSHDA"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -5043,35 +6043,35 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Waveshare ePaper module:DRV5032DULPGM"
+		(symbol "TD-8120MG:TD-8120MG"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "H1"
-				(at 19.05 -1.2699 0)
+			(property "Reference" "H"
+				(at 6.096 6.35 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left)
+					(justify left top)
 				)
 			)
-			(property "Value" "Waveshare ePaper module"
-				(at 19.05 -3.8099 0)
+			(property "Value" "TD-8120MG"
+				(at 5.842 4.318 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left)
+					(justify left top)
 				)
 			)
-			(property "Footprint" "Connector_JST:JST_PH_B8B-PH-K_1x08_P2.00mm_Vertical"
+			(property "Footprint" "Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical"
 				(at 19.05 -94.92 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -5083,7 +6083,7 @@
 					(justify left top)
 				)
 			)
-			(property "Datasheet" ""
+			(property "Datasheet" "https://www.tinytronics.nl/product_files/002172_Data%20Sheet%20of%20TD-8120MG%20Digital%20Servo%20Motor.pdf"
 				(at 19.05 -194.92 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -5095,7 +6095,7 @@
 					(justify left top)
 				)
 			)
-			(property "Description" ""
+			(property "Description" "TD-8120MG Digital Servo"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -5106,7 +6106,7 @@
 					)
 				)
 			)
-			(property "Height" ""
+			(property "Height" "5.05"
 				(at 19.05 -394.92 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -5166,7 +6166,502 @@
 					(justify left top)
 				)
 			)
-			(symbol "DRV5032DULPGM_1_1"
+			(symbol "TD-8120MG_1_1"
+				(rectangle
+					(start 5.08 2.54)
+					(end 17.78 -7.62)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin power_in line
+					(at 0 -5.08 0)
+					(length 5.08)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 0 0)
+					(length 5.08)
+					(name "SIG"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "TPS61253F:TPS61253F"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "H"
+				(at 7.366 6.858 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Value" "TPS61253F"
+				(at 7.112 4.572 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Footprint" "TPS61253F:BGA9N40P3X3_119X128X62N"
+				(at 21.59 -94.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps61253e.pdf?ts=1774602914401&ref_url=https%253A%252F%252Fwww.mouser.be%252F"
+				(at 21.59 -194.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Description" "TPS61253F"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Height" "1.727"
+				(at 21.59 -394.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Mouser Part Number" "727-FM24V01A-G"
+				(at 21.59 -494.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Infineon-Technologies/FM24V01A-G?qs=3FnuM6ZipRKGr6yvOmSjPg%3D%3D"
+				(at 21.59 -594.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Manufacturer_Name" "Infineon"
+				(at 21.59 -694.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Manufacturer_Part_Number" "FM24V01A-G"
+				(at 21.59 -794.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(symbol "TPS61253F_1_1"
+				(rectangle
+					(start 5.08 2.54)
+					(end 20.32 -7.62)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin power_out line
+					(at 25.4 0 180)
+					(length 5.08)
+					(name "VOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "A1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 25.4 0 180)
+					(length 5.08)
+					(hide yes)
+					(name "VOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "A2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 0 0)
+					(length 5.08)
+					(name "VIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "A3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 25.4 -2.54 180)
+					(length 5.08)
+					(name "SW"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "B1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 25.4 -2.54 180)
+					(length 5.08)
+					(hide yes)
+					(name "SW"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "B2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "B3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 25.4 -5.08 180)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "C1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 25.4 -5.08 180)
+					(length 5.08)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "C2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -5.08 0)
+					(length 5.08)
+					(name "MODE"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "C3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Waveshare ePaper module:Waveshare_ePaper_module"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "H1"
+				(at 19.05 -1.2699 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "Waveshare ePaper module"
+				(at 19.05 -3.8099 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical"
+				(at 19.05 -94.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Datasheet" "https://www.waveshare.com/wiki/1.54inch_e-Paper_Module"
+				(at 19.05 -194.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Description" "Waveshare 1.54” 200x200 ePaper module"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Height" "8"
+				(at 19.05 -394.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Mouser Part Number" ""
+				(at 19.05 -494.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Mouser Price/Stock" ""
+				(at 19.05 -594.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Manufacturer_Name" ""
+				(at 19.05 -694.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Manufacturer_Part_Number" ""
+				(at 19.05 -794.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(symbol "Waveshare_ePaper_module_1_1"
 				(rectangle
 					(start 5.08 2.54)
 					(end 17.78 -20.32)
@@ -5328,7 +6823,7 @@
 	)
 	(symbol
 		(lib_id "RAA2361052GNP#HC5:RAA2361052GNP#HC5")
-		(at 154.94 154.94 0)
+		(at 146.05 121.666 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5339,7 +6834,7 @@
 		(fields_autoplaced yes)
 		(uuid "08e9bdc7-0c3b-43fb-a94f-dcda9b16bf01")
 		(property "Reference" "IC3"
-			(at 170.18 147.32 0)
+			(at 161.29 114.046 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5349,7 +6844,7 @@
 			)
 		)
 		(property "Value" "RAA2361052GNP#HC5"
-			(at 170.18 149.86 0)
+			(at 161.29 116.586 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5358,8 +6853,8 @@
 				)
 			)
 		)
-		(property "Footprint" "RAA2361052GNP#HC5:SON50P250X250X90-11L-D"
-			(at 181.61 249.86 0)
+		(property "Footprint" "SON50P250X250X90-11L-D"
+			(at 172.72 216.586 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5371,7 +6866,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.renesas.com/en/products/power-management/dcdc-converters/step-boost/boost-regulators-integrated-fets/raa236105-ultra-low-iq-buck-boost-regulator-bypass"
-			(at 181.61 349.86 0)
+			(at 172.72 316.586 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5383,7 +6878,7 @@
 			)
 		)
 		(property "Description" "Single output buck-boost converter  130nA input quiescent current  96% peak efficiency (VIN = 3.6V; VOUT = 3.3V)  Output current: up to 400mA (VIN > 2.5V, VOUT = 3.3V)  Input voltage range: 1.8V to 5.5V, supports single-cell Li-ion, 2x or 31.5V AA/AAA batteries  Output voltage range: 1.8V to 5.0V  Output voltage control using a pin reader (RAA236105)  Selectable input current limit  DVS with settable slew rate control  Selectable forced bypass power saving mode  PWM/PFM and buck/bo"
-			(at 154.94 154.94 0)
+			(at 146.05 121.666 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5394,7 +6889,7 @@
 			)
 		)
 		(property "Height" "0.9"
-			(at 181.61 549.86 0)
+			(at 172.72 516.586 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5406,7 +6901,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 181.61 649.86 0)
+			(at 172.72 616.586 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5418,7 +6913,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 181.61 749.86 0)
+			(at 172.72 716.586 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5430,7 +6925,7 @@
 			)
 		)
 		(property "Manufacturer_Name" "Renesas Electronics"
-			(at 181.61 849.86 0)
+			(at 172.72 816.586 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5442,7 +6937,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" "RAA2361052GNP#HC5"
-			(at 181.61 949.86 0)
+			(at 172.72 916.586 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5497,7 +6992,7 @@
 	)
 	(symbol
 		(lib_id "009159010603906:009159010603906")
-		(at 25.4 125.73 0)
+		(at 25.654 134.112 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5508,7 +7003,7 @@
 		(fields_autoplaced yes)
 		(uuid "1c14d05d-0aaf-49ac-98bc-470048203d2d")
 		(property "Reference" "J1"
-			(at 36.83 118.11 0)
+			(at 37.084 126.492 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5518,7 +7013,7 @@
 			)
 		)
 		(property "Value" "009159010603906"
-			(at 36.83 120.65 0)
+			(at 37.084 129.032 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5527,8 +7022,8 @@
 				)
 			)
 		)
-		(property "Footprint" "009159010603906:009159010603906"
-			(at 44.45 220.65 0)
+		(property "Footprint" "009159010603906"
+			(at 44.704 229.032 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5540,7 +7035,7 @@
 			)
 		)
 		(property "Datasheet" "https://datasheets.kyocera-avx.com/9159-600.pdf"
-			(at 44.45 320.65 0)
+			(at 44.704 329.032 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5552,7 +7047,7 @@
 			)
 		)
 		(property "Description" "Position Connector, 2 X 5 POS DUAL ROW INVERTED THRU BO, 13 x 8 x 0.6 mm"
-			(at 25.4 125.73 0)
+			(at 25.654 134.112 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5563,7 +7058,7 @@
 			)
 		)
 		(property "Height" "0.6"
-			(at 44.45 520.65 0)
+			(at 44.704 529.032 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5575,7 +7070,7 @@
 			)
 		)
 		(property "Mouser Part Number" "581-009159010603906"
-			(at 44.45 620.65 0)
+			(at 44.704 629.032 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5587,7 +7082,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/KYOCERA-AVX/009159010603906?qs=ST9lo4GX8V1Mnrfaz2Mt1w%3D%3D"
-			(at 44.45 720.65 0)
+			(at 44.704 729.032 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5599,7 +7094,7 @@
 			)
 		)
 		(property "Manufacturer_Name" "Kyocera AVX"
-			(at 44.45 820.65 0)
+			(at 44.704 829.032 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5611,7 +7106,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" "009159010603906"
-			(at 44.45 920.65 0)
+			(at 44.704 929.032 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5662,6 +7157,166 @@
 		)
 	)
 	(symbol
+		(lib_id "LIS2DW12:FM24V01A-G")
+		(at 138.43 92.202 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "26c9af00-1517-492d-809d-9962c7185706")
+		(property "Reference" "H2"
+			(at 151.13 84.582 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LIS2DW12 module"
+			(at 151.13 87.122 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 160.02 187.122 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Datasheet" "https://www.st.com/content/ccc/resource/technical/document/datasheet/group3/30/3a/4e/6b/68/16/4a/35/DM00323179/files/DM00323179.pdf/jcr:content/translations/en.DM00323179.pdf"
+			(at 160.02 287.122 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Description" "Accelerometer module"
+			(at 138.43 92.202 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "5"
+			(at 160.02 487.122 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 160.02 587.122 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 160.02 687.122 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 160.02 787.122 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 160.02 887.122 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "4"
+			(uuid "94518d79-327f-41ae-b492-845d7d2d3af6")
+		)
+		(pin "8"
+			(uuid "694ebd5f-1722-4253-ac9d-b2727a571c42")
+		)
+		(pin "7"
+			(uuid "777671c1-d143-4e0c-a714-4f133176277f")
+		)
+		(pin "1"
+			(uuid "9ec9bdef-1554-41c9-91eb-3a24d92de741")
+		)
+		(pin "3"
+			(uuid "c3b64358-3579-49de-9ffc-1855c9e9f08d")
+		)
+		(pin "2"
+			(uuid "f0f9ad05-fc9b-4702-b5cb-13932997c96a")
+		)
+		(pin "6"
+			(uuid "657e02e4-ed54-4d9f-b6f2-75e5f2d2a0df")
+		)
+		(pin "5"
+			(uuid "7bcc7d65-1c52-4004-8132-80bb37380024")
+		)
+		(instances
+			(project "Bikera PCB prototype"
+				(path "/a86c743b-d1a2-448b-89e9-5ba54a097e72"
+					(reference "H2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "DRV5032DULPGM:DRV5032DULPGM")
 		(at 60.96 115.57 0)
 		(unit 1)
@@ -5695,7 +7350,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "DRV5032DULPGM:DRV5032DULPGM"
+		(property "Footprint" "DRV5032DULPGM"
 			(at 80.01 210.49 0)
 			(hide yes)
 			(show_name no)
@@ -5840,7 +7495,7 @@
 				)
 			)
 		)
-		(property "Footprint" "LC76GPAMD:LC76GPAMD"
+		(property "Footprint" "LC76GPAMD"
 			(at 161.29 127.94 0)
 			(hide yes)
 			(show_name no)
@@ -6030,7 +7685,7 @@
 	)
 	(symbol
 		(lib_id "BQ25630YBGR:BQ25630YBGR")
-		(at 113.03 153.67 0)
+		(at 104.14 120.396 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6041,7 +7696,7 @@
 		(fields_autoplaced yes)
 		(uuid "7a9d1b2a-85da-4469-8111-ab8e1bda3603")
 		(property "Reference" "IC2"
-			(at 129.54 146.05 0)
+			(at 120.65 112.776 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6051,7 +7706,7 @@
 			)
 		)
 		(property "Value" "BQ25630YBGR"
-			(at 129.54 148.59 0)
+			(at 120.65 115.316 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6060,8 +7715,8 @@
 				)
 			)
 		)
-		(property "Footprint" "BQ25630YBGR:BGA30C40P5X6_221X271X50"
-			(at 142.24 248.59 0)
+		(property "Footprint" "BGA30C40P5X6_221X271X50"
+			(at 133.35 215.316 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6073,7 +7728,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.ti.com/product/BQ25630/part-details/BQ25630YBGR"
-			(at 142.24 348.59 0)
+			(at 133.35 315.316 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6085,7 +7740,7 @@
 			)
 		)
 		(property "Description" "IC 1-cell 5A buck battery charger with USB Type-C detection | YBG | 30 | -40 to 85"
-			(at 113.03 153.67 0)
+			(at 104.14 120.396 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6096,7 +7751,7 @@
 			)
 		)
 		(property "Height" "0.5"
-			(at 142.24 548.59 0)
+			(at 133.35 515.316 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6108,7 +7763,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 142.24 648.59 0)
+			(at 133.35 615.316 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6120,7 +7775,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 142.24 748.59 0)
+			(at 133.35 715.316 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6132,7 +7787,7 @@
 			)
 		)
 		(property "Manufacturer_Name" "Texas Instruments"
-			(at 142.24 848.59 0)
+			(at 133.35 815.316 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6144,7 +7799,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" "BQ25630YBGR"
-			(at 142.24 948.59 0)
+			(at 133.35 915.316 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6476,6 +8131,192 @@
 		)
 	)
 	(symbol
+		(lib_id "SD adapter module:SD_adapter_module")
+		(at 184.658 54.864 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "93fb0c55-6ddc-44d9-8232-1b9adfb0fcdf")
+		(property "Reference" "H3"
+			(at 203.708 62.4839 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SD adapter module"
+			(at 203.708 65.0239 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Horizontal"
+			(at 203.708 149.784 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Datasheet" ""
+			(at 203.708 249.784 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Description" "SD adapter module"
+			(at 184.658 54.864 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "8"
+			(at 203.708 449.784 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 203.708 549.784 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 203.708 649.784 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 203.708 749.784 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 203.708 849.784 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "2"
+			(uuid "413c1c64-84cb-4c2d-879c-76eccddc4035")
+		)
+		(pin "3"
+			(uuid "eaa83b0b-d255-4986-9233-c3f41d4fdb17")
+		)
+		(pin "1"
+			(uuid "b40572a1-58a4-4fce-a3b3-1c21efa09a61")
+		)
+		(pin "8"
+			(uuid "68683fe0-863e-445b-826c-f12aced6241d")
+		)
+		(pin "5"
+			(uuid "8a9eb3a3-31bc-434b-ba3e-fe7943629757")
+		)
+		(pin "6"
+			(uuid "ecd57e62-d248-4f14-b9ea-31cb8a3d984d")
+		)
+		(pin "7"
+			(uuid "03afd793-ea8e-4ab3-ba0b-1fc56c087929")
+		)
+		(pin "4"
+			(uuid "fd35926c-eadb-48c9-a249-65e57ccc345a")
+		)
+		(pin "9"
+			(uuid "c44e7e23-652d-479a-aeac-29a7d71982b1")
+		)
+		(pin "10"
+			(uuid "6a445ee8-1bb9-4eac-8a21-b99741955c46")
+		)
+		(pin "15"
+			(uuid "8f291b6f-282c-4275-ae1a-5f9562629dfb")
+		)
+		(pin "12"
+			(uuid "a439f2c9-2394-4be1-b6a2-9a9e2811039d")
+		)
+		(pin "13"
+			(uuid "1bcb3002-283c-4ab0-9339-fd7990403350")
+		)
+		(pin "12"
+			(uuid "725ee365-83ea-4fa4-be97-790dd4f88931")
+		)
+		(pin "11"
+			(uuid "3165c0e6-bc24-45d7-851f-a052ab9c4a8a")
+		)
+		(pin "14"
+			(uuid "96702a25-db17-4bb9-92fb-f5212b12c5a5")
+		)
+		(instances
+			(project "Bikera PCB prototype"
+				(path "/a86c743b-d1a2-448b-89e9-5ba54a097e72"
+					(reference "H3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Security:ATECC608B-SSHDA")
 		(at 85.09 95.25 0)
 		(unit 1)
@@ -6576,6 +8417,153 @@
 		)
 	)
 	(symbol
+		(lib_id "TD-8120MG:TD-8120MG")
+		(at 214.122 95.504 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b0cbda23-2612-472b-ae41-8054856312de")
+		(property "Reference" "H5"
+			(at 233.172 96.7739 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TD-8120MG"
+			(at 233.172 99.3139 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical"
+			(at 233.172 190.424 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Datasheet" "https://www.tinytronics.nl/product_files/002172_Data%20Sheet%20of%20TD-8120MG%20Digital%20Servo%20Motor.pdf"
+			(at 233.172 290.424 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Description" "TD-8120MG Digital Servo"
+			(at 214.122 95.504 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "5.05"
+			(at 233.172 490.424 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser Part Number" "595-DRV5032DULPGM"
+			(at 233.172 590.424 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Texas-Instruments/DRV5032DULPGM?qs=OlC7AqGiEDk9MwfBkgsRPw%3D%3D"
+			(at 233.172 690.424 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Manufacturer_Name" "Texas Instruments"
+			(at 233.172 790.424 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Manufacturer_Part_Number" "DRV5032DULPGM"
+			(at 233.172 890.424 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "3"
+			(uuid "38cad9f0-5147-404d-b256-4627ab2f161b")
+		)
+		(pin "1"
+			(uuid "a1d56e7c-50c3-469b-aa3e-902870a8aa45")
+		)
+		(pin "2"
+			(uuid "439bbaf6-1460-4956-866d-a241f63eff86")
+		)
+		(instances
+			(project "Bikera PCB prototype"
+				(path "/a86c743b-d1a2-448b-89e9-5ba54a097e72"
+					(reference "H5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "FM24V01A-G:FM24V01A-G")
 		(at 100.33 92.71 0)
 		(unit 1)
@@ -6607,7 +8595,7 @@
 				)
 			)
 		)
-		(property "Footprint" "FM24V01A-G:SOIC127P602X173-8N"
+		(property "Footprint" "SOIC127P602X173-8N"
 			(at 121.92 187.63 0)
 			(hide yes)
 			(show_name no)
@@ -6730,6 +8718,168 @@
 			(project "Bikera PCB prototype"
 				(path "/a86c743b-d1a2-448b-89e9-5ba54a097e72"
 					(reference "IC1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Waveshare ePaper module:Waveshare_ePaper_module")
+		(at 182.88 25.908 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c2ceba7e-1c1f-44ee-bed0-c7018b12d700")
+		(property "Reference" "H1"
+			(at 201.93 33.5279 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Waveshare ePaper module"
+			(at 201.93 36.0679 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical"
+			(at 201.93 120.828 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Datasheet" "https://www.waveshare.com/wiki/1.54inch_e-Paper_Module"
+			(at 201.93 220.828 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Description" "Waveshare 1.54” 200x200 ePaper module"
+			(at 182.88 25.908 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "8"
+			(at 201.93 420.828 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 201.93 520.828 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 201.93 620.828 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 201.93 720.828 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 201.93 820.828 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "1"
+			(uuid "7e2acbc0-4078-4c4c-b869-082077f39dbc")
+		)
+		(pin "2"
+			(uuid "b55d3185-3dca-4a6d-9f58-2897f5a4ff16")
+		)
+		(pin "3"
+			(uuid "0b77d97a-dcf2-4c38-b454-b6530273be9b")
+		)
+		(pin "4"
+			(uuid "c3c6d022-3ef2-4320-8681-f9687a6c111a")
+		)
+		(pin "5"
+			(uuid "aa2ffb02-5b3f-42aa-8cb2-657d3a86987f")
+		)
+		(pin "8"
+			(uuid "24440167-0808-424b-856e-e9fe7fd8e887")
+		)
+		(pin "3"
+			(uuid "2e535373-e684-4380-893a-8ff6f085642b")
+		)
+		(pin "6"
+			(uuid "77ba8ef4-ead1-4295-931d-4c680ead5d64")
+		)
+		(instances
+			(project "Bikera PCB prototype"
+				(path "/a86c743b-d1a2-448b-89e9-5ba54a097e72"
+					(reference "H1")
 					(unit 1)
 				)
 			)
@@ -7047,7 +9197,7 @@
 	)
 	(symbol
 		(lib_id "TCR3UG33A_LF:TCR3UG33A_LF")
-		(at 207.01 158.75 0)
+		(at 198.12 125.476 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7058,7 +9208,7 @@
 		(fields_autoplaced yes)
 		(uuid "dde59039-be1e-46aa-9715-1c9386051ce4")
 		(property "Reference" "U5"
-			(at 207.01 148.59 0)
+			(at 198.12 115.316 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7068,7 +9218,7 @@
 			)
 		)
 		(property "Value" "TCR3UG33A_LF"
-			(at 207.01 151.13 0)
+			(at 198.12 117.856 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7078,7 +9228,7 @@
 			)
 		)
 		(property "Footprint" "TCR3UG33A_LF:BGA4N35P2X2_64X64X33"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7090,7 +9240,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7101,7 +9251,7 @@
 			)
 		)
 		(property "Description" "Linear Voltage Regulator IC Positive Fixed 1 Output  300mA 4-WCSP-F (0.65x0.65)"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7113,7 +9263,7 @@
 			)
 		)
 		(property "MF" "Toshiba Semiconductor and Storage"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7125,7 +9275,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" "0.33mm"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7137,7 +9287,7 @@
 			)
 		)
 		(property "Package" "XFBGA-4 Toshiba Semiconductor and Storage"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7149,7 +9299,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7161,7 +9311,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/TCR3UG33A,LF/Toshiba/view-part/?ref=eda"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7173,7 +9323,7 @@
 			)
 		)
 		(property "STANDARD" "IPC 7351B"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7185,7 +9335,7 @@
 			)
 		)
 		(property "PARTREV" "2021-10-28"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7197,7 +9347,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/TCR3UG33A,LF/Toshiba/view-part/?ref=snap"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7209,7 +9359,7 @@
 			)
 		)
 		(property "MP" "TCR3UG33A,LF"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7221,7 +9371,7 @@
 			)
 		)
 		(property "Purchase-URL" "https://www.snapeda.com/api/url_track_click_mouser/?unipart_id=3076450&manufacturer=Toshiba Semiconductor and Storage&part_name=TCR3UG33A,LF&search_term=tcr3ug33a"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7233,7 +9383,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7245,7 +9395,7 @@
 			)
 		)
 		(property "MANUFACTURER" "Toshiba"
-			(at 207.01 158.75 0)
+			(at 198.12 125.476 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7278,8 +9428,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Waveshare ePaper module:DRV5032DULPGM")
-		(at 152.4 100.33 0)
+		(lib_id "TPS61253F:TPS61253F")
+		(at 185.166 142.494 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7288,31 +9438,29 @@
 		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "e919732f-6c6f-47f1-9230-4b1968cffdbe")
-		(property "Reference" "H1"
-			(at 171.45 101.5999 0)
+		(uuid "e9c599b7-5a74-4d95-8205-66dfef0cc49c")
+		(property "Reference" "H4"
+			(at 197.866 134.874 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Value" "Waveshare ePaper module"
-			(at 171.45 104.1399 0)
+		(property "Value" "TPS61253F"
+			(at 197.866 137.414 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical"
-			(at 171.45 195.25 0)
+		(property "Footprint" "TPS61253F:BGA9N40P3X3_119X128X62N"
+			(at 206.756 237.414 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7323,8 +9471,8 @@
 				(justify left top)
 			)
 		)
-		(property "Datasheet" "https://www.waveshare.com/wiki/1.54inch_e-Paper_Module"
-			(at 171.45 295.25 0)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps61253e.pdf?ts=1774602914401&ref_url=https%253A%252F%252Fwww.mouser.be%252F"
+			(at 206.756 337.414 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7335,8 +9483,8 @@
 				(justify left top)
 			)
 		)
-		(property "Description" "Waveshare 1.54” 200x200 ePaper module"
-			(at 152.4 100.33 0)
+		(property "Description" "TPS61253F"
+			(at 185.166 142.494 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7346,20 +9494,8 @@
 				)
 			)
 		)
-		(property "Height" "8mm"
-			(at 171.45 495.25 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Mouser Part Number" "595-DRV5032DULPGM"
-			(at 171.45 595.25 0)
+		(property "Height" "1.727"
+			(at 206.756 537.414 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7370,8 +9506,8 @@
 				(justify left top)
 			)
 		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Texas-Instruments/DRV5032DULPGM?qs=OlC7AqGiEDk9MwfBkgsRPw%3D%3D"
-			(at 171.45 695.25 0)
+		(property "Mouser Part Number" "727-FM24V01A-G"
+			(at 206.756 637.414 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7382,8 +9518,8 @@
 				(justify left top)
 			)
 		)
-		(property "Manufacturer_Name" "Texas Instruments"
-			(at 171.45 795.25 0)
+		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Infineon-Technologies/FM24V01A-G?qs=3FnuM6ZipRKGr6yvOmSjPg%3D%3D"
+			(at 206.756 737.414 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7394,8 +9530,8 @@
 				(justify left top)
 			)
 		)
-		(property "Manufacturer_Part_Number" "DRV5032DULPGM"
-			(at 171.45 895.25 0)
+		(property "Manufacturer_Name" "Infineon"
+			(at 206.756 837.414 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7406,34 +9542,132 @@
 				(justify left top)
 			)
 		)
-		(pin "3"
-			(uuid "d61d2e16-73a4-4af0-8407-d6bfd1760c50")
+		(property "Manufacturer_Part_Number" "FM24V01A-G"
+			(at 206.756 937.414 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
 		)
-		(pin "1"
-			(uuid "55de75be-fa39-4275-ac5e-203e0faf515d")
+		(pin "A3"
+			(uuid "730cea2f-8cdd-4a5b-88a1-3c54726778a1")
 		)
-		(pin "2"
-			(uuid "ce7477a3-cf14-4d22-a300-85130574fe09")
+		(pin "B2"
+			(uuid "299b0f34-4409-412e-af40-0a3bfa0ac79c")
 		)
-		(pin "4"
-			(uuid "425f658c-a7cd-46ce-8a06-a04cca83a070")
+		(pin "A1"
+			(uuid "174d0acc-6be8-4f53-98e8-a0828098994d")
 		)
-		(pin "8"
-			(uuid "081c9c16-e23b-47c8-95d4-169e45a18335")
+		(pin "A2"
+			(uuid "1b63e1a4-c1c5-44df-9490-8ec33486c406")
 		)
-		(pin "6"
-			(uuid "3571bb6f-c2b3-4cb2-b02a-49977eea8b5a")
+		(pin "B1"
+			(uuid "df7b99e5-23f7-474b-9abd-f2dc421db809")
 		)
-		(pin "3"
-			(uuid "7b298680-4748-4083-aac6-cbd983b1aa97")
+		(pin "B3"
+			(uuid "28a7367a-91da-4f31-9b3c-6e8521f81a2e")
 		)
-		(pin "5"
-			(uuid "fec61242-087e-4b85-a4a9-3d418e876b49")
+		(pin "C1"
+			(uuid "c40b6095-3532-4a54-934e-04a1171fe266")
+		)
+		(pin "C2"
+			(uuid "02ed4d3a-da18-4e4b-9e25-fb15f1a847df")
+		)
+		(pin "C3"
+			(uuid "1d04b1df-5629-42f2-8b09-0ef1a16216b0")
 		)
 		(instances
 			(project "Bikera PCB prototype"
 				(path "/a86c743b-d1a2-448b-89e9-5ba54a097e72"
-					(reference "H1")
+					(reference "H4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:LED_Dual_KAK")
+		(at 182.372 97.79 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f953cf79-b3f8-4880-9652-24980a8d3f4d")
+		(property "Reference" "D1"
+			(at 182.4355 86.36 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LED_Dual_KAK"
+			(at 182.4355 88.9 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "LED_THT:LED_D5.0mm-3"
+			(at 183.642 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 183.642 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Dual LED, common anode on pin 2"
+			(at 182.372 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "95e5318e-927b-4354-a6d4-2413db88315f")
+		)
+		(pin "2"
+			(uuid "57cf2977-210a-4014-8adc-629b8d67230a")
+		)
+		(pin "3"
+			(uuid "808a51db-1009-46d3-b110-6337e92d934c")
+		)
+		(instances
+			(project "Bikera PCB prototype"
+				(path "/a86c743b-d1a2-448b-89e9-5ba54a097e72"
+					(reference "D1")
 					(unit 1)
 				)
 			)

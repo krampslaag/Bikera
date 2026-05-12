@@ -142,7 +142,6 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 	- **Bestaand**
 	- [x] STM32 *STM32L431CCT6TR
 	- [x] LoRa *RAK11720*
-	- [x] EEC chip *ATECC608B-SSHDA-T*
 		- [ ] 
 	- **Gedownload**
 	- [x] GPS *Quectel LC76GPAMD*
@@ -155,10 +154,11 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 	- **Gemaakt**
 	- [x] E-ink​ module *Waveshare 1.54” module*
 	- [ ] Accelerometer​ *LIS2DW12 module*
-	- [ ] SD-kaart​ module  *SD adapter module*
-	- [ ] BMS - 5V boost *TPS61253F*
-	- [ ] Servo pinheader *Pin header female ( 1x3 2.54mm)*
-	- [ ] LED *BL-BEG204-7-E*
+	- [ ] EEC chip *ATECC608B-SSHDA-T*
+	- [x] SD-kaart​ module  *SD adapter module*
+	- [x] BMS - 5V boost *TPS61253F*
+	- [x] Servo pinheader *Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical*
+	- [x] LED *BL-BEG204-7-E*
 - [ ] **Pinout uitzoeken**
 	- [ ] STM32 *STM32L431CCT6TR*
 	- [x] LoRa *RAK11720*
@@ -171,7 +171,7 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 		- [ ] li-ion lader *BQ25630YBGR*
 		- [ ] 3,3V buck-boost *RAA2361052GNP#HC5
 		- [ ] 3,3V LDO regulator *TCR3UG33A,LF*
-		- [ ] 5V boost *TPS61253F**
+		- [ ] 5V boost *TPS61253F*
 	- [x] Hall effect sensor *DRV5032DULPGM*
 	- [ ] ST-link (header) *009159010603906*
 	- [x] FRAM *FM24V01A-GTR*
