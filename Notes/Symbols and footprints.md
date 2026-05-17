@@ -60,6 +60,9 @@ LIS2DW12
 ### 3.3V buck-boost
 **RAA2361052GNP#HC5**
 - Symbol, footprint, 3D: [Mouser]([https://www.mouser.be/ProductDetail/Texas-Instruments/BQ25630YBGR?qs=bpu3f%2FCR1jxmQ5vho%252BhFHQ%3D%3D](https://www.mouser.be/ProductDetail/Renesas-Intersil/RAA2361052GNPHC5?qs=olJun0bQHM%2FTMxAlNSaKDw%3D%3D))
+### 3.3V buck-boost alternatief
+**RT6158AWSC**
+- Symbol, footprint, 3D: [Ultralibrarian](https://app.ultralibrarian.com/details/d01e2d83-aa6c-11ec-9033-0a34d6323d74/Richtek-Technology/RT6158HWSC?open=backlink)
 ### 3.3V LDO
 **TCR3UG33A,LF**
 - Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/Toshiba/TCR3UG33ALF?qs=0lQeLiL1qyaZy60Q7HF0yg%3D%3D), [Snapeda](https://www.snapeda.com/parts/TCR3UG33A%2CLF/Toshiba%20Semiconductor%20and%20Storage/view-part/?ref=search&t=TCR3UG33A&ab_test_case=b)
@@ -121,7 +124,8 @@ Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/KYOCERA-AVX/
 - [x] FRAM
 - [x] EEC chip
 - [x] BMS - li-ion lader
-- [x] BMS - 3,3V buck-boost
+- [!] BMS - 3,3V buck-boost
+- [ ] BMS - 3,3V buck-boost alternatief
 - [x] BMS - 3,3V LDO regulator
 - [x] BMS - 5V boost footprint
 - [x] Hall effect sensor
@@ -152,20 +156,20 @@ Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/KYOCERA-AVX/
 ##### Bestaand
 - [v] STM32 **STM32L431CCT6TR
 - [v] LoRa **RAK11720**
-- [v] LED
+- [v] LED **BL-BEG204-7-E**
 ##### Gedownload
 - [v] GPS **Quectel LC76GPAMD**
 - [v] FRAM **FM24V01A-GTR**
 - [v] BMS - li-ion lader **BQ25630YBGR**
-- [v] BMS - 3,3V buck-boost **RAA2361052GNP#HC5**
+- [!] BMS - 3,3V buck-boost **RAA2361052GNP#HC5
+- [ ] BMS - 3,3V buck-boost alternatief **RT6158AWSC**
 - [v] BMS - 3,3V LDO regulator **TCR3UG33A,LF**
 - [v] Hall effect sensor **DRV5032DULPGM**
 - [v] ST-link header **009159010603906**
 ##### Gemaakt
 - [v] E-ink​ module **Waveshare 1.54” module**
 - [/] Accelerometer​ **LIS2DW12 module**
-- [ ] EEC chip **ATECC608B-SSHDA-T**
+- [/] EEC chip **ATECC608B-SSHDA-T**
 - [v] SD-kaart​ module  **SD adapter module**
 - [v] BMS - 5V boost **TPS61253F**
 - [v] Servo pinheader **Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical**
-- [v] LED **BL-BEG204-7-E**

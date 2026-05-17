@@ -101,23 +101,22 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 - [ ] Randcomponenten en deelcircuits
 - [ ] Materiaallijst
 	- [x] Basiscomponenten (google sheets)
-		- [ ] *ST-link toevoegen*
-	- [ ] Randcomponenten
+	- [/] Randcomponenten
 	- [ ] Volledige BOM
 - [x] Architectuurdocument
 	%%Schema in drawio%%
-	- [ ] *ST-link header aanpassen*
 ## Componenten uitzoeken
 - [x] STM32 *STM32L431CCT6TR*
 - [x] LoRa *RAK11720*
 - [x] EEC chip *ATECC608B-SSHDA-T*
-	- [ ] Breakout bord
+	- [x] Breakout bord
+	- [x] IC voet
 - [x] GPS Quectel *LC76GPAMD*
 	- [ ] Randcomponenten
 - [x] BMS
 	- [x] li-ion lader *BQ25630YBGR*
 		- [ ] Randcomponenten
-	- [x] 3,3V buck-boost *RAA2361052GNP#HC5*
+	- [x] 3,3V buck-boost *RT6158AWSC*
 		- [ ] Randcomponenten
 	- [x] 3,3V LDO regulator *TCR3UG33A,LF*
 		- [ ] Randcomponenten
@@ -147,7 +146,7 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 	- [x] GPS *Quectel LC76GPAMD*
 	- [x] FRAM *FM24V01A-GTR*
 	- [x] BMS - li-ion lader *BQ25630YBGR*
-	- [x] BMS - 3,3V buck-boost *RAA2361052GNP#HC5*
+	- [ ] BMS - 3,3V buck-boost *RT6158AWSC*
 	- [x] BMS - 3,3V LDO regulator *TCR3UG33A,LF*
 	- [x] Hall effect sensor *DRV5032DULPGM*
 	- [x] ST-link header *009159010603906*
@@ -169,7 +168,7 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 	- [ ] BMS
 		- [ ] Eerst deelcircuits
 		- [ ] li-ion lader *BQ25630YBGR*
-		- [ ] 3,3V buck-boost *RAA2361052GNP#HC5
+		- [ ] 3,3V buck-boost *RT6158AWSC*
 		- [ ] 3,3V LDO regulator *TCR3UG33A,LF*
 		- [ ] 5V boost *TPS61253F*
 	- [x] Hall effect sensor *DRV5032DULPGM*
@@ -180,7 +179,7 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 	- [x] SD-kaart​ module  *SD adapter module*
 	- [x] Servo motor *TD-8120MG Digital Servo*
 	- [x] LED *BL-BEG204-7-E*
-### KiCad PCB
+### KiCad PCB layout
 - [ ] - Strategie uitzoeken (PCB afmetingen, lagen, ground plane, trace width...)
 - [ ] - Componenten plaatsen
 - [ ] - Verbindingen
