@@ -81,7 +81,7 @@ TD-8120MG Digital Servo
 	- [-] - *PinHeader_1x03_P1.00mm_Vertical_SMD_Pin1Left*
 	- [-] - *PinHeader_1x03_P1.00mm_Vertical_SMD_Pin1Right*
  - Footprint: KiCad - JST PH (zelf crimpen)
-	 - **
+	 - Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical
 - 3D **??**
 ## LED
 **BL-BEG204-7-E**
