@@ -8,7 +8,7 @@ Een prototype wordt ontwikkeld in de vorm van een development board met een cust
 	- Bijhorende LoRa antenne: [FPC antenne](https://be.farnell.com/te-connectivity/l000551-05/rf-antenna-863-to-870mhz-2-2dbi/dp/4457734)
 	- Bijhorende BLE antenne: [AANI-FB-0086-0100W (100mm)](https://www.digikey.be/nl/products/detail/abracon-llc/AANI-FB-0086-0100W/25558929)
 - ECC secure element: [ATECC608B-SSHDA-T](https://www.digikey.be/nl/products/detail/microchip-technology/ATECC608B-SSHDA-T/13415162?s=N4IgTCBcDaIIIBUCiBhFA2ADADgEIFoBlQgCQBE58EQBdAXyA)
-- GPS/GNSS module: [](https://www.mouser.be/ProductDetail/Quectel/LC76GPAMD?qs=vvQtp7zwQdMfDuCTmjRUww%3D%3D)[Quectel LC76GPAMD](https://www.mouser.be/ProductDetail/Quectel/LC76GPAMD?qs=vvQtp7zwQdMfDuCTmjRUww%3D%3D)
+- GPS/GNSS module: [Quectel LC76GPAMD](https://www.mouser.be/ProductDetail/Quectel/LC76GPAMD?qs=vvQtp7zwQdMfDuCTmjRUww%3D%3D)
 	- Bijhorende antenne: [YFGA003AA](https://www.digikey.be/nl/products/detail/quectel/YFGA003AA/21273116)
 - ePaper module: [Waveshare 1.54” module](https://www.waveshare.com/1.54inch-e-Paper-Module.htm)
 	%%voor QR codes%%
@@ -34,9 +34,17 @@ Een prototype wordt ontwikkeld in de vorm van een development board met een cust
 ## BOM
 Er wordt een **materiaallijst (BOM)** opgesteld met alle gebruikte componenten in [google sheets](https://docs.google.com/spreadsheets/d/1ZxJHOLqpuJL-1dvZkRNnV-r1_EjUXDaZgLNVo9UeM5s/edit?gid=1010541530#gid=1010541530).
 
-Hier staat een **sheet 'Basiscomponenten'** met verschillende opties voor elk component, aangeduid welke voor prototype gebruikt worden en welke voor finaal ontwerp kan gebruikt worden. 
+Er staat een **sheet 'Basiscomponenten'** met verschillende opties voor elk component, aangeduid welke voor prototype gebruikt worden en welke voor finaal ontwerp kan gebruikt worden. 
 
-Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te stellen.
+De keuzes voor het prototype zijn overgenomen naar de **sheet 'Componenten'**, waar ook alle randcomponenten zijn toegevoegd. De opmaak gebeurt automatisch en prijzen van Mouser, Digikey en Farnell kunnen via API's opgehaald worden met een script. Vanboven is er een menu Bikera met eigen functies, ook gelinkt aan knoppen.
+
+- [!] Prijzen automatisch updaten lukt nog niet helemaal (te veel requests per minuut), en er mist nog een API-key voor Farnell.
+
+Met tag 'alternatief' in de kolom 'type' kunnen verschillende opties voor hetzelfde component van een andere distributeur worden toegevoegd. Opties kunnen worden overgeslagen met de tag 'skip' bij de kolom 'status.' Er wordt automatisch aangeduid met lichtgele vakjes wat er nog moet ingevuld worden, geel waar een vraagteken bij staat en rood waar een uitroepteken staat.
+
+De componenten worden ook automatsich gedestilleerd in de **sheet 'BOM'**, waarbij gelijke componenten worden opgeteld. Met een knop wordt deze sheet gesorteerd per type.
+
+De **sheet 'Architectuur'** werd gebruikt om het architectuurschema op te stellen en de sheet 'Lijsten' bevat opties voor dropdownmenus.
 
 # Afspraken
 - PCB ontwerp in KiCad
@@ -98,32 +106,33 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 # Stand van zaken
 ## In grote lijnen
 - [x] Basiscomponenten uitzoeken
-- [ ] Randcomponenten en deelcircuits
+- [x] Randcomponenten en deelcircuits
 - [ ] Materiaallijst
 	- [x] Basiscomponenten (google sheets)
-		- [ ] *ST-link toevoegen*
-	- [ ] Randcomponenten
-	- [ ] Volledige BOM
+	- [x] Randcomponenten
+	- [/] Volledige BOM
 - [x] Architectuurdocument
 	%%Schema in drawio%%
-	- [ ] *ST-link header aanpassen*
+- [/] KiCad schema
+- [ ] KiCad PCB layout
 ## Componenten uitzoeken
 - [x] STM32 *STM32L431CCT6TR*
 - [x] LoRa *RAK11720*
 - [x] EEC chip *ATECC608B-SSHDA-T*
-	- [ ] Breakout bord
+	- [x] Breakout bord
+	- [x] IC voet
 - [x] GPS Quectel *LC76GPAMD*
-	- [ ] Randcomponenten
+	- [x] Randcomponenten
 - [x] BMS
 	- [x] li-ion lader *BQ25630YBGR*
-		- [ ] Randcomponenten
-	- [x] 3,3V buck-boost *RAA2361052GNP#HC5*
-		- [ ] Randcomponenten
+		- [x] Randcomponenten
+	- [x] 3,3V buck-boost *RT6158AWSC*
+		- [x] Randcomponenten
 	- [x] 3,3V LDO regulator *TCR3UG33A,LF*
-		- [ ] Randcomponenten
+		- [x] Randcomponenten
 	- [x] BMS - 5V boost *TPS61253F*
-		- [ ] Randcomponenten
-	- [ ] USB-C connector
+		- [x] Randcomponenten
+	- [x] USB-C connector
 - [x] Hall effect sensor *DRV5032DULPGM*
 - [x] ST-link
 	- [x] St-link *STLINK-V3MINIE*
@@ -133,9 +142,11 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 - [x] Accelerometer​ *LIS2DW12 module*
 - [x] SD-kaart​ module  *SD adapter module*
 - [x] Servo motor *TD-8120MG Digital Servo*
-	- [ ] Randcomponenten
+	- [x] Randcomponenten
 - [x] LED *BL-BEG204-7-E*
-	- [ ] Weerstanden
+	- [x] Weerstanden
+- [x] Alle randcomponenten uitzoeken, opsommen en controleren
+- [ ] Laatste correcties -> zie gekleurde vakjes op [spreadsheet Componenten](https://docs.google.com/spreadsheets/d/1ZxJHOLqpuJL-1dvZkRNnV-r1_EjUXDaZgLNVo9UeM5s/edit?usp=sharing)
 ## KiCad
 ### KiCad schema
 - [ ] **Symbolen en footprints importeren**
@@ -147,7 +158,7 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 	- [x] GPS *Quectel LC76GPAMD*
 	- [x] FRAM *FM24V01A-GTR*
 	- [x] BMS - li-ion lader *BQ25630YBGR*
-	- [x] BMS - 3,3V buck-boost *RAA2361052GNP#HC5*
+	- [ ] BMS - 3,3V buck-boost *RT6158AWSC*
 	- [x] BMS - 3,3V LDO regulator *TCR3UG33A,LF*
 	- [x] Hall effect sensor *DRV5032DULPGM*
 	- [x] ST-link header *009159010603906*
@@ -169,7 +180,7 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 	- [ ] BMS
 		- [ ] Eerst deelcircuits
 		- [ ] li-ion lader *BQ25630YBGR*
-		- [ ] 3,3V buck-boost *RAA2361052GNP#HC5
+		- [ ] 3,3V buck-boost *RT6158AWSC*
 		- [ ] 3,3V LDO regulator *TCR3UG33A,LF*
 		- [ ] 5V boost *TPS61253F*
 	- [x] Hall effect sensor *DRV5032DULPGM*
@@ -180,10 +191,48 @@ Er is ook een **sheet 'Architectuur'**, gebruikt om het architectuurschema op te
 	- [x] SD-kaart​ module  *SD adapter module*
 	- [x] Servo motor *TD-8120MG Digital Servo*
 	- [x] LED *BL-BEG204-7-E*
-### KiCad PCB
-- [ ] - Strategie uitzoeken (PCB afmetingen, lagen, ground plane, trace width...)
-- [ ] - Componenten plaatsen
-- [ ] - Verbindingen
+- [ ] **Schema afwerken**
+	- [x] Pagina's verdelen
+	- 01_power.kicad_sch
+		- [x] Componenten importeren
+		- [x] Verbindingen
+		- [ ] Footprints in orde
+	- 02_mcu.kicad_sch
+		 - [x] Componenten importeren
+		 - [x] Verbindingen
+		 - [ ] Footprints in orde
+	- 03_radio.kicad_sch
+		 - [x] Componenten importeren
+		 - [ ] Verbindingen
+		 - [ ] Footprints in orde
+	- 04_gps.kicad_sch
+		 - [x] Componenten importeren
+		 - [ ] Verbindingen
+		 - [ ] Footprints in orde
+	- 05_storage.kicad_sch
+		 - [x] Componenten importeren
+		 - [ ] Verbindingen
+		 - [ ] Footprints in orde
+	- 06_sensors.kicad_sch
+		 - [x] Componenten importeren
+		 - [ ] Verbindingen
+		 - [ ] Footprints in orde
+	- 07_actuator.kicad_sch
+		 - [x] Componenten importeren
+		 - [ ] Verbindingen
+		 - [ ] Footprints in orde
+	- 08_secure.kicad_sch
+		 - [x] Componenten importeren
+		 - [ ] Verbindingen
+		 - [ ] Footprints in orde
+	- 09_bridge.kicad_sch
+		 - [x] Componenten importeren
+		 - [ ] Verbindingen
+		 - [ ] Footprints in orde
+### KiCad PCB layout
+- [ ] Strategie uitzoeken (PCB afmetingen, lagen, ground plane, trace width...)
+- [ ] Componenten plaatsen
+- [ ] Verbindingen
 ## Realisatie
 - Componenten bestellen
 - PCB bestellen
