@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP BQ25630YBGR
+D IC 1-cell 5A buck battery charger with USB Type-C detection | YBG | 30 | -40 to 85
+K
+F https://www.ti.com/product/BQ25630/part-details/BQ25630YBGR
+$ENDCMP
+#
+#End Doc Library
