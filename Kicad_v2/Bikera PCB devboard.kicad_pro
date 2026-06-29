@@ -290,10 +290,14 @@
   },
   "pcbnew": {
     "last_paths": {
+      "gencad": "",
       "idf": "",
       "netlist": "",
       "plot": "",
+      "pos_files": "",
       "specctra_dsn": "",
+      "step": "",
+      "svg": "",
       "vrml": ""
     },
     "page_layout_descr_file": ""
@@ -536,7 +540,7 @@
         "uuid": "81c195cb-438f-45ca-b649-b955fa3ba763"
       }
     ],
-    "used_designators": "J7-8,IC4-5,R20-27,C29-44,#PWR19-26,AE1-3,D2-3,H3-4,U9-11",
+    "used_designators": "C22,C40-43,SW3,H4,R26,U10",
     "variants": []
   },
   "sheets": [
