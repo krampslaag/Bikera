@@ -16,4 +16,6 @@
 	(lib (name "RT6150B-33GQW") (type "KiCad") (uri "${KIPRJMOD}/Libraries/RT6150B-33GQW/RT6150B-33GQW.kicad_sym") (options "") (descr ""))
 	(lib (name "B3B-ZR") (type "KiCad") (uri "${KIPRJMOD}/Libraries/B3B-ZR/B3B-ZR.kicad_sym") (options "") (descr ""))
 	(lib (name "SMF05CT1G") (type "KiCad") (uri "${KIPRJMOD}/Libraries/SMF05CT1G/SMF05CT1G.kicad_sym") (options "") (descr ""))
+	(lib (name "MAKK2520H1R0M") (type "KiCad") (uri "${KIPRJMOD}/Libraries/MAKK2520H1R0M/MAKK2520H1R0M.kicad_sym") (options "") (descr ""))
+	(lib (name "RT6158AWSC") (type "KiCad") (uri "${KIPRJMOD}/Libraries/RT6158AWSC/2026-07-01_11-50-37.kicad_sym") (options "") (descr ""))
 )

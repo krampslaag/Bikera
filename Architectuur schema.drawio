@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" pages="15">
   <diagram name="Architecture design" id="486_e8OcWno_iCCH_6T1">
-    <mxGraphModel dx="1202" dy="483" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" background="#FFFFFF" math="0" shadow="0">
+    <mxGraphModel dx="2032" dy="1097" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" background="#FFFFFF" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -653,7 +653,7 @@
         <mxCell id="cZuKfBVeGEWZvs1l-TBL-23" parent="cZuKfBVeGEWZvs1l-TBL-18" style="text;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=10;fontColor=#000000;" value="&lt;span&gt;CC1 / CC2&lt;/span&gt;" vertex="1">
           <mxGeometry height="20" width="80" y="40" as="geometry" />
         </mxCell>
-        <UserObject label="&lt;div style=&quot;line-height: 110%;&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;ST-link&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;line-height: 110%;&quot;&gt;V3MINIE&lt;/div&gt;" id="cZuKfBVeGEWZvs1l-TBL-32">
+        <UserObject label="&lt;div style=&quot;line-height: 110%;&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;ST-link&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;line-height: 110%;&quot;&gt;V3MINIE&lt;/div&gt;" link="data:page/id,90GaOsJzDsh4M6dsb2wl" id="cZuKfBVeGEWZvs1l-TBL-32">
           <mxCell parent="1" style="swimlane;whiteSpace=wrap;html=1;startSize=39;rounded=1;arcSize=12;glass=0;shadow=1;fontColor=#000000;fillColor=#C0FAC6;swimlaneFillColor=#F7F7F7;strokeColor=#000000;" vertex="1">
             <mxGeometry height="280" width="130" x="-130" y="809" as="geometry" />
           </mxCell>
@@ -2127,7 +2127,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="90GaOsJzDsh4M6dsb2wl" name="ST-link">
-    <mxGraphModel dx="2135" dy="1512" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="2160" dy="1320" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />

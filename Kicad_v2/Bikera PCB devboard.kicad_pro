@@ -540,7 +540,7 @@
         "uuid": "81c195cb-438f-45ca-b649-b955fa3ba763"
       }
     ],
-    "used_designators": "C22,C40-43,SW3,H4,R26,U10",
+    "used_designators": "C22,C40-48,SW3,H4,J4,R26,U10-11,TH1,BT1",
     "variants": []
   },
   "sheets": [
