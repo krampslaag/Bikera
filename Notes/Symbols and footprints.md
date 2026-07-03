@@ -139,7 +139,7 @@ Symbol, footprint, 3D: [Mouser](https://www.mouser.be/ProductDetail/KYOCERA-AVX/
 	%%Baseren op FRAM (FM24V01A-GTR)%%
 - [ ] Accelerometer module footprint
 - [ ] EEC chip footprint
-	- [ ] Breakout/IC voet zoeken
+	- [x] Breakout/IC voet zoeken
 	%%Baseren op%%
 - [x] SD-kaart​ module header symbol
 	%%Baseren op E-ink header symbool%%

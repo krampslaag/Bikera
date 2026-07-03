@@ -113,7 +113,7 @@ De **sheet 'Architectuur'** werd gebruikt om het architectuurschema op te stelle
 	- [/] Volledige BOM
 - [x] Architectuurdocument
 	%%Schema in drawio%%
-- [/] KiCad schema
+- [x] KiCad schema
 - [ ] KiCad PCB layout
 ## Componenten uitzoeken
 - [x] STM32 *STM32L431CCT6TR*
@@ -149,86 +149,68 @@ De **sheet 'Architectuur'** werd gebruikt om het architectuurschema op te stelle
 - [ ] Laatste correcties -> zie gekleurde vakjes op [spreadsheet Componenten](https://docs.google.com/spreadsheets/d/1ZxJHOLqpuJL-1dvZkRNnV-r1_EjUXDaZgLNVo9UeM5s/edit?usp=sharing)
 ## KiCad
 ### KiCad schema
-- [ ] **Symbolen en footprints importeren**
+- [x] **Symbolen en footprints importeren**
 	- **Bestaand**
 	- [x] STM32 *STM32L431CCT6TR
 	- [x] LoRa *RAK11720*
-		- [ ] 
 	- **Gedownload**
 	- [x] GPS *Quectel LC76GPAMD*
 	- [x] FRAM *FM24V01A-GTR*
 	- [x] BMS - li-ion lader *BQ25630YBGR*
-	- [ ] BMS - 3,3V buck-boost *RT6158AWSC*
+	- [x] BMS - 3,3V buck-boost *RT6158AWSC*
 	- [x] BMS - 3,3V LDO regulator *TCR3UG33A,LF*
 	- [x] Hall effect sensor *DRV5032DULPGM*
 	- [x] ST-link header *009159010603906*
 	- **Gemaakt**
 	- [x] E-ink​ module *Waveshare 1.54” module*
 	- [ ] Accelerometer​ *LIS2DW12 module*
-	- [ ] EEC chip *ATECC608B-SSHDA-T*
+	- [x] EEC chip *ATECC608B-SSHDA-T*
 	- [x] SD-kaart​ module  *SD adapter module*
 	- [x] BMS - 5V boost *TPS61253F*
 	- [x] Servo pinheader *Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical*
 	- [x] LED *BL-BEG204-7-E*
 - [ ] **Pinout uitzoeken**
-	- [ ] STM32 *STM32L431CCT6TR*
+	- [x] STM32 *STM32L431CCT6TR*
 	- [x] LoRa *RAK11720*
 	- [x] EEC chip *ATECC608B-SSHDA-T*
 	- [ ] GPS Quectel *LC76GPAMD*
 		- [x] Beschikbare pinnen
 		- [ ] Optionele verbindingen (zie arch.schema)
-	- [ ] BMS
-		- [ ] Eerst deelcircuits
-		- [ ] li-ion lader *BQ25630YBGR*
-		- [ ] 3,3V buck-boost *RT6158AWSC*
-		- [ ] 3,3V LDO regulator *TCR3UG33A,LF*
-		- [ ] 5V boost *TPS61253F*
+	- [x] BMS
+		- [x] Eerst deelcircuits
+		- [x] li-ion lader *BQ25630YBGR*
+		- [x] 3,3V buck-boost *RT6158AWSC*
+		- [x] 3,3V LDO regulator *TCR3UG33A,LF*
+		- [x] 5V boost *TPS61253F*
 	- [x] Hall effect sensor *DRV5032DULPGM*
-	- [ ] ST-link (header) *009159010603906*
+	- [x] ST-link (header) *009159010603906*
 	- [x] FRAM *FM24V01A-GTR*
 	- [x] ePaper​ *Waveshare 1.54” module*
 	- [x] Accelerometer​ *LIS2DW12 module*
 	- [x] SD-kaart​ module  *SD adapter module*
 	- [x] Servo motor *TD-8120MG Digital Servo*
 	- [x] LED *BL-BEG204-7-E*
-- [ ] **Schema afwerken**
+- [/] **Schema afwerken**
 	- [x] Pagina's verdelen
 	- 01_power.kicad_sch
 		- [x] Componenten importeren
 		- [x] Verbindingen
-		- [ ] Footprints in orde
+		- [x] Footprints in orde
+		- [x] Gecontroleerd
+		- [x] Herschikt
 	- 02_mcu.kicad_sch
 		 - [x] Componenten importeren
 		 - [x] Verbindingen
-		 - [ ] Footprints in orde
-	- 03_radio.kicad_sch
+		 - [x] Footprints in orde
+		 - [x] Gecontroleerd
+		 - [ ] Herschikt
+	- 03_auxillery.kicad_sch
 		 - [x] Componenten importeren
-		 - [ ] Verbindingen
+		 - [x] Verbindingen
 		 - [ ] Footprints in orde
-	- 04_gps.kicad_sch
-		 - [x] Componenten importeren
-		 - [ ] Verbindingen
-		 - [ ] Footprints in orde
-	- 05_storage.kicad_sch
-		 - [x] Componenten importeren
-		 - [ ] Verbindingen
-		 - [ ] Footprints in orde
-	- 06_sensors.kicad_sch
-		 - [x] Componenten importeren
-		 - [ ] Verbindingen
-		 - [ ] Footprints in orde
-	- 07_actuator.kicad_sch
-		 - [x] Componenten importeren
-		 - [ ] Verbindingen
-		 - [ ] Footprints in orde
-	- 08_secure.kicad_sch
-		 - [x] Componenten importeren
-		 - [ ] Verbindingen
-		 - [ ] Footprints in orde
-	- 09_bridge.kicad_sch
-		 - [x] Componenten importeren
-		 - [ ] Verbindingen
-		 - [ ] Footprints in orde
+		 - [!] Accelerometer footprint
+		 - [x] Gecontroleerd
+		 - [x] Herschikt
 ### KiCad PCB layout
 - [ ] Strategie uitzoeken (PCB afmetingen, lagen, ground plane, trace width...)
 - [ ] Componenten plaatsen
