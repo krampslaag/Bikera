@@ -540,7 +540,7 @@
         "uuid": "81c195cb-438f-45ca-b649-b955fa3ba763"
       }
     ],
-    "used_designators": "C22,C40-48,SW3,H4,J4,R26,U10-11,TH1,BT1",
+    "used_designators": "",
     "variants": []
   },
   "sheets": [
@@ -559,10 +559,6 @@
     [
       "b1e9f223-a9d4-4a6e-a3fc-d616bb011d29",
       "Auxillary systems"
-    ],
-    [
-      "f6d617cc-616d-4a62-9161-ae581735f7a0",
-      "Radio"
     ]
   ],
   "text_variables": {},

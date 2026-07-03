@@ -1999,7 +1999,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "04-gps.kicad_sch"
+		(property "Sheetfile" "03-auxillary.kicad_sch"
 			(at 25.4 81.8646 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2014,52 +2014,6 @@
 			(project "Bikera PCB devboard"
 				(path "/81c195cb-438f-45ca-b649-b955fa3ba763"
 					(page "4")
-				)
-			)
-		)
-	)
-	(sheet
-		(at 25.4 55.88)
-		(size 46.99 8.89)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(fill
-			(color 0 0 0 0)
-		)
-		(uuid "f6d617cc-616d-4a62-9161-ae581735f7a0")
-		(property "Sheetname" "Radio"
-			(at 25.4 55.1684 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Sheetfile" "03-radio.kicad_sch"
-			(at 25.4 65.3546 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(instances
-			(project "Bikera PCB devboard"
-				(path "/81c195cb-438f-45ca-b649-b955fa3ba763"
-					(page "5")
 				)
 			)
 		)

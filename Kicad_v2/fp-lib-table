@@ -11,4 +11,5 @@
 	(lib (name "009159010603906") (type "KiCad") (uri "${KIPRJMOD}/Libraries/009159010603906") (options "") (descr ""))
 	(lib (name "MAKK2520H1R0M") (type "KiCad") (uri "${KIPRJMOD}/Libraries/MAKK2520H1R0M") (options "") (descr ""))
 	(lib (name "RT6158AWSC") (type "KiCad") (uri "${KIPRJMOD}/Libraries/RT6158AWSC") (options "") (descr ""))
+	(lib (name "SMF05CT1G") (type "KiCad") (uri "${KIPRJMOD}/Libraries/SMF05CT1G") (options "") (descr ""))
 )

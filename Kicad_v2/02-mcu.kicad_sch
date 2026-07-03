@@ -10041,7 +10041,7 @@
 				)
 			)
 		)
-		(property "Footprint" "009159010603906"
+		(property "Footprint" "009159010603906:009159010603906"
 			(at 234.95 200.33 0)
 			(hide yes)
 			(show_name no)
