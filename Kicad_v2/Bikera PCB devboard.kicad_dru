@@ -1,0 +1,21 @@
+(version 1)
+
+(rule "RF 50R feed width"
+  (condition "A.hasNetclass('HighSpeed_RF')")
+  (layer outer)
+  (constraint track_width (min 0.85mm) (opt 0.9mm) (max 0.95mm)))
+
+(rule "RF clearance"
+  (condition "A.hasNetclass('HighSpeed_RF')")
+  (constraint clearance (min 0.5mm)))
+
+(rule "BATT high current"
+  (condition "A.Net == '+BATT'")
+  (constraint track_width (min 0.5mm)))
+
+(rule "Power rails min width"
+  (condition "A.hasNetclass('Power')")
+  (constraint track_width (min 0.35mm)))
+
+(rule "edge clearance"
+  (constraint edge_clearance (min 0.3mm)))
