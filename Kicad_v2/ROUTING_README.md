@@ -37,16 +37,26 @@ board file (or rename). Fill zones (B) before DRC.
    microvias. Covered by a dru exception inside the courtyards; **confirm your fab
    accepts it or plan to tweak by hand.**
 
-## ⚠ Still unrouted (~27 nets have a missing link; ratsnest will show them)
-Power: +5V, +SYS (2 links), +VBUS, Net-(L2-Pad1/2) (U1↔L2!), Net-(IC2-SW_1) (C7 snubber), Net-(D1-K2)
-Charger satellites: CHRG_CE/INT/PG, Net-(IC2-TS) (TH1/R8/R9)
-Buses/signals: I2C_SCL/SDA (some branches), SPI1_SCK/MOSI (J7/H3 branches), SD_CS,
-GPS_RX, GPS_RESET (1 branch), GPS_EN, EN_5V_SERVO, EPAPER_BUSY, SWO, ACCEL_INT1,
-GRN LED, HALL_PIN/HALL_BEUGEL, one GND cap (C15).
+## Update (second pass, same day)
+A fine-grid repair pass added the missing +VBUS, GPS_RX, SW-node (C7 snubber),
+LORA_BOOT/RX and USB-DN links. An exact-geometry audit then found the automated
+router had created several **near-shorts** (traces tunnelling through pad
+boundaries — a raster bug); all affected nets were ripped up and rerouted with a
+corrected model. **The shipped board now has zero clearance violations outside
+the documented WCSP squeeze zones** (verified via-pad / seg-pad / seg-seg at
+≥0.09 mm everywhere else).
 
-These sit in the two densest zones (U3 QFP perimeter, IC2/U1 power cluster). KiCad's
-push-and-shove router handles them interactively in a few minutes — or I can
-continue programmatically next session.
+## ⚠ Still unrouted (~32 nets have a missing link; ratsnest will show them)
+Power: +5V, +SYS (2 links), Net-(L2-Pad1/2) (**U1↔L2 buck inductor — must be
+routed before power-up**), Net-(D1-K2), one +3V3 cap (C47), one GND cap (C15)
+Charger satellites: CHRG_CE/INT/PG, Net-(IC2-TS) (TH1/R8/R9), VBAT_SENSE
+Buses/signals: I2C_SCL/SDA branches, SPI1_SCK/MOSI branches, SD_CS, GPS_RESET
+(fully open — SW1/R20/C16 chain), GPS_EN, EN_5V_SERVO, EPAPER_CS/RST/BUSY,
+LORA_RESET, SWO/SWCLK, ACCEL_INT1, RED/GRN LED, SERVO_RSENSE, HALL_PIN/HALL_BEUGEL.
+
+These sit in the two saturated zones (U3 QFP perimeter, IC2/U1 power cluster).
+KiCad's push-and-shove router handles them interactively — it can shove existing
+tracks aside, which my router cannot. Expect ~30–45 min by hand.
 
 ## Suggested order next
 1. Open ROUTED board, **fill zones (B)**, run DRC with the .kicad_dru loaded.
