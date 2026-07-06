@@ -3100,8 +3100,8 @@
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "H"
-				(at 19.05 -1.2699 0)
+			(property "Reference" "H3"
+				(at 2.794 7.1121 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -3112,7 +3112,7 @@
 				)
 			)
 			(property "Value" "SD adapter module"
-				(at 19.05 -3.8099 0)
+				(at 2.54 4.3181 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -3122,7 +3122,7 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Horizontal"
+			(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical"
 				(at 19.05 -94.92 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -3454,25 +3454,6 @@
 				(pin input line
 					(at 0 -15.24 0)
 					(length 5.08)
-					(hide yes)
-					(name "SCK"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 0 -15.24 0)
-					(length 5.08)
 					(name "SCK"
 						(effects
 							(font
@@ -3488,11 +3469,11 @@
 						)
 					)
 				)
-				(pin output line
-					(at 0 -17.78 0)
+				(pin input line
+					(at 0 -15.24 0)
 					(length 5.08)
 					(hide yes)
-					(name "MISO"
+					(name "SCK"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3518,6 +3499,25 @@
 						)
 					)
 					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 0 -17.78 0)
+					(length 5.08)
+					(hide yes)
+					(name "MISO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -4419,33 +4419,10 @@
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "H1"
-				(at 19.05 -1.2699 0)
+			(property "Reference" "J7"
+				(at 2.794 7.874 0)
 				(show_name no)
 				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Value" "Waveshare ePaper module"
-				(at 19.05 -3.8099 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical"
-				(at 19.05 -94.92 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -4453,11 +4430,10 @@
 					(justify left top)
 				)
 			)
-			(property "Datasheet" "https://www.waveshare.com/wiki/1.54inch_e-Paper_Module"
-				(at 19.05 -194.92 0)
+			(property "Value" "Waveshare_ePaper_module"
+				(at 1.016 4.826 0)
 				(show_name no)
 				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -4465,7 +4441,7 @@
 					(justify left top)
 				)
 			)
-			(property "Description" "Waveshare 1.54” 200x200 ePaper module"
+			(property "Footprint" "Connector_JST:JST_PH_B8B-PH-K_1x08_P2.00mm_Vertical"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4476,8 +4452,8 @@
 					)
 				)
 			)
-			(property "Height" "8"
-				(at 19.05 -394.92 0)
+			(property "Datasheet" ""
+				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -4485,55 +4461,16 @@
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left top)
 				)
 			)
-			(property "Mouser Part Number" ""
-				(at 19.05 -494.92 0)
+			(property "Description" ""
+				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left top)
-				)
-			)
-			(property "Mouser Price/Stock" ""
-				(at 19.05 -594.92 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left top)
-				)
-			)
-			(property "Manufacturer_Name" ""
-				(at 19.05 -694.92 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left top)
-				)
-			)
-			(property "Manufacturer_Part_Number" ""
-				(at 19.05 -794.92 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left top)
 				)
 			)
 			(symbol "Waveshare_ePaper_module_1_1"
@@ -4603,24 +4540,6 @@
 					)
 				)
 				(pin input line
-					(at 0 -15.24 0)
-					(length 5.08)
-					(name "RST#"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
 					(at 0 -7.62 0)
 					(length 5.08)
 					(name "CLK"
@@ -4667,6 +4586,24 @@
 						)
 					)
 					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -15.24 0)
+					(length 5.08)
+					(name "RST#"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -10289,7 +10226,7 @@
 		(pin "12"
 			(uuid "aa511789-b1e5-474b-bc13-716f153d8ea8")
 		)
-		(pin "12"
+		(pin "16"
 			(uuid "49fc5156-80c2-425f-82da-42efe4e55909")
 		)
 		(pin "14"
@@ -10619,7 +10556,7 @@
 		(pin "6"
 			(uuid "dc387fc7-33b4-4fdd-b3f5-1b0d8148e02c")
 		)
-		(pin "3"
+		(pin "7"
 			(uuid "7dd96edf-9f3b-4664-8c91-dd8567c3e563")
 		)
 		(pin "8"

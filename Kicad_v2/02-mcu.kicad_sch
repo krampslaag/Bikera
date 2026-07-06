@@ -8782,7 +8782,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "639c1c06-5f4d-4fe5-a108-3bb46b16ca5f")
-		(property "Reference" "#PWR014"
+		(property "Reference" "#PWR042"
 			(at 25.4 13.97 0)
 			(hide yes)
 			(show_name no)
@@ -8842,7 +8842,7 @@
 		(instances
 			(project "Bikera PCB devboard"
 				(path "/81c195cb-438f-45ca-b649-b955fa3ba763/4ad3ced7-d468-45e1-aabd-eb3988119771"
-					(reference "#PWR014")
+					(reference "#PWR042")
 					(unit 1)
 				)
 			)
@@ -8938,7 +8938,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6acf5715-3434-4527-8fbf-f8b317b8b95a")
-		(property "Reference" "#PWR015"
+		(property "Reference" "#PWR041"
 			(at 19.05 24.13 0)
 			(hide yes)
 			(show_name no)
@@ -8998,7 +8998,7 @@
 		(instances
 			(project "Bikera PCB devboard"
 				(path "/81c195cb-438f-45ca-b649-b955fa3ba763/4ad3ced7-d468-45e1-aabd-eb3988119771"
-					(reference "#PWR015")
+					(reference "#PWR041")
 					(unit 1)
 				)
 			)
@@ -9036,7 +9036,7 @@
 				)
 			)
 		)
-		(property "Footprint" "DRV5032DULPGM"
+		(property "Footprint" "DRV5032DULPGM:DRV5032DULPGM"
 			(at 44.45 47.32 0)
 			(hide yes)
 			(show_name no)
@@ -9815,7 +9815,7 @@
 				)
 			)
 		)
-		(property "Footprint" "DRV5032DULPGM"
+		(property "Footprint" "DRV5032DULPGM:DRV5032DULPGM"
 			(at 44.45 15.57 0)
 			(hide yes)
 			(show_name no)

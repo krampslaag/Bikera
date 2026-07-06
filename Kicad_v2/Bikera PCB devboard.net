@@ -1,8 +1,8 @@
 (export
 	(version "E")
 	(design
-		(source "D:\\Elektronica-ICT offline\\Bikera\\Kicad_v2\\Bikera PCB devboard.kicad_sch")
-		(date "2026-07-05T12:49:01")
+		(source "D:\\Elektronica-ICT 5\\Bachelorproef\\defunct-backup\\Kicad_v2\\Bikera PCB devboard.kicad_sch")
+		(date "2026-07-06T11:24:03")
 		(tool "Eeschema 10.0.1")
 		(sheet
 			(number "1")
@@ -1565,10 +1565,10 @@
 		(comp
 			(ref "J1")
 			(value "USB4105-GF-A-060")
-			(footprint "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal")
+			(footprint "USB-C:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal")
 			(fields
 				(field
-					(name "Footprint") "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal")
+					(name "Footprint") "USB-C:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -4129,7 +4129,7 @@
 		(comp
 			(ref "IC1")
 			(value "DRV5032DULPGM")
-			(footprint "DRV5032DULPGM")
+			(footprint "DRV5032DULPGM:DRV5032DULPGM")
 			(datasheet "https://www.ti.com/lit/gpn/drv5032")
 			(description "Board Mount Hall Effect / Magnetic Sensors Low power (5 Hz, <1 uA), low voltage (up to 5.5V) switch 3-TO-92 -40 to 85")
 			(fields
@@ -4144,7 +4144,7 @@
 				(field
 					(name "Manufacturer_Part_Number") "DRV5032DULPGM")
 				(field
-					(name "Footprint") "DRV5032DULPGM")
+					(name "Footprint") "DRV5032DULPGM:DRV5032DULPGM")
 				(field
 					(name "Datasheet") "https://www.ti.com/lit/gpn/drv5032")
 				(field
@@ -4208,7 +4208,7 @@
 		(comp
 			(ref "IC3")
 			(value "DRV5032DULPGM")
-			(footprint "DRV5032DULPGM")
+			(footprint "DRV5032DULPGM:DRV5032DULPGM")
 			(datasheet "https://www.ti.com/lit/gpn/drv5032")
 			(description "Board Mount Hall Effect / Magnetic Sensors Low power (5 Hz, <1 uA), low voltage (up to 5.5V) switch 3-TO-92 -40 to 85")
 			(fields
@@ -4223,7 +4223,7 @@
 				(field
 					(name "Manufacturer_Part_Number") "DRV5032DULPGM")
 				(field
-					(name "Footprint") "DRV5032DULPGM")
+					(name "Footprint") "DRV5032DULPGM:DRV5032DULPGM")
 				(field
 					(name "Datasheet") "https://www.ti.com/lit/gpn/drv5032")
 				(field
@@ -6222,6 +6222,9 @@
 						(pin
 							(num "15")
 						)
+						(pin
+							(num "16")
+						)
 					)
 				)
 			)
@@ -6337,7 +6340,7 @@
 			(libsource
 				(lib "Waveshare_ePaper_module")
 				(part "Waveshare_ePaper_module")
-				(description "Waveshare 1.54” 200x200 ePaper module")
+				(description "")
 			)
 			(property
 				(name "Sheetname")
@@ -6373,6 +6376,9 @@
 						)
 						(pin
 							(num "6")
+						)
+						(pin
+							(num "7")
 						)
 						(pin
 							(num "8")
@@ -7302,30 +7308,61 @@
 	)
 	(groups
 		(group
+			(name "5V Boost")
+			(uuid "0c335723-7297-4e81-b464-c3beb85b4653")
+			(lib_id "")
+			(members
+				(member
+					(uuid "008760d6-a371-4d0b-a5f5-1964963a04e4")
+				)
+				(member
+					(uuid "846e4b40-b5cb-435e-bc88-bcaf4600cc04")
+				)
+				(member
+					(uuid "0c206131-dbb4-4c9a-a400-dede6cb5dc08")
+				)
+				(member
+					(uuid "8af85812-7118-4740-9d1d-66b05f20bfe5")
+				)
+				(member
+					(uuid "4be651bd-66d0-4b04-a1cb-397fccd08dd7")
+				)
+				(member
+					(uuid "525d15d6-fa3f-46fa-abbf-b407b122903c")
+				)
+				(member
+					(uuid "a5e38d6c-2a89-40ca-b4fe-85ae6af14484")
+				)
+				(member
+					(uuid "6f4f77d5-ec9d-47ae-a68e-02d372353907")
+				)
+				(member
+					(uuid "742fa933-0c44-463a-92b9-66b2037e4e72")
+				)
+				(member
+					(uuid "a00e153d-cca6-4be9-90df-aa6e5bd39914")
+				)
+				(member
+					(uuid "ef09b3b0-4149-4b5d-be58-4cb0a6a2e543")
+				)
+			)
+		)
+		(group
 			(name "Charger")
 			(uuid "15f0563e-5969-44b4-a157-4daba69ff046")
 			(lib_id "")
 			(members
 				(member
-					(uuid "e54085fd-0bf3-4a8b-b2b0-55b882533eb9")
+					(uuid "2f8ff6a0-6eec-4abf-b8c7-f365fca8b13b")
 				)
 				(member
-					(uuid "564a1ea5-efd4-41f6-8f52-2c9cec1dcf43")
-				)
-				(member
-					(uuid "62503839-1a54-46f4-bcf4-9879a7dcb42f")
+					(uuid "10add70e-e2ba-40d0-b95b-d94d4b304fb4")
 				)
 				(member
 					(uuid "0ced687a-3f96-444b-9139-58aab50a285a")
 				)
 				(member
-					(uuid "1b2fc9c2-c93a-4c52-8c2a-535fe712772e")
-				)
-				(member
 					(uuid "0f3dea0a-b066-496b-b008-ebcfafd3352a")
-				)
-				(member
-					(uuid "10add70e-e2ba-40d0-b95b-d94d4b304fb4")
 				)
 				(member
 					(uuid "10f0dce5-1a72-4ee9-bff0-c992a37c93e7")
@@ -7334,19 +7371,31 @@
 					(uuid "110c13a2-d5a7-4654-bf00-022dcb737a04")
 				)
 				(member
-					(uuid "1cd50c24-cded-47a6-822a-f3258e4ab424")
-				)
-				(member
 					(uuid "174ad3b5-88a0-49c5-ab3f-77a370b37dbe")
 				)
 				(member
-					(uuid "fa394b7e-206d-459e-ae46-6924818617e6")
+					(uuid "1b2fc9c2-c93a-4c52-8c2a-535fe712772e")
 				)
 				(member
-					(uuid "2f8ff6a0-6eec-4abf-b8c7-f365fca8b13b")
+					(uuid "e1f070c2-041f-44aa-a8d9-566dfe4ec931")
+				)
+				(member
+					(uuid "1cd50c24-cded-47a6-822a-f3258e4ab424")
+				)
+				(member
+					(uuid "d184e3de-208d-4ae0-bf88-c43169a35b05")
+				)
+				(member
+					(uuid "ef9fcb94-b2af-4958-97f1-af78957c28c8")
 				)
 				(member
 					(uuid "30e9b327-9e63-4854-a309-43683097c3d6")
+				)
+				(member
+					(uuid "564a1ea5-efd4-41f6-8f52-2c9cec1dcf43")
+				)
+				(member
+					(uuid "62503839-1a54-46f4-bcf4-9879a7dcb42f")
 				)
 				(member
 					(uuid "62944017-4a07-4b22-a707-a979debc6e34")
@@ -7364,117 +7413,25 @@
 					(uuid "c5c238d5-3d7f-408d-a9a3-4642e09b5b86")
 				)
 				(member
-					(uuid "d184e3de-208d-4ae0-bf88-c43169a35b05")
-				)
-				(member
 					(uuid "d6ac3f94-f50a-442b-a62e-25ee5bdbccae")
-				)
-				(member
-					(uuid "dbb1ae9a-f993-45e9-94c7-3c0cd4997a72")
 				)
 				(member
 					(uuid "e0bcb6c6-7a77-4068-8304-d5423e98fc00")
 				)
 				(member
-					(uuid "e1f070c2-041f-44aa-a8d9-566dfe4ec931")
+					(uuid "dbb1ae9a-f993-45e9-94c7-3c0cd4997a72")
 				)
 				(member
 					(uuid "e9220113-def1-4eab-b2c5-d222743425f3")
 				)
 				(member
-					(uuid "ef9fcb94-b2af-4958-97f1-af78957c28c8")
+					(uuid "e54085fd-0bf3-4a8b-b2b0-55b882533eb9")
 				)
 				(member
 					(uuid "f0666202-083d-4b52-a6e5-f89a7fb81beb")
 				)
-			)
-		)
-		(group
-			(name "5V Boost")
-			(uuid "0c335723-7297-4e81-b464-c3beb85b4653")
-			(lib_id "")
-			(members
 				(member
-					(uuid "8af85812-7118-4740-9d1d-66b05f20bfe5")
-				)
-				(member
-					(uuid "008760d6-a371-4d0b-a5f5-1964963a04e4")
-				)
-				(member
-					(uuid "0c206131-dbb4-4c9a-a400-dede6cb5dc08")
-				)
-				(member
-					(uuid "ef09b3b0-4149-4b5d-be58-4cb0a6a2e543")
-				)
-				(member
-					(uuid "4be651bd-66d0-4b04-a1cb-397fccd08dd7")
-				)
-				(member
-					(uuid "525d15d6-fa3f-46fa-abbf-b407b122903c")
-				)
-				(member
-					(uuid "6f4f77d5-ec9d-47ae-a68e-02d372353907")
-				)
-				(member
-					(uuid "742fa933-0c44-463a-92b9-66b2037e4e72")
-				)
-				(member
-					(uuid "846e4b40-b5cb-435e-bc88-bcaf4600cc04")
-				)
-				(member
-					(uuid "a00e153d-cca6-4be9-90df-aa6e5bd39914")
-				)
-				(member
-					(uuid "a5e38d6c-2a89-40ca-b4fe-85ae6af14484")
-				)
-			)
-		)
-		(group
-			(name "3.3V Buck-boost")
-			(uuid "50825c5f-b05a-4aeb-933c-b875be4d9b0f")
-			(lib_id "")
-			(members
-				(member
-					(uuid "04ccbdcd-2304-4224-b026-487e96de19d9")
-				)
-				(member
-					(uuid "42cd8d02-fc40-4174-88a6-19eca47a0570")
-				)
-				(member
-					(uuid "0960cde0-7a69-499c-a027-26e242524c20")
-				)
-				(member
-					(uuid "3c7e03f3-ca46-4a37-835d-5371aad470af")
-				)
-				(member
-					(uuid "79c6c130-837f-4292-8aff-2acc8dc062fd")
-				)
-				(member
-					(uuid "7272491d-32a7-4048-acc8-91dd634795f1")
-				)
-				(member
-					(uuid "7a948c83-856a-4527-ae26-106cd803ea46")
-				)
-				(member
-					(uuid "c067bd64-6fd9-4f57-b237-f85016a07e7f")
-				)
-				(member
-					(uuid "d35e9e1b-95bd-46bc-b245-baf82ad0f38c")
-				)
-				(member
-					(uuid "e1af5722-fd1f-4692-8093-3bf1ea800355")
-				)
-				(member
-					(uuid "e5b2020a-d4b1-492e-b784-bb928f4a3654")
-				)
-				(member
-					(uuid "f05d1787-bd88-4348-8751-a5a278b746db")
-				)
-				(member
-					(uuid "f6e87c80-a48c-4153-a439-95cb88931260")
-				)
-				(member
-					(uuid "fb001fc4-9a07-435c-80e5-8c8cd195a60b")
+					(uuid "fa394b7e-206d-459e-ae46-6924818617e6")
 				)
 			)
 		)
@@ -7484,10 +7441,10 @@
 			(lib_id "")
 			(members
 				(member
-					(uuid "53894406-1a8c-47ea-a225-38fd6139971e")
+					(uuid "7d50e7c7-b678-42c8-aec6-45fdb9ec204b")
 				)
 				(member
-					(uuid "7d50e7c7-b678-42c8-aec6-45fdb9ec204b")
+					(uuid "53894406-1a8c-47ea-a225-38fd6139971e")
 				)
 				(member
 					(uuid "8251eb51-9afa-4d60-8cc0-07d17ae81e61")
@@ -7504,15 +7461,64 @@
 			)
 		)
 		(group
+			(name "3.3V Buck-boost")
+			(uuid "50825c5f-b05a-4aeb-933c-b875be4d9b0f")
+			(lib_id "")
+			(members
+				(member
+					(uuid "0960cde0-7a69-499c-a027-26e242524c20")
+				)
+				(member
+					(uuid "04ccbdcd-2304-4224-b026-487e96de19d9")
+				)
+				(member
+					(uuid "f05d1787-bd88-4348-8751-a5a278b746db")
+				)
+				(member
+					(uuid "3c7e03f3-ca46-4a37-835d-5371aad470af")
+				)
+				(member
+					(uuid "7a948c83-856a-4527-ae26-106cd803ea46")
+				)
+				(member
+					(uuid "42cd8d02-fc40-4174-88a6-19eca47a0570")
+				)
+				(member
+					(uuid "7272491d-32a7-4048-acc8-91dd634795f1")
+				)
+				(member
+					(uuid "79c6c130-837f-4292-8aff-2acc8dc062fd")
+				)
+				(member
+					(uuid "c067bd64-6fd9-4f57-b237-f85016a07e7f")
+				)
+				(member
+					(uuid "fb001fc4-9a07-435c-80e5-8c8cd195a60b")
+				)
+				(member
+					(uuid "d35e9e1b-95bd-46bc-b245-baf82ad0f38c")
+				)
+				(member
+					(uuid "e1af5722-fd1f-4692-8093-3bf1ea800355")
+				)
+				(member
+					(uuid "e5b2020a-d4b1-492e-b784-bb928f4a3654")
+				)
+				(member
+					(uuid "f6e87c80-a48c-4153-a439-95cb88931260")
+				)
+			)
+		)
+		(group
 			(name "USB-C")
 			(uuid "dffd0940-c0f7-47a1-8a4d-68ef7acff01a")
 			(lib_id "")
 			(members
 				(member
-					(uuid "38efc5b4-5ba5-4868-b689-e12729413f9b")
+					(uuid "1460e960-ef52-4def-bc5d-49c7be69cce1")
 				)
 				(member
-					(uuid "1460e960-ef52-4def-bc5d-49c7be69cce1")
+					(uuid "38efc5b4-5ba5-4868-b689-e12729413f9b")
 				)
 				(member
 					(uuid "a08ab3cb-51ea-4ef8-a5a9-d2ee507ee5b5")
@@ -7529,21 +7535,43 @@
 			)
 		)
 		(group
+			(name "SD & ePaper")
+			(uuid "3723805b-6c38-4a99-89a6-4dc78e71935e")
+			(lib_id "")
+			(members
+				(member
+					(uuid "4be8f830-3e9c-4ff7-b611-b6bfdb986aa8")
+				)
+				(member
+					(uuid "7e07d9a9-9925-4b65-bfc0-9846f8756bf6")
+				)
+				(member
+					(uuid "466eff01-41c6-4dcd-b59e-16fe30ca020f")
+				)
+				(member
+					(uuid "67650bd2-b8c6-4f60-bc44-6b9da9051962")
+				)
+				(member
+					(uuid "a39eef14-b898-4887-b35a-76e2ae0cbd0c")
+				)
+				(member
+					(uuid "ba096f64-4278-42c2-a0f5-be2d994b97c6")
+				)
+			)
+		)
+		(group
 			(name "")
 			(uuid "cbc6523c-85c3-4618-a931-963db61666a7")
 			(lib_id "")
 			(members
 				(member
-					(uuid "14d3b712-9bd6-4aef-a197-fdd7613f2a6d")
-				)
-				(member
-					(uuid "5210e394-4281-4d35-bd3d-b6c7941ce6b1")
-				)
-				(member
 					(uuid "010d3124-977a-4966-bc14-af25a307ec1f")
 				)
 				(member
-					(uuid "2ace2516-ed4e-48a5-b0dc-20b30ca0e079")
+					(uuid "14d3b712-9bd6-4aef-a197-fdd7613f2a6d")
+				)
+				(member
+					(uuid "89bf0a23-a6bb-4b9e-b282-251071460120")
 				)
 				(member
 					(uuid "6f0c0396-e2e7-4e60-8982-2dfe0d772922")
@@ -7552,37 +7580,43 @@
 					(uuid "21c99661-a964-434c-8677-1ae2dfc4ba4b")
 				)
 				(member
-					(uuid "59b300ae-ebf8-41f7-b0f1-5fa2e28359d7")
+					(uuid "3a84cbbe-5048-42c8-abb7-ffd3cceed09d")
+				)
+				(member
+					(uuid "e7ec457a-7cc4-45a7-896e-3cba77397d66")
 				)
 				(member
 					(uuid "28791b42-0732-4ffc-a0fb-98ee1aa66d0b")
 				)
 				(member
+					(uuid "2ace2516-ed4e-48a5-b0dc-20b30ca0e079")
+				)
+				(member
 					(uuid "2bad0dcb-38d0-4478-96a1-d6a916cc558b")
-				)
-				(member
-					(uuid "c7456eaa-aea5-458b-a6c0-c380a4c2c6e5")
-				)
-				(member
-					(uuid "3a84cbbe-5048-42c8-abb7-ffd3cceed09d")
-				)
-				(member
-					(uuid "69b7382a-484e-40fc-b61a-5e6c45c7ab62")
 				)
 				(member
 					(uuid "3b507c36-4a66-4b59-ba17-cda63fa36f3b")
 				)
 				(member
+					(uuid "59b300ae-ebf8-41f7-b0f1-5fa2e28359d7")
+				)
+				(member
+					(uuid "ee752800-1184-4f11-9d3a-1f6053fe1fee")
+				)
+				(member
 					(uuid "4a83ff2a-58ca-4d71-b1ae-d4703f07fa2e")
+				)
+				(member
+					(uuid "5210e394-4281-4d35-bd3d-b6c7941ce6b1")
 				)
 				(member
 					(uuid "699b28a8-a226-4fed-b5e8-a68630455022")
 				)
 				(member
-					(uuid "85cbfca9-0e10-4a21-a4c5-0ebcbdcdd66a")
+					(uuid "69b7382a-484e-40fc-b61a-5e6c45c7ab62")
 				)
 				(member
-					(uuid "89bf0a23-a6bb-4b9e-b282-251071460120")
+					(uuid "85cbfca9-0e10-4a21-a4c5-0ebcbdcdd66a")
 				)
 				(member
 					(uuid "8e2658d4-7533-4d47-89ce-14f4aa779c13")
@@ -7591,56 +7625,19 @@
 					(uuid "9ff0ced7-a213-4ad4-8c78-ffebe349910e")
 				)
 				(member
-					(uuid "ee752800-1184-4f11-9d3a-1f6053fe1fee")
-				)
-				(member
 					(uuid "a0a9f620-95bb-4f44-b67b-6a9298a9a2a6")
 				)
 				(member
 					(uuid "b4ec12cb-d484-467e-a230-dcc33e432042")
 				)
 				(member
+					(uuid "c7456eaa-aea5-458b-a6c0-c380a4c2c6e5")
+				)
+				(member
 					(uuid "ce735ff6-8b81-4f09-b1cd-8b0d50c32631")
 				)
 				(member
-					(uuid "e7ec457a-7cc4-45a7-896e-3cba77397d66")
-				)
-				(member
 					(uuid "eb73f5e0-e098-441b-b9f9-53a0fb000724")
-				)
-			)
-		)
-		(group
-			(name "LoRa")
-			(uuid "de6f52c6-8902-479f-8bb9-857b2d1f73da")
-			(lib_id "")
-			(members
-				(member
-					(uuid "db08759d-b3d0-4098-ab15-5dd82cd44e81")
-				)
-				(member
-					(uuid "3634f744-2c54-4a5c-84d9-00805cb1d82c")
-				)
-				(member
-					(uuid "907dd5b2-7453-4d65-b3a2-f88fd47bee15")
-				)
-				(member
-					(uuid "d55939c8-c438-48ab-9144-c6514e9c0990")
-				)
-				(member
-					(uuid "3dfcf6e0-552c-4276-a6ae-aee29b112ea0")
-				)
-				(member
-					(uuid "5e7e84c0-a18d-4ace-934c-0bae65a43b22")
-				)
-				(member
-					(uuid "6249e1e2-ed74-4fe5-8f5c-60980d61efe5")
-				)
-				(member
-					(uuid "768eb278-0cb1-4601-8f29-a25215edc07b")
-				)
-				(member
-					(uuid "ea4610e0-86c8-4019-8ad8-357f254617cd")
 				)
 			)
 		)
@@ -7653,38 +7650,47 @@
 					(uuid "10da3d12-439d-420d-a29c-bff24a47ec6e")
 				)
 				(member
+					(uuid "0a2acd33-187a-4ca7-a7b1-b3ddf10f8c8b")
+				)
+				(member
 					(uuid "bc2f64e1-b94c-4c2c-a656-b160be727f01")
 				)
 				(member
 					(uuid "c06b6cd3-f2d4-4446-a9bd-6c8b153a9306")
 				)
-				(member
-					(uuid "9196091b-b41a-466b-a76d-c17158265dac")
-				)
 			)
 		)
 		(group
-			(name "SD & ePaper")
-			(uuid "3723805b-6c38-4a99-89a6-4dc78e71935e")
+			(name "LoRa")
+			(uuid "de6f52c6-8902-479f-8bb9-857b2d1f73da")
 			(lib_id "")
 			(members
 				(member
-					(uuid "a39eef14-b898-4887-b35a-76e2ae0cbd0c")
+					(uuid "768eb278-0cb1-4601-8f29-a25215edc07b")
 				)
 				(member
-					(uuid "466eff01-41c6-4dcd-b59e-16fe30ca020f")
+					(uuid "3dfcf6e0-552c-4276-a6ae-aee29b112ea0")
 				)
 				(member
-					(uuid "4be8f830-3e9c-4ff7-b611-b6bfdb986aa8")
+					(uuid "3634f744-2c54-4a5c-84d9-00805cb1d82c")
 				)
 				(member
-					(uuid "67650bd2-b8c6-4f60-bc44-6b9da9051962")
+					(uuid "5e7e84c0-a18d-4ace-934c-0bae65a43b22")
 				)
 				(member
-					(uuid "7e07d9a9-9925-4b65-bfc0-9846f8756bf6")
+					(uuid "6249e1e2-ed74-4fe5-8f5c-60980d61efe5")
 				)
 				(member
-					(uuid "ba096f64-4278-42c2-a0f5-be2d994b97c6")
+					(uuid "d55939c8-c438-48ab-9144-c6514e9c0990")
+				)
+				(member
+					(uuid "907dd5b2-7453-4d65-b3a2-f88fd47bee15")
+				)
+				(member
+					(uuid "db08759d-b3d0-4098-ab15-5dd82cd44e81")
+				)
+				(member
+					(uuid "ea4610e0-86c8-4019-8ad8-357f254617cd")
 				)
 			)
 		)
@@ -9687,11 +9693,11 @@
 			(description "SD adapter module")
 			(fields
 				(field
-					(name "Reference") "H")
+					(name "Reference") "H3")
 				(field
 					(name "Value") "SD adapter module")
 				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Horizontal")
+					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical")
 				(field
 					(name "Datasheet")
 				)
@@ -9780,11 +9786,16 @@
 				)
 				(pin
 					(num "14")
+					(name "SCK")
+					(type "input")
+				)
+				(pin
+					(num "15")
 					(name "MISO")
 					(type "output")
 				)
 				(pin
-					(num "15")
+					(num "16")
 					(name "MISO")
 					(type "output")
 				)
@@ -10035,32 +10046,18 @@
 		(libpart
 			(lib "Waveshare_ePaper_module")
 			(part "Waveshare_ePaper_module")
-			(description "Waveshare 1.54” 200x200 ePaper module")
-			(docs "https://www.waveshare.com/wiki/1.54inch_e-Paper_Module")
 			(fields
 				(field
-					(name "Reference") "H1")
+					(name "Reference") "J7")
 				(field
-					(name "Value") "Waveshare ePaper module")
+					(name "Value") "Waveshare_ePaper_module")
 				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical")
+					(name "Footprint") "Connector_JST:JST_PH_B8B-PH-K_1x08_P2.00mm_Vertical")
 				(field
-					(name "Datasheet") "https://www.waveshare.com/wiki/1.54inch_e-Paper_Module")
-				(field
-					(name "Description") "Waveshare 1.54” 200x200 ePaper module")
-				(field
-					(name "Height") "8")
-				(field
-					(name "Mouser Part Number")
+					(name "Datasheet")
 				)
 				(field
-					(name "Mouser Price/Stock")
-				)
-				(field
-					(name "Manufacturer_Name")
-				)
-				(field
-					(name "Manufacturer_Part_Number")
+					(name "Description")
 				)
 			)
 			(pins
@@ -10092,6 +10089,11 @@
 				(pin
 					(num "6")
 					(name "D/C")
+					(type "input")
+				)
+				(pin
+					(num "7")
+					(name "RST#")
 					(type "input")
 				)
 				(pin
@@ -11154,8 +11156,8 @@
 			(class "Default")
 			(node
 				(ref "J7")
-				(pin "3")
-				(pinfunction "RST#_3")
+				(pin "7")
+				(pinfunction "RST#_7")
 				(pintype "input")
 			)
 			(node
@@ -12596,14 +12598,14 @@
 			(class "Default")
 			(node
 				(ref "H3")
-				(pin "14")
-				(pinfunction "MISO_14")
+				(pin "15")
+				(pinfunction "MISO_15")
 				(pintype "output")
 			)
 			(node
 				(ref "H3")
-				(pin "15")
-				(pinfunction "MISO_15")
+				(pin "16")
+				(pinfunction "MISO_16")
 				(pintype "output")
 			)
 			(node
@@ -12653,14 +12655,14 @@
 			(class "Default")
 			(node
 				(ref "H3")
-				(pin "12")
-				(pinfunction "SCK_12")
+				(pin "13")
+				(pinfunction "SCK_13")
 				(pintype "input")
 			)
 			(node
 				(ref "H3")
-				(pin "13")
-				(pinfunction "SCK_13")
+				(pin "14")
+				(pinfunction "SCK_14")
 				(pintype "input")
 			)
 			(node

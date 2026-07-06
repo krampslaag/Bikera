@@ -19,3 +19,24 @@
 
 (rule "edge clearance"
   (constraint edge_clearance (min 0.3mm)))
+
+# --- Routing-session amendments (2026-07-06) ---
+# RF feed rerouted at 0.5 mm: 0.9 mm is geometrically impossible against the
+# 0402 matching network (see ROUTING_README.md). Override the width rule:
+(rule "RF feed width realistic"
+  (condition "A.hasNetclass('HighSpeed_RF')")
+  (layer outer)
+  (constraint track_width (min 0.45mm) (opt 0.5mm) (max 0.95mm)))
+
+(rule "RF clearance realistic"
+  (condition "A.hasNetclass('HighSpeed_RF')")
+  (constraint clearance (min 0.15mm)))
+
+# WCSP fan-out neck-down (IC2 / U1 / U2 / U4, 0.4 mm pitch):
+(rule "WCSP neckdown width"
+  (condition "A.Type == 'Track' && (A.intersectsCourtyard('IC2') || A.intersectsCourtyard('U1') || A.intersectsCourtyard('U2') || A.intersectsCourtyard('U4'))")
+  (constraint track_width (min 0.09mm)))
+
+(rule "WCSP neckdown clearance"
+  (condition "A.intersectsCourtyard('IC2') || B.intersectsCourtyard('IC2') || A.intersectsCourtyard('U1') || B.intersectsCourtyard('U1') || A.intersectsCourtyard('U2') || B.intersectsCourtyard('U2') || A.intersectsCourtyard('U4') || B.intersectsCourtyard('U4')")
+  (constraint clearance (min 0.04mm)))

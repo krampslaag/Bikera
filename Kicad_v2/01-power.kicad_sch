@@ -8599,7 +8599,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal"
+		(property "Footprint" "USB-C:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal"
 			(at 57.658 73.66 0)
 			(hide yes)
 			(show_name no)
@@ -8877,7 +8877,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1cd50c24-cded-47a6-822a-f3258e4ab424")
-		(property "Reference" "#PWR013"
+		(property "Reference" "#PWR036"
 			(at 180.34 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -8943,7 +8943,7 @@
 			)
 			(project "Bikera PCB devboard"
 				(path "/81c195cb-438f-45ca-b649-b955fa3ba763/fe83c9ae-cf0a-47eb-9472-8f920f69f9b8"
-					(reference "#PWR013")
+					(reference "#PWR036")
 					(unit 1)
 				)
 			)
@@ -9126,7 +9126,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "38efc5b4-5ba5-4868-b689-e12729413f9b")
-		(property "Reference" "#PWR017"
+		(property "Reference" "#PWR038"
 			(at 73.66 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -9192,7 +9192,7 @@
 			)
 			(project "Bikera PCB devboard"
 				(path "/81c195cb-438f-45ca-b649-b955fa3ba763/fe83c9ae-cf0a-47eb-9472-8f920f69f9b8"
-					(reference "#PWR017")
+					(reference "#PWR038")
 					(unit 1)
 				)
 			)
@@ -10593,7 +10593,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "753fcabf-2940-47e8-9d67-759196f09eb9")
-		(property "Reference" "#PWR016"
+		(property "Reference" "#PWR037"
 			(at 73.66 30.48 0)
 			(hide yes)
 			(show_name no)
@@ -10659,7 +10659,7 @@
 			)
 			(project "Bikera PCB devboard"
 				(path "/81c195cb-438f-45ca-b649-b955fa3ba763/fe83c9ae-cf0a-47eb-9472-8f920f69f9b8"
-					(reference "#PWR016")
+					(reference "#PWR037")
 					(unit 1)
 				)
 			)
@@ -12477,7 +12477,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "dbb1ae9a-f993-45e9-94c7-3c0cd4997a72")
-		(property "Reference" "#PWR018"
+		(property "Reference" "#PWR039"
 			(at 261.62 95.25 0)
 			(hide yes)
 			(show_name no)
@@ -12543,7 +12543,7 @@
 			)
 			(project "Bikera PCB devboard"
 				(path "/81c195cb-438f-45ca-b649-b955fa3ba763/fe83c9ae-cf0a-47eb-9472-8f920f69f9b8"
-					(reference "#PWR018")
+					(reference "#PWR039")
 					(unit 1)
 				)
 			)
@@ -13215,7 +13215,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ef09b3b0-4149-4b5d-be58-4cb0a6a2e543")
-		(property "Reference" "#PWR020"
+		(property "Reference" "#PWR040"
 			(at 194.31 149.86 0)
 			(hide yes)
 			(show_name no)
@@ -13281,7 +13281,7 @@
 			)
 			(project "Bikera PCB devboard"
 				(path "/81c195cb-438f-45ca-b649-b955fa3ba763/fe83c9ae-cf0a-47eb-9472-8f920f69f9b8"
-					(reference "#PWR020")
+					(reference "#PWR040")
 					(unit 1)
 				)
 			)
