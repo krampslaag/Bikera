@@ -1,0 +1,32 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#SamacSys ECAD Model RAA2361052GNP#HC5
+#/20108904/2052272/2.50/11/2/Integrated Circuit
+DEF RAA2361052GNP#HC5 IC 0 30 Y Y 1 F N
+F0 "IC" 1050 300 50 H V L CNN
+F1 "RAA2361052GNP#HC5" 1050 200 50 H V L CNN
+F2 "SON50P250X250X90-11L-D" 1050 100 50 H I L CNN
+F3 "https://www.renesas.com/en/products/power-management/dcdc-converters/step-boost/boost-regulators-integrated-fets/raa236105-ultra-low-iq-buck-boost-regulator-bypass" 1050 0 50 H I L CNN
+F4 " Single output buck-boost converter  130nA input quiescent current  96% peak efficiency (VIN = 3.6V; VOUT = 3.3V)  Output current: up to 400mA (VIN > 2.5V, VOUT = 3.3V)  Input voltage range: 1.8V to 5.5V, supports single-cell Li-ion, 2x or 31.5V AA/AAA batteries  Output voltage range: 1.8V to 5.0V  Output voltage control using a pin reader (RAA236105)  Selectable input current limit  DVS with settable slew rate control  Selectable forced bypass power saving mode  PWM/PFM and buck/bo" 1050 -100 50 H I L CNN "Description"
+F5 "0.9" 1050 -200 50 H I L CNN "Height"
+F6 "" 1050 -300 50 H I L CNN "Mouser Part Number"
+F7 "" 1050 -400 50 H I L CNN "Mouser Price/Stock"
+F8 "Renesas Electronics" 1050 -500 50 H I L CNN "Manufacturer_Name"
+F9 "RAA2361052GNP#HC5" 1050 -600 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+X EN 1 0 0 200 R 50 50 0 0 P
+X RSVD 2 0 -100 200 R 50 50 0 0 P
+X BYPASS 3 0 -200 200 R 50 50 0 0 P
+X ILIM 4 0 -300 200 R 50 50 0 0 P
+X VSET 5 0 -400 200 R 50 50 0 0 P
+X EPAD 11 600 -1000 200 U 50 50 0 0 P
+X VIN 10 1200 0 200 L 50 50 0 0 P
+X LX1 9 1200 -100 200 L 50 50 0 0 P
+X GND 8 1200 -200 200 L 50 50 0 0 P
+X LX2 7 1200 -300 200 L 50 50 0 0 P
+X VOUT 6 1200 -400 200 L 50 50 0 0 P
+P 5 0 1 6 200 100 1000 100 1000 -800 200 -800 200 100 N
+ENDDRAW
+ENDDEF
+#
+#End Library

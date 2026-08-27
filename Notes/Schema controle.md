@@ -1,0 +1,114 @@
+# MCU page
+- [x] STM32
+	- [x] Ontkoppelcondensators
+		- [x] VDD
+			- [x] 3x 100nF
+			- [x] 4.7µF toevoegen
+		- [x] VDDA 
+			- [x] 1µF
+			- [x] 10nF (VREF) toevoegen
+			- [x] 100nF
+			- [x] Ferrite bead
+	- [x] Reset knop
+		- [x] Met 100nF cap
+	- [x] Boot knop
+		- [x] 10kohm pulldown
+		- [x] Aanpassen
+- [x] Hall sensors
+	- [x] Met condensators
+- [x] Servo
+	- [x] Ontkoppel
+		- [x] 100nF
+		- [x] 470µF elco
+	- [x] 0.1ohm Rsense
+	- [x] Rsense RC filter toevoegen
+		- [x] 1K
+		- [x] 33nF
+- [x] LED
+	- [x] 160ohm (rood)
+	- [x] 130ohm (groen)
+- [ ] Accelerometer
+	- [ ] Footprint maken
+	- [x] Ontkoppel
+		- [x] 100nF
+		- [x] 1µF
+- [x] ST-link
+- [x] ECC chip
+	- [x] 100nF ontkoppel
+- [x] I²C pullups weg of houden? -> Houden
+
+# Power
+- [x] Lader (BQ25...)
+	- [x] Ontkoppel
+		- [x] C1 - 1µF
+		- [x] C2 - 10µF
+		- [x] C3 - 100nF: toevoegen op BOM
+		- [x] C4 - 4.7µF
+		- [-] C5 - 22µF -> 2x 10µF (*waarom 2?*)
+		- [x] C5 toch 22µF -> BOM aanpassen
+		- [x] C6 - 10µF
+		- [x] C7 - 47nF
+	- [x] PG 
+		- [x] led - *Weglaten*? Ja
+		- [x] PG 2.2K weerstand 
+		- [-] PG weerstand in serie met led als led wordt gebruikt of weg?
+	- [x] R6 - INT-VREF - 10K
+	- [x] Batterij
+		- [x] JST-PH -> 2 pinnen ipv. 3
+		- [x] R7: BATP-BAT 100R -> op pin 1 vn bat
+	- [x] Thermistor circuit
+		- [x] Thermistor: ~~SMD (NCP15XH103F03RC)~~ of **THT (103AT-2)**?
+		- [x] Toevoegen op schema
+		- [x] 103AT-2 footprint: Capacitor_THT:C_Disc_D3.4mm_W2.1mm_P2.50mm
+		- [x] R8: TS-REGN - 10K -> 5.23K?
+		- [x] R9: TS-GND - 10K -> 30.9K of **30.1K**?
+		- [-] Nog eens berekenen, zie datasheet p.32
+- [x] USB-C connector (USB4105-GF-A-060)
+	- [x] CC pulldowns - R1, R2, 2x 5.1K
+	- [x] TVS (U7)
+- [x] 5V boost (TPS61253F)
+	- [x] L 1µH
+	- [x] Ontkoppel
+		- [x] C12 - Vin
+		- [x] C13 - Vout 22µF aanpassen naar:
+		- [x] C13 - Vout 10µF
+		- [x] C42 - Vout 4.7µF
+		- [x] C43 - Vout 4.7µF
+	- [x] R12 100K - EN pulldown - toevoegen op BOM
+	- [x] R13 100K - MODE pullup - toevoegen op BOM
+- [x] 3.3V buck-boost: RT6150B veranderen naar RT6158AWSC
+	- [x] Alle componenten bij plaatsen
+# Auxilery systems
+- [x] GPS
+	- [x] Symbool aanpassen:
+	  - Pin 5: AP_REQ -> reserved/NC
+	  - Pin 13: LNA_EN -> ANT_ON
+	  - Pin 14 VCC_RF -> VDD_RF
+	  - Pin 24: NC_5 -> D_SEL & pulldown weerstand toevoegen
+	- [x] TVS (VCC & V_BCKP) toevoegen
+		- [-] Is bidirectioneel OK?
+	- [x] Ontkoppel
+		- [x] VCC: 10µF, 100nF, 33pF
+		- [x] V_BCKP: 4.7µF, 100nF, 33pF
+	- [x] 0.1F Supercap
+		- [x] R - 1K - naar 3.3V
+		- [x] Diode toevoegen? Supercap zou misschien leeglopen langs R
+		  -> D4: BAT60AE6327HTSA1
+		- [x] BAT54C dual shottky: toevoegen op BOM
+	- [ ] Optionele pinnen: alleen 1PPS ok?
+- [x] GPS antenne
+	- [x] U_FL RF receptacle
+	- [x] SMF05CT1G???
+		- [x] Gebruiken voor VCC en V_BCKP in de plaats, en bidirectionele voor antenne?
+		- [x] ESD9B5.0ST5G uit BOM gebruikt voor antenne
+	- [x] Matching circuit: 2x C en R toevoegen
+- [x] FRAM (FM24V01A-GTR)
+	- [x] 100nF ontkoppel toevoegen op BOM
+- [x] SD
+	- [x] Footprint: Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_**Horizontal** naar **Vertical**
+	- [?] Haakse female pinheader gebruiken om rechtop te plaatsen?
+	- [x] Pullups (MISO & CS) toevoegen aan BOM
+- [x] LoRa
+	- [x] Ontkoppel: schema correct (3 caps op VDD: 100nF + 10µF + 1µF), BOM heeft er 4 door verkeerde VBAT/VDD_IO-opsplitsing: één 100nF verwijderen uit BOM
+	- [x] 10kΩ pulldown pin 21 (LORA_BOOT) toevoegen aan BOM (zit al in schema)
+	- [x] 10kΩ pullup pin 22 (NRESET) toevoegen aan BOM (zit al in schema)

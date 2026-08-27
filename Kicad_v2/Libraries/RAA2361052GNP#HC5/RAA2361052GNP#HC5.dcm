@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP RAA2361052GNP#HC5
+D  Single output buck-boost converter  130nA input quiescent current  96% peak efficiency (VIN = 3.6V; VOUT = 3.3V)  Output current: up to 400mA (VIN > 2.5V, VOUT = 3.3V)  Input voltage range: 1.8V to 5.5V, supports single-cell Li-ion, 2x or 31.5V AA/AAA batteries  Output voltage range: 1.8V to 5.0V  Output voltage control using a pin reader (RAA236105)  Selectable input current limit  DVS with settable slew rate control  Selectable forced bypass power saving mode  PWM/PFM and buck/bo
+K
+F https://www.renesas.com/en/products/power-management/dcdc-converters/step-boost/boost-regulators-integrated-fets/raa236105-ultra-low-iq-buck-boost-regulator-bypass
+$ENDCMP
+#
+#End Doc Library

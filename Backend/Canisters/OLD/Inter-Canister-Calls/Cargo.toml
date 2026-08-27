@@ -1,3 +1,0 @@
-[workspace]
-members = [ "src/caller", "src/counter" ]
-resolver = "2"

@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP MAKK2520H1R0M
+D 1 H Shielded Drum Core, Wirewound Inductor 3 A 53mOhm Max 1008 (2520 Metric)
+K
+F https://componentsearchengine.com/Datasheets/1/MAKK2520H1R0M.pdf
+$ENDCMP
+#
+#End Doc Library

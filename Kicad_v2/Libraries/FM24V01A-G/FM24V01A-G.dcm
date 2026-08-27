@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP FM24V01A-G
+D F-RAM F-RAM Memory Serial
+K
+F https://www.arrow.com/en/products/fm24v01a-g/cypress-semiconductor
+$ENDCMP
+#
+#End Doc Library

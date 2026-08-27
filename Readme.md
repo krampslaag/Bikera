@@ -1,0 +1,226 @@
+# Bikera PCB
+Ontwerp van een prototype development board voor een beveiligd IoT-fietsslot
+--
+Een prototype wordt ontwikkeld in de vorm van een development board met een custom PCB-ontwerp in KiCad. Het doel is een energiezuinig, veilig en uitbreidbaar embedded platform te ontwerpen dat later kan evolueren naar een functioneel eindproduct.
+# Componenten:
+- Energiezuinige MCU: [STM32L431CCT6TR](https://www.digikey.be/nl/products/detail/stmicroelectronics/STM32L431CCT6TR/8257907?s=N4IgTCBcDaIMoBUCyBmMAZALCgjAYTwQDYEAlEAXQF8g)
+- LoRa module (+BLE): [WisDuo RAK11720](https://www.digikey.be/nl/products/detail/rakwireless-technology-limited/RAK11720-8-SM-I/26861631) 
+	- Bijhorende LoRa antenne: [FPC antenne](https://be.farnell.com/te-connectivity/l000551-05/rf-antenna-863-to-870mhz-2-2dbi/dp/4457734)
+	- Bijhorende BLE antenne: [AANI-FB-0086-0100W (100mm)](https://www.digikey.be/nl/products/detail/abracon-llc/AANI-FB-0086-0100W/25558929)
+- ECC secure element: [ATECC608B-SSHDA-T](https://www.digikey.be/nl/products/detail/microchip-technology/ATECC608B-SSHDA-T/13415162?s=N4IgTCBcDaIIIBUCiBhFA2ADADgEIFoBlQgCQBE58EQBdAXyA)
+- GPS/GNSS module: [Quectel LC76GPAMD](https://www.mouser.be/ProductDetail/Quectel/LC76GPAMD?qs=vvQtp7zwQdMfDuCTmjRUww%3D%3D)
+	- Bijhorende antenne: [YFGA003AA](https://www.digikey.be/nl/products/detail/quectel/YFGA003AA/21273116)
+- ePaper module: [Waveshare 1.54” module](https://www.waveshare.com/1.54inch-e-Paper-Module.htm)
+	%%voor QR codes%%
+- Accelerometer: [LIS2DW12 module](https://www.tinytronics.nl/en/sensors/acceleration-rotation/dfrobot-fermion-triple-axis-accelerometer-spi-i2c-lis2dw12)
+- SD-kaart module: [SD adapter module](https://www.tinytronics.nl/en/data-storage/modules/sd-card-adapter-module-3.3v-5v)
+	%%Voor logging (alleen prototype)%%
+- FRAM geheugen: [FM24V01A-GTR](https://www.digikey.be/nl/products/detail/infineon-technologies/FM24V01A-GTR/5210532)
+	%%Voor logging%%
+- BMS-systeem
+	%%voor 2-4 18650 Li-Ion batterijen%%
+	- Li-ion protectie en lader (USB-C): [BQ25630YBGR](https://www.digikey.nl/nl/products/detail/texas-instruments/BQ25630YBGR/28738812?s=N4IgTCBcDaIEIEUwFYBsBmADCAugXyA)
+	- 3.3V buck-boost: [RAA2361052GNP#HC5](https://www.mouser.be/ProductDetail/Renesas-Intersil/RAA2361052GNPHC5?qs=olJun0bQHM%2FTMxAlNSaKDw%3D%3D)
+	- 3.3V LDO:[TCR3UG33A,LF](https://www.mouser.be/ProductDetail/Toshiba/TCR3UG33ALF?qs=0lQeLiL1qyaZy60Q7HF0yg%3D%3D)
+		%%Voor GPS%%
+	- 5V boost: [TPS61253F](https://www.digikey.be/nl/products/detail/texas-instruments/TPS61253FYFFR/29174815)
+		%%Voor servomotor%%
+- Servo motor: [TD-8120MG Digital Servo](https://www.tinytronics.nl/en/mechanics-and-actuators/motors/servomotors/td-8120mg-waterproof-digital-servo-20kg)
+	%%Aangesloten met pinheader%%
+- Hall effect sensors: [](https://www.mouser.be/ProductDetail/Texas-Instruments/DRV5032DULPGM?qs=OlC7AqGiEDk9MwfBkgsRPw%3D%3D)[DRV5032DULPGM](https://www.mouser.be/ProductDetail/Texas-Instruments/DRV5032DULPGM?qs=OlC7AqGiEDk9MwfBkgsRPw%3D%3D)
+	%%voor slot beugel en pin%%
+- Kleurled: [](https://www.digikey.be/nl/products/detail/american-bright-optoelectronics-corporation/BL-BEG204-7-E/22486902)[BL-BEG204-7-E](https://www.digikey.be/nl/products/detail/american-bright-optoelectronics-corporation/BL-BEG204-7-E/22486902)
+	%%rood en groen, zonder blauw%%
+## BOM
+Er wordt een **materiaallijst (BOM)** opgesteld met alle gebruikte componenten in [google sheets](https://docs.google.com/spreadsheets/d/1ZxJHOLqpuJL-1dvZkRNnV-r1_EjUXDaZgLNVo9UeM5s/edit?gid=1010541530#gid=1010541530).
+
+Er staat een **sheet 'Basiscomponenten'** met verschillende opties voor elk component, aangeduid welke voor prototype gebruikt worden en welke voor finaal ontwerp kan gebruikt worden. 
+
+De keuzes voor het prototype zijn overgenomen naar de **sheet 'Componenten'**, waar ook alle randcomponenten zijn toegevoegd. De opmaak gebeurt automatisch en prijzen van Mouser, Digikey en Farnell kunnen via API's opgehaald worden met een script. Ook de status 'niet op voorraad' wordt ge-update waarbij de prijs automatisch roodgekleurd wordt. Vanboven is er een menu Bikera met eigen functies, ook gelinkt aan knoppen.
+
+- [!] Prijzen automatisch updaten duurt lang omdat er te veel requests per minuut zijn waar het script op moet wachten. Nu komt het probleem 'exceeded maximum execution time'. Er mist ook nog een API-key voor Farnell.
+
+Met tag 'alternatief' in de kolom 'type' kunnen verschillende opties voor hetzelfde component van een andere distributeur worden toegevoegd. Opties kunnen worden overgeslagen met de tag 'skip' bij de kolom 'status.' Er wordt automatisch aangeduid met lichtgele vakjes wat er nog moet ingevuld worden, geel waar een dubbele vraagteken in de tekst staat en rood waar een uitroepteken staat. Rijen worden groen gekleurd met de tag 'in KiCad' in kolom 'Status', om te zien welke componenten overeenkomen met het schema.
+
+De componenten worden ook automatsich gedestilleerd in de **sheet 'BOM'**, waarbij gelijke componenten worden opgeteld. Met een knop wordt deze sheet gesorteerd per type.
+
+De **sheet 'Architectuur'** werd gebruikt om het architectuurschema op te stellen en de sheet 'Lijsten' bevat opties voor dropdownmenus.
+
+# Afspraken
+- PCB ontwerp in KiCad
+- De End-of-Life (EOL) van de componenten mag minimaal nog vijf jaar zijn.
+- Prototype = developer board
+    - Met debugconnectoren
+    - Eerste versie als datalogger
+    - Met hand soldeerbare componenten
+- RTC
+	- Updaten via LoRa
+	- Eventueel aparte (oplaadbare) knoopcel
+- ECC chip:
+	- Met socket
+	- ethereum: Keccak-256
+	- solana: Ed25519 
+- RAK11720 = LoRa +BLE 5, geen bluetooth apart
+- Zowel geheugenchip (FRAM) als SD-kaart voor logging
+- BMS 
+	- Op PCB
+	- Lader detecteert USB protocol (2.0, 3.0, USB-C) en past de laadstroom aan.
+	- 3.3V buck-boost voor de meeste componenten
+	  -> dan kan batterijspanning kan zakken tot 3V
+	- 3.3V LDO regulator voor GPS (weinig ruis)
+	- 5V boost voor servomotor
+- Servomotor
+	- aan/uit met enable pin van 5V boost
+	- sense weerstand om blokkage overstroom te detecteren
+- Hall sensors
+	- THT
+	- één voor noordpool en één voor zuidpool (beugel en pin) om manipulatie tegen te gaan
+- LED
+	- Rood + groen -> geel en oranje kan ook gemaakt worden
+## Opties voor prototype
+- Antenne
+	- LoRa & bluetooth: FPC antenne met MHF4 connector
+	- Verschillende LoRa antennes testen
+	- GPS: FPC antenne 
+		- -> kabel proberen solderen
+		- anders extra RF-1 connector (quectel GPS heeft RF pinout)
+- E-ink module i.p.v. paneel
+- SD module
+- Accelerometer op breakout bord
+- Twee gelijke hall sensors is ok
+- RTC updaten via LoRa
+- JST PH connectors i.p.v. dupont headers (zelf krimpen)
+## Opties voor latere ontwikkelingsfases
+- kleinere componenten (reflow soolderen)
+- STM32WL als MCU en LoRa radio
+- 2 versies: zonder en met bluetooth? (2 RAK lora modules)
+- RAK11720: RF pinout versie:
+    - Draadantenne: dipool in V-vorm
+    - BLE antenne op PCB
+- Draadantenne of patch antenne proberen voor GPS
+- [NXP EdgeLock SE050](https://www.mouser.be/new/nxp-semiconductors/nxp-edgelock-se050/): meer geavanceerde ECC chip
+- Accelerometer chip in plaats van breakout bord
+- Unipolaire hall sensors: één voor noordpool en één voor zuidpool (beugel en pin)
+- Eventueel aparte (oplaadbare) knoopcel voor RTC (STM32 VBAT)
+
+# Stand van zaken
+## In grote lijnen
+- [x] Basiscomponenten uitzoeken
+- [x] Randcomponenten en deelcircuits
+- [ ] Materiaallijst
+	- [x] Basiscomponenten (google sheets)
+	- [x] Randcomponenten
+	- [/] Volledige BOM
+- [x] Architectuurdocument
+	%%Schema in drawio%%
+- [x] KiCad schema
+- [ ] KiCad PCB layout
+## Componenten uitzoeken
+- [x] STM32 *STM32L431CCT6TR*
+- [x] LoRa *RAK11720*
+- [x] EEC chip *ATECC608B-SSHDA-T*
+	- [x] Breakout bord
+	- [x] IC voet
+- [x] GPS Quectel *LC76GPAMD*
+	- [x] Randcomponenten
+- [x] BMS
+	- [x] li-ion lader *BQ25630YBGR*
+		- [x] Randcomponenten
+	- [x] 3,3V buck-boost *RT6158AWSC*
+		- [x] Randcomponenten
+	- [x] 3,3V LDO regulator *TCR3UG33A,LF*
+		- [x] Randcomponenten
+	- [x] BMS - 5V boost *TPS61253F*
+		- [x] Randcomponenten
+	- [x] USB-C connector
+- [x] Hall effect sensor *DRV5032DULPGM*
+- [x] ST-link
+	- [x] St-link *STLINK-V3MINIE*
+	- [x] Header *009159010603906*
+- [x] FRAM *FM24V01A-GTR*
+- [x] ePaper​ *Waveshare 1.54” module*
+- [x] Accelerometer​ *LIS2DW12 module*
+- [x] SD-kaart​ module  *SD adapter module*
+- [x] Servo motor *TD-8120MG Digital Servo*
+	- [x] Randcomponenten
+- [x] LED *BL-BEG204-7-E*
+	- [x] Weerstanden
+- [x] Alle randcomponenten uitzoeken, opsommen en controleren
+- [x] Laatste correcties -> zie gekleurde vakjes op [spreadsheet Componenten](https://docs.google.com/spreadsheets/d/1ZxJHOLqpuJL-1dvZkRNnV-r1_EjUXDaZgLNVo9UeM5s/edit?usp=sharing)
+## KiCad
+### KiCad schema
+- [x] **Symbolen en footprints importeren**
+	- **Bestaand**
+	- [x] STM32 *STM32L431CCT6TR
+	- [x] LoRa *RAK11720*
+	- **Gedownload**
+	- [x] GPS *Quectel LC76GPAMD*
+	- [x] FRAM *FM24V01A-GTR*
+	- [x] BMS - li-ion lader *BQ25630YBGR*
+	- [x] BMS - 3,3V buck-boost *RT6158AWSC*
+	- [x] BMS - 3,3V LDO regulator *TCR3UG33A,LF*
+	- [x] Hall effect sensor *DRV5032DULPGM*
+	- [x] ST-link header *009159010603906*
+	- **Gemaakt**
+	- [x] E-ink​ module *Waveshare 1.54” module*
+	- [ ] Accelerometer​ *LIS2DW12 module*
+	- [x] EEC chip *ATECC608B-SSHDA-T*
+	- [x] SD-kaart​ module  *SD adapter module*
+	- [x] BMS - 5V boost *TPS61253F*
+	- [x] Servo pinheader *Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical*
+	- [x] LED *BL-BEG204-7-E*
+- [x] **Pinout uitzoeken**
+	- [x] STM32 *STM32L431CCT6TR*
+	- [x] LoRa *RAK11720*
+	- [x] EEC chip *ATECC608B-SSHDA-T*
+	- [ ] GPS Quectel *LC76GPAMD*
+		- [x] Beschikbare pinnen
+		- [ ] Optionele verbindingen (zie arch.schema)
+	- [x] BMS
+		- [x] Eerst deelcircuits
+		- [x] li-ion lader *BQ25630YBGR*
+		- [x] 3,3V buck-boost *RT6158AWSC*
+		- [x] 3,3V LDO regulator *TCR3UG33A,LF*
+		- [x] 5V boost *TPS61253F*
+	- [x] Hall effect sensor *DRV5032DULPGM*
+	- [x] ST-link (header) *009159010603906*
+	- [x] FRAM *FM24V01A-GTR*
+	- [x] ePaper​ *Waveshare 1.54” module*
+	- [x] Accelerometer​ *LIS2DW12 module*
+	- [x] SD-kaart​ module  *SD adapter module*
+	- [x] Servo motor *TD-8120MG Digital Servo*
+	- [x] LED *BL-BEG204-7-E*
+- [/] **Schema afwerken**
+	- [x] Pagina's verdelen
+	- 01_power.kicad_sch
+		- [x] Componenten importeren
+		- [x] Verbindingen
+		- [x] Footprints in orde
+		- [x] Gecontroleerd
+		- [x] Herschikt
+	- 02_mcu.kicad_sch
+		 - [x] Componenten importeren
+		 - [x] Verbindingen
+		 - [x] Footprints in orde
+		 - [x] Gecontroleerd
+		 - [ ] Herschikt
+	- 03_auxillery.kicad_sch
+		 - [x] Componenten importeren
+		 - [x] Verbindingen
+		 - [x] Footprints in orde
+		 - [!] Accelerometer footprint
+		 - [x] Gecontroleerd
+		 - [x] Herschikt
+### KiCad PCB layout
+- [ ] Strategie uitzoeken (PCB afmetingen, lagen, ground plane, trace width...)
+- [ ] Componenten plaatsen
+- [ ] Verbindingen
+## Realisatie
+- Componenten bestellen
+- PCB bestellen
+- Reflow hot plate zoeken & bestellen/maken
+- Solderen
+- Testen
+- Software ontwikkelen, itereren,...
+
+
