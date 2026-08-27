@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" pages="15">
   <diagram name="Architecture design" id="486_e8OcWno_iCCH_6T1">
-    <mxGraphModel dx="2032" dy="1097" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" background="#FFFFFF" math="0" shadow="0">
+    <mxGraphModel dx="2086" dy="1041" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" background="#FFFFFF" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1639,6 +1639,9 @@
             <mxPoint x="1119.03" y="870.06" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="GHkm4xnAiOOCQax1rG5m-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="info op alle pagina&#39;s werd uit de respectievelijke datasheets en productpagina&#39;s gehaald" vertex="1">
+          <mxGeometry height="30" width="270" x="-330" y="1130" as="geometry" />
+        </mxCell>
         <mxCell id="4CQovMF5jluz_HT1E5bo-6" parent="0" value="Power" />
         <mxCell id="4CQovMF5jluz_HT1E5bo-7" parent="0" value="Interfaces" />
         <mxCell id="4CQovMF5jluz_HT1E5bo-9" parent="0" value="Control - interrupts" />
@@ -1646,7 +1649,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="FfbtUOGqm3GF1YcPidmK" name="STM32">
-    <mxGraphModel dx="2575" dy="1294" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="2567" dy="1339" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1713,7 +1716,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="7WpamH9nfPey18_UDx0V" name="GPS">
-    <mxGraphModel dx="3085" dy="1921" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2119" dy="1368" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />

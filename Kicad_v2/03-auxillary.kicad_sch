@@ -5197,6 +5197,12 @@
 		(uuid "589c4a41-bc4e-4a76-a7ba-b1e872fefc10")
 	)
 	(junction
+		(at 223.52 113.03)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5c7e1e38-120c-43a8-9e5d-44f1b83399cc")
+	)
+	(junction
 		(at 194.31 135.89)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5333,12 +5339,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "dc4e3925-e025-445c-8460-8671102c4c8b")
-	)
-	(junction
-		(at 231.14 113.03)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e44edfd9-74b3-458b-ac0c-bb955b1a0c27")
 	)
 	(junction
 		(at 118.11 72.39)
@@ -6122,6 +6122,16 @@
 	)
 	(wire
 		(pts
+			(xy 236.22 115.57) (xy 236.22 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "69daf6ef-5f2f-4dbc-a3d0-a79582e55d92")
+	)
+	(wire
+		(pts
 			(xy 33.02 146.05) (xy 43.18 146.05)
 		)
 		(stroke
@@ -6162,6 +6172,16 @@
 	)
 	(wire
 		(pts
+			(xy 223.52 113.03) (xy 231.14 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6e4a30d8-15ac-40e1-b595-c6b27153ad6e")
+	)
+	(wire
+		(pts
 			(xy 49.53 33.02) (xy 44.45 33.02)
 		)
 		(stroke
@@ -6179,16 +6199,6 @@
 			(type default)
 		)
 		(uuid "6f3492c6-fef1-4ca6-8088-acad31a1ddd1")
-	)
-	(wire
-		(pts
-			(xy 270.51 113.03) (xy 231.14 113.03)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "70250598-ac7d-4e78-91ac-8d029f24343d")
 	)
 	(wire
 		(pts
@@ -6312,7 +6322,7 @@
 	)
 	(wire
 		(pts
-			(xy 270.51 124.46) (xy 270.51 113.03)
+			(xy 223.52 116.84) (xy 223.52 113.03)
 		)
 		(stroke
 			(width 0)
@@ -6602,7 +6612,7 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 113.03) (xy 231.14 113.03)
+			(xy 186.69 113.03) (xy 223.52 113.03)
 		)
 		(stroke
 			(width 0)
@@ -6929,6 +6939,16 @@
 			(type default)
 		)
 		(uuid "e44d9750-9225-411c-a6d8-0dfa44bed53f")
+	)
+	(wire
+		(pts
+			(xy 236.22 123.19) (xy 238.76 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e6db4b3a-8d29-4dd3-8cea-50e510952671")
 	)
 	(wire
 		(pts
@@ -7776,6 +7796,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+3V3")
+		(at 236.22 115.57 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "179987ac-cd66-4c69-928d-4df733b7edd8")
+		(property "Reference" "#PWR043"
+			(at 236.22 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 236.22 110.49 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 236.22 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 236.22 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 236.22 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "428cfc0a-ca90-4649-a7da-7cded16aca74")
+		)
+		(instances
+			(project "Bikera PCB devboard"
+				(path "/81c195cb-438f-45ca-b649-b955fa3ba763/b1e9f223-a9d4-4a6e-a3fc-d616bb011d29"
+					(reference "#PWR043")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
 		(at 40.64 80.01 180)
 		(unit 1)
@@ -8411,7 +8509,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 270.51 124.46 0)
+		(at 223.52 116.84 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8422,7 +8520,7 @@
 		(fields_autoplaced yes)
 		(uuid "466eff01-41c6-4dcd-b59e-16fe30ca020f")
 		(property "Reference" "#PWR032"
-			(at 270.51 130.81 0)
+			(at 223.52 123.19 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8433,7 +8531,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 270.51 129.54 0)
+			(at 223.52 121.92 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8443,7 +8541,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 270.51 124.46 0)
+			(at 223.52 116.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8454,7 +8552,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 270.51 124.46 0)
+			(at 223.52 116.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8465,7 +8563,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 270.51 124.46 0)
+			(at 223.52 116.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11688,35 +11786,37 @@
 		(uuid "3723805b-6c38-4a99-89a6-4dc78e71935e")
 		(members "014d4c82-ae35-450f-a890-a1fb9dc4950d" "03ac869f-4b27-4e82-95f0-b492defd275f"
 			"0d498e3c-f255-4ce3-b3da-72496933b010" "0e7130c3-b6da-4e0e-bb21-5bb54d7ae351"
-			"10e3261f-bcb2-4283-b38f-12ca5ac7c384" "25ed3f06-f674-4ff2-ba3a-fd471c7e998a"
-			"26abd8bc-03a8-416f-9a9e-0a7e24ab2a24" "2df4a1b4-a365-40ee-b214-d6011e5fbb53"
-			"2eaaa146-6318-4460-86c1-df1e9b0681de" "38e90392-ecca-40db-9744-2e22e943aa74"
-			"41058b18-758d-42c6-9c8a-5c0b0314594f" "466eff01-41c6-4dcd-b59e-16fe30ca020f"
-			"4763bafd-00cc-49d8-831e-848403125a04" "4bb722b3-b4c3-4d93-9788-0e757341f0ed"
-			"4be8f830-3e9c-4ff7-b611-b6bfdb986aa8" "513f56e5-7925-4549-8c9e-d95675e47b56"
-			"57483d4d-02f5-46ab-b9ce-fec3596246e8" "579292ae-31b8-4322-8fa8-45c5348d5fbc"
-			"589c4a41-bc4e-4a76-a7ba-b1e872fefc10" "5a6ec168-e746-4a8a-8156-7d4c816700ea"
+			"10e3261f-bcb2-4283-b38f-12ca5ac7c384" "179987ac-cd66-4c69-928d-4df733b7edd8"
+			"25ed3f06-f674-4ff2-ba3a-fd471c7e998a" "26abd8bc-03a8-416f-9a9e-0a7e24ab2a24"
+			"2df4a1b4-a365-40ee-b214-d6011e5fbb53" "2eaaa146-6318-4460-86c1-df1e9b0681de"
+			"38e90392-ecca-40db-9744-2e22e943aa74" "41058b18-758d-42c6-9c8a-5c0b0314594f"
+			"466eff01-41c6-4dcd-b59e-16fe30ca020f" "4763bafd-00cc-49d8-831e-848403125a04"
+			"4bb722b3-b4c3-4d93-9788-0e757341f0ed" "4be8f830-3e9c-4ff7-b611-b6bfdb986aa8"
+			"513f56e5-7925-4549-8c9e-d95675e47b56" "57483d4d-02f5-46ab-b9ce-fec3596246e8"
+			"579292ae-31b8-4322-8fa8-45c5348d5fbc" "589c4a41-bc4e-4a76-a7ba-b1e872fefc10"
+			"5a6ec168-e746-4a8a-8156-7d4c816700ea" "5c7e1e38-120c-43a8-9e5d-44f1b83399cc"
 			"5d886e01-5b94-45b1-94b3-5e0b0ccedb2c" "5f9760f4-3798-4f7b-ac7a-77528653b619"
-			"67650bd2-b8c6-4f60-bc44-6b9da9051962" "6a564ece-9ad1-4adb-bec5-cc4a1a877a69"
-			"6f3492c6-fef1-4ca6-8088-acad31a1ddd1" "70250598-ac7d-4e78-91ac-8d029f24343d"
-			"73ca1167-32c0-4a80-8036-95838d7ce620" "788242be-7617-43cc-8594-a47dec4cded4"
-			"7e07d9a9-9925-4b65-bfc0-9846f8756bf6" "8520a387-475d-4649-b3d0-ede6b3f3d625"
-			"87fb75e9-4889-4258-827e-46f36732de15" "88319f62-b7d9-4412-a4a6-7430c2cbd50a"
-			"8ac13743-af27-4d73-b98e-90f2164a361c" "8c4bf6bf-81fb-44c1-8d19-a28f0c55f6ad"
-			"8f26ecf8-d053-42e2-97a5-9f489991c0df" "9c9e0e1a-a8f7-41f3-a799-3421afa88182"
-			"a08d64f9-a0a7-4416-8f76-588d66695c2d" "a39eef14-b898-4887-b35a-76e2ae0cbd0c"
-			"a8b963a2-a69c-4ec0-96b9-59f1303900ee" "aa447f81-8ffb-48de-b026-b334847bc42c"
-			"af1e5020-1d8c-4206-9fe8-74ef029860f7" "b0ea71f5-36ea-4481-b0bb-1e1923dcc2b5"
-			"b38e93a1-f4ca-4165-b9ed-99683a6fe9db" "b9ff4b4d-b5db-49b7-88f6-ff4993e641ad"
-			"ba096f64-4278-42c2-a0f5-be2d994b97c6" "c21441e8-79ec-49b2-a467-1de02caceceb"
-			"c62df73f-4323-4d6e-8c7b-d19cc1bcfe3f" "d292c1d4-0f26-42e2-bb1d-89d9b539095d"
-			"d50ad858-346f-4c33-afe7-e6cfa3af90b2" "d72d9c4b-57d4-41d4-bb4b-1224db2b5024"
-			"e1c6d0d1-0c7b-4259-bd14-bdcd40e5cb9c" "e44edfd9-74b3-458b-ac0c-bb955b1a0c27"
-			"e6657a8e-41b8-494c-a266-5d8a1e88fbb5" "e8bdf8f5-7c24-4203-be2a-cf64203ad3d5"
-			"ec217e4a-4d50-4f94-b074-72ec97f140de" "ee0a9c8d-bbeb-4487-83ce-0e6bc67a5eeb"
-			"ef1eb363-3ba4-4e3b-b524-d681f99718c7" "ef80ac00-d405-434f-8143-5592323f7e4d"
-			"f1b2d335-e964-4700-8510-f197e3965556" "f643b111-f420-4e66-ade8-a998c31ce9f8"
-			"f9ca29be-a6ca-4069-9723-8d92457564c6" "fb174102-ffa5-4202-a2f9-689dff1c9f94"
+			"67650bd2-b8c6-4f60-bc44-6b9da9051962" "69daf6ef-5f2f-4dbc-a3d0-a79582e55d92"
+			"6a564ece-9ad1-4adb-bec5-cc4a1a877a69" "6e4a30d8-15ac-40e1-b595-c6b27153ad6e"
+			"6f3492c6-fef1-4ca6-8088-acad31a1ddd1" "73ca1167-32c0-4a80-8036-95838d7ce620"
+			"788242be-7617-43cc-8594-a47dec4cded4" "7e07d9a9-9925-4b65-bfc0-9846f8756bf6"
+			"8520a387-475d-4649-b3d0-ede6b3f3d625" "87fb75e9-4889-4258-827e-46f36732de15"
+			"88319f62-b7d9-4412-a4a6-7430c2cbd50a" "8ac13743-af27-4d73-b98e-90f2164a361c"
+			"8c4bf6bf-81fb-44c1-8d19-a28f0c55f6ad" "8f26ecf8-d053-42e2-97a5-9f489991c0df"
+			"9c9e0e1a-a8f7-41f3-a799-3421afa88182" "a08d64f9-a0a7-4416-8f76-588d66695c2d"
+			"a39eef14-b898-4887-b35a-76e2ae0cbd0c" "a8b963a2-a69c-4ec0-96b9-59f1303900ee"
+			"aa447f81-8ffb-48de-b026-b334847bc42c" "af1e5020-1d8c-4206-9fe8-74ef029860f7"
+			"b0ea71f5-36ea-4481-b0bb-1e1923dcc2b5" "b38e93a1-f4ca-4165-b9ed-99683a6fe9db"
+			"b9ff4b4d-b5db-49b7-88f6-ff4993e641ad" "ba096f64-4278-42c2-a0f5-be2d994b97c6"
+			"c21441e8-79ec-49b2-a467-1de02caceceb" "c62df73f-4323-4d6e-8c7b-d19cc1bcfe3f"
+			"d292c1d4-0f26-42e2-bb1d-89d9b539095d" "d50ad858-346f-4c33-afe7-e6cfa3af90b2"
+			"d72d9c4b-57d4-41d4-bb4b-1224db2b5024" "e1c6d0d1-0c7b-4259-bd14-bdcd40e5cb9c"
+			"e6657a8e-41b8-494c-a266-5d8a1e88fbb5" "e6db4b3a-8d29-4dd3-8cea-50e510952671"
+			"e8bdf8f5-7c24-4203-be2a-cf64203ad3d5" "ec217e4a-4d50-4f94-b074-72ec97f140de"
+			"ee0a9c8d-bbeb-4487-83ce-0e6bc67a5eeb" "ef1eb363-3ba4-4e3b-b524-d681f99718c7"
+			"ef80ac00-d405-434f-8143-5592323f7e4d" "f1b2d335-e964-4700-8510-f197e3965556"
+			"f643b111-f420-4e66-ade8-a998c31ce9f8" "f9ca29be-a6ca-4069-9723-8d92457564c6"
+			"fb174102-ffa5-4202-a2f9-689dff1c9f94"
 		)
 	)
 	(group ""

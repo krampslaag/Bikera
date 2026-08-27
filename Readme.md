@@ -36,11 +36,11 @@ Er wordt een **materiaallijst (BOM)** opgesteld met alle gebruikte componenten i
 
 Er staat een **sheet 'Basiscomponenten'** met verschillende opties voor elk component, aangeduid welke voor prototype gebruikt worden en welke voor finaal ontwerp kan gebruikt worden. 
 
-De keuzes voor het prototype zijn overgenomen naar de **sheet 'Componenten'**, waar ook alle randcomponenten zijn toegevoegd. De opmaak gebeurt automatisch en prijzen van Mouser, Digikey en Farnell kunnen via API's opgehaald worden met een script. Vanboven is er een menu Bikera met eigen functies, ook gelinkt aan knoppen.
+De keuzes voor het prototype zijn overgenomen naar de **sheet 'Componenten'**, waar ook alle randcomponenten zijn toegevoegd. De opmaak gebeurt automatisch en prijzen van Mouser, Digikey en Farnell kunnen via API's opgehaald worden met een script. Ook de status 'niet op voorraad' wordt ge-update waarbij de prijs automatisch roodgekleurd wordt. Vanboven is er een menu Bikera met eigen functies, ook gelinkt aan knoppen.
 
-- [!] Prijzen automatisch updaten lukt nog niet helemaal (te veel requests per minuut), en er mist nog een API-key voor Farnell.
+- [!] Prijzen automatisch updaten duurt lang omdat er te veel requests per minuut zijn waar het script op moet wachten. Nu komt het probleem 'exceeded maximum execution time'. Er mist ook nog een API-key voor Farnell.
 
-Met tag 'alternatief' in de kolom 'type' kunnen verschillende opties voor hetzelfde component van een andere distributeur worden toegevoegd. Opties kunnen worden overgeslagen met de tag 'skip' bij de kolom 'status.' Er wordt automatisch aangeduid met lichtgele vakjes wat er nog moet ingevuld worden, geel waar een vraagteken bij staat en rood waar een uitroepteken staat.
+Met tag 'alternatief' in de kolom 'type' kunnen verschillende opties voor hetzelfde component van een andere distributeur worden toegevoegd. Opties kunnen worden overgeslagen met de tag 'skip' bij de kolom 'status.' Er wordt automatisch aangeduid met lichtgele vakjes wat er nog moet ingevuld worden, geel waar een dubbele vraagteken in de tekst staat en rood waar een uitroepteken staat. Rijen worden groen gekleurd met de tag 'in KiCad' in kolom 'Status', om te zien welke componenten overeenkomen met het schema.
 
 De componenten worden ook automatsich gedestilleerd in de **sheet 'BOM'**, waarbij gelijke componenten worden opgeteld. Met een knop wordt deze sheet gesorteerd per type.
 
@@ -146,7 +146,7 @@ De **sheet 'Architectuur'** werd gebruikt om het architectuurschema op te stelle
 - [x] LED *BL-BEG204-7-E*
 	- [x] Weerstanden
 - [x] Alle randcomponenten uitzoeken, opsommen en controleren
-- [ ] Laatste correcties -> zie gekleurde vakjes op [spreadsheet Componenten](https://docs.google.com/spreadsheets/d/1ZxJHOLqpuJL-1dvZkRNnV-r1_EjUXDaZgLNVo9UeM5s/edit?usp=sharing)
+- [x] Laatste correcties -> zie gekleurde vakjes op [spreadsheet Componenten](https://docs.google.com/spreadsheets/d/1ZxJHOLqpuJL-1dvZkRNnV-r1_EjUXDaZgLNVo9UeM5s/edit?usp=sharing)
 ## KiCad
 ### KiCad schema
 - [x] **Symbolen en footprints importeren**
@@ -169,7 +169,7 @@ De **sheet 'Architectuur'** werd gebruikt om het architectuurschema op te stelle
 	- [x] BMS - 5V boost *TPS61253F*
 	- [x] Servo pinheader *Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical*
 	- [x] LED *BL-BEG204-7-E*
-- [ ] **Pinout uitzoeken**
+- [x] **Pinout uitzoeken**
 	- [x] STM32 *STM32L431CCT6TR*
 	- [x] LoRa *RAK11720*
 	- [x] EEC chip *ATECC608B-SSHDA-T*
@@ -207,7 +207,7 @@ De **sheet 'Architectuur'** werd gebruikt om het architectuurschema op te stelle
 	- 03_auxillery.kicad_sch
 		 - [x] Componenten importeren
 		 - [x] Verbindingen
-		 - [ ] Footprints in orde
+		 - [x] Footprints in orde
 		 - [!] Accelerometer footprint
 		 - [x] Gecontroleerd
 		 - [x] Herschikt
